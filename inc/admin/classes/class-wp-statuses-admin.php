@@ -20,7 +20,7 @@ class WP_Statuses_Admin {
 	/**
 	 * Starts the Admin class
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 */
 	public static function start() {
 		if ( ! is_admin() ) {
@@ -39,7 +39,7 @@ class WP_Statuses_Admin {
 	/**
 	 * Setups the action and filters to hook to
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 */
 	private function hooks() {
 		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10, 2 );
@@ -57,10 +57,43 @@ class WP_Statuses_Admin {
 	}
 
 	function publish_box( $post = null ) {
-		if ( empty( $post->ID ) ) {
+		if ( empty( $post->post_type ) ) {
 			return;
 		}
 
-		var_dump( wp_statuses_get_all() );
+		$statuses = wp_statuses_get_metabox_statuses( $post->post_type );
+
+		$current = $post->post_status;
+		if ( 'auto-draft' === $current ) {
+			$current = 'draft';
+		}
+
+		$options  = array();
+		$dashicon = 'dashicons-post-status';
+
+		foreach ( $statuses as $status ) {
+			$selected = selected( $current, $status->name, false );
+
+			if ( $selected ) {
+				$dashicon = $status->dashicon;
+			}
+
+			$options[] = '<option value="' . esc_attr( $status->name ) .'" ' . $selected . ' data-dashicon="' . esc_attr( $status->dashicon ) . '">' . esc_html( $status->labels['metabox_dropdown'] ) . '</option>';
+		}
+		?>
+		<div id="misc-publishing-actions">
+			<div class="misc-pub-section">
+
+				<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( $current ); ?>" />
+				<label for="post_status" class="screen-reader-text"><?php esc_html_e( 'Set status', 'wp-statuses' ); ?></label>
+				<?php printf(
+					'<span class="dashicons %1$s"></span> <select name="post_status" id="wp-statuses-dropdown">%2$s</select>',
+					sanitize_html_class( $dashicon ),
+					join( "\n", $options )
+				); ?>
+
+			</div>
+		</div>
+		<?php
 	}
 }

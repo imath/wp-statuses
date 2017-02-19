@@ -34,7 +34,20 @@ function wp_statuses_register() {
 	$wp_post_statuses = array_map( 'wp_statuses_get', $wp_post_statuses );
 }
 
-function wp_statuses_get_all() {
+function wp_statuses_get_metabox_statuses( $post_type = '' ) {
 	global $wp_post_statuses;
-	return $wp_post_statuses;
+
+	if ( empty( $post_type ) ) {
+		return array();
+	}
+
+	$dropdown_statuses = wp_filter_object_list( $wp_post_statuses, array( 'show_in_metabox_dropdown' => true ) );
+
+	foreach ( $dropdown_statuses as $status_name => $status ) {
+		if ( ! in_array( $post_type, $status->post_type, true ) ) {
+			unset( $dropdown_statuses[ $status_name ] );
+		}
+	}
+
+	return $dropdown_statuses;
 }
