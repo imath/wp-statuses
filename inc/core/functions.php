@@ -5,7 +5,7 @@ function wp_statuses_get( $status = null ) {
 		return null;
 	}
 
-	if ( $status instanceof WP_Statuses_Core_Status ) {
+	if ( is_a( $status, 'WP_Statuses_Core_Status' ) ) {
 		$_status = $status;
 	} elseif ( is_object( $status ) ) {
 		$_status = new WP_Statuses_Core_Status( $status );
