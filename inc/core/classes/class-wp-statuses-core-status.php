@@ -46,7 +46,7 @@ class WP_Statuses_Core_Status {
 			$this->dashicon = $status_data['dashicon'];
 
 			if ( ! isset( $status->post_type )  ) {
-				$this->post_type = array( 'post', 'page' );
+				$this->post_type = get_post_types( array( 'show_ui' => true ) );
 			}
 
 			if ( ! isset( $status->show_in_metabox_dropdown ) ) {
