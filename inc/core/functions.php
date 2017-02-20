@@ -1,5 +1,31 @@
 <?php
 
+function wp_statuses_version() {
+	return wp_statuses()->version;
+}
+
+function wp_statuses_js_url() {
+	return wp_statuses()->js_url;
+}
+
+function wp_statuses_min_suffix() {
+	$min = '.min';
+
+	if ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG )  {
+		$min = '';
+	}
+
+	/**
+	 * Filter here to edit the minified suffix.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  string $min The minified suffix.
+	 */
+	return apply_filters( 'wp_statuses_min_suffix', $min );
+}
+
+
 function wp_statuses_get( $status = null ) {
 	if ( empty( $status ) ) {
 		return null;

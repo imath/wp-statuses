@@ -77,10 +77,10 @@ final class WP_Statuses {
 		$this->basename  = plugin_basename( $this->file );
 
 		// Path and URL
-		$this->dir       = plugin_dir_path( $this->file );
-		$this->url       = plugin_dir_url ( $this->file );
-		$this->js_assets = trailingslashit( $this->url . 'js' );
-		$this->inc_dir   = trailingslashit( $this->dir . 'inc' );
+		$this->dir     = plugin_dir_path( $this->file );
+		$this->url     = plugin_dir_url ( $this->file );
+		$this->js_url  = trailingslashit( $this->url . 'js' );
+		$this->inc_dir = trailingslashit( $this->dir . 'inc' );
 	}
 
 	/**
@@ -110,17 +110,9 @@ final class WP_Statuses {
 	}
 
 	/**
-	 * Registers external javascript libraries to be linked later
-	 * using the wp_enqueue_script() function, & adds the plugin's stylesheet
-	 *
-	 * @since 2.0.0
-	 */
-	public function register_scripts() {}
-
-	/**
 	 * Loads the translation files
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 */
 	public function load_textdomain() {
 		// Traditional WordPress plugin locale filter
