@@ -54,6 +54,19 @@ function wp_statuses_get( $status = null ) {
 	return $_status;
 }
 
+function wp_status_register_password_protected() {
+	register_post_status( 'password', array(
+		'label'                     => _x( 'Password Protected', 'post status', 'wp-statuses' ),
+		'public'                    => true,
+		'label_count'               => _n_noop( 'Password Protected <span class="count">(%s)</span>', 'Password Protected <span class="count">(%s)</span>', 'wp-statuses' ),
+		'post_type'                 => array( 'post' ),
+		'show_in_admin_all_list'    => false,
+		'show_in_admin_status_list' => false,
+		'show_in_metabox_dropdown'  => true,
+		'dashicon'                  => 'dashicons-lock',
+	) );
+}
+
 function wp_statuses_register() {
 	global $wp_post_statuses;
 

@@ -104,13 +104,20 @@ class WP_Statuses_Admin {
 			return;
 		}
 
-		// Load script for the metabox.
-		wp_enqueue_script( 'wp-statuses' );
-
 		$status = $post->post_status;
 		if ( 'auto-draft' === $status ) {
 			$status = 'draft';
 		}
+
+		// Load script for the metabox.
+		wp_enqueue_script ( 'wp-statuses' );
+		wp_localize_script( 'wp-statuses', 'wpStatuses', array(
+			'status'     => $status,
+			'attributes' => array(
+				'password' => $post->post_password,
+				'sticky'   => is_sticky( $post->ID ),
+			),
+		) );
 		?>
 		<div class="submitbox" id="submitpost">
 			<?php
@@ -118,7 +125,8 @@ class WP_Statuses_Admin {
 			 * Split parts for a better visibility.
 			 */
 			$this->get_minor_publishing_div( $post, $status );
-			$this->get_major_publishing_div( $post, $status ); ?>
+			$this->get_major_publishing_div( $post, $status );
+			$this->get_status_extra_attributes( $post, $status ); ?>
 		</div><!-- #submitpost -->
 		<?php
 	}
@@ -187,32 +195,96 @@ class WP_Statuses_Admin {
 
 		$statuses = wp_statuses_get_metabox_statuses( $post->post_type );
 
-		$options  = array();
-		$dashicon = 'dashicons-post-status';
+		$options        = array( '<select name="post_status" id="wp-statuses-dropdown">' );
+		$dashicon       = 'dashicons-post-status';
+		$status_display = '';
 
 		foreach ( $statuses as $status ) {
 			$selected = selected( $current, $status->name, false );
 
 			if ( $selected ) {
-				$dashicon = $status->dashicon;
+				$dashicon       = $status->dashicon;
+				$status_display = $status->labels['metabox_dropdown'];
 			}
 
-			$options[] = '<option value="' . esc_attr( $status->name ) .'" ' . $selected . ' data-dashicon="' . esc_attr( $status->dashicon ) . '">' . esc_html( $status->labels['metabox_dropdown'] ) . '</option>';
+			$value = $status->name;
+			if ( 'password' === $status->name ) {
+				$value = 'publish';
+			}
+
+			$options[] = '<option value="' . esc_attr( $value ) .'" ' . $selected . ' data-dashicon="' . esc_attr( $status->dashicon ) . '" data-status="' . $status->name . '">' . esc_html( $status->labels['metabox_dropdown'] ) . '</option>';
 		}
+
+		if ( ! current_user_can( $this->post_type_capability ) ) {
+			$options = array(
+				sprintf( '<input type="hidden" name="post_status" value="%s">', esc_attr( $current ) ),
+				sprintf( '<span id="post-status-display">%s</span>', esc_html( $status_display ) ),
+			);
+		} else {
+			$options[] = '</select>';
+		}
+
 		?>
 		<div id="misc-publishing-actions">
 			<div class="misc-pub-section">
 
-				<input type="hidden" name="hidden_post_status" id="hidden_post_status" value="<?php echo esc_attr( $current ); ?>" />
 				<label for="post_status" class="screen-reader-text"><?php esc_html_e( 'Set status', 'wp-statuses' ); ?></label>
 				<?php printf(
-					'<span class="dashicons %1$s"></span> <select name="post_status" id="wp-statuses-dropdown">%2$s</select>',
+					'<span class="dashicons %1$s"></span> %2$s',
 					sanitize_html_class( $dashicon ),
 					join( "\n", $options )
 				); ?>
 
 			</div><!-- .misc-pub-section -->
 		</div><!-- #misc-publishing-actions -->
+		<?php
+	}
+
+	public function get_status_extra_attributes( $post = null, $status = '' ) {
+		if ( empty( $post->post_type ) || empty( $status ) || ! current_user_can( $this->post_type_capability ) ) {
+			return;
+		}
+
+		$sticky_class = $password_class = 'hide-if-js';
+		if ( 'private' !== $status && ! $post->post_password ) {
+			$sticky_class = '';
+		}
+
+		if ( 'private' !== $status && ! empty( $post->post_password ) ) {
+			$password_class = '';
+		}
+
+		?>
+		<div class="misc-pub-section misc-pub-attributes" id="wp-statuses-attibutes">
+			<div id="post-attibutes-input">
+				<?php if ( 'post' === $post->post_type && current_user_can( 'edit_others_posts' ) ) : ?>
+					<span id="sticky-span" class="<?php echo sanitize_html_class( $sticky_class ); ?> wp-statuses-attribute-container">
+						<input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> />
+						<label for="sticky" class="selectit">
+							<?php esc_html_e( 'Stick this post to the front page', 'wp-statuses' ); ?>
+						</label>
+						<br />
+					</span>
+				<?php endif ; ?>
+
+				<span id="password-span" class="<?php echo sanitize_html_class( $password_class ); ?> wp-statuses-attribute-container">
+					<label for="post_password"><?php _e( 'Password:', 'wp-statuses' ); ?></label>
+					<input type="text" name="post_password" id="post_password" value="<?php echo esc_attr( $post->post_password ); ?>"  maxlength="255" />
+					<br />
+				</span>
+
+				<?php
+				/**
+				 * Hook here if you need to add some extra attibutes for your custom status.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param WP_Post $post   The Post object.
+				 * @param string  $status The current status for the post.
+				 */
+				do_action( 'wp_statuses_metabox_extra_attributes', $post, $status );?>
+			</div>
+		</div><!-- .misc-pub-attributes -->
 		<?php
 	}
 }
