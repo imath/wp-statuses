@@ -88,21 +88,15 @@ class WP_Statuses_Core_Status {
 				),
 				'dashicon' => 'dashicons-hidden',
 			),
-			'future'     => array(
-				'labels' => array(
-					'metabox_dropdown'   => __( 'Scheduled', 'wp-statuses' ),
-				),
-				'dashicon' => 'dashicons-calendar-alt',
-			),
 			'pending'    => array(
 				'labels' => array(
-					'metabox_dropdown'   => __( 'Pending Review', 'wp-statuses' ),
+					'metabox_dropdown' => __( 'Pending Review', 'wp-statuses' ),
 				),
 				'dashicon' => 'dashicons-flag',
 			),
 			'draft'      => array(
 				'labels' => array(
-					'metabox_dropdown'   => __( 'Draft', 'wp-statuses' ),
+					'metabox_dropdown' => __( 'Draft', 'wp-statuses' ),
 				),
 				'dashicon' => 'dashicons-edit',
 			),

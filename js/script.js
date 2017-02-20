@@ -51,4 +51,18 @@
 		setStatusAttributes( newStatus );
 	} );
 
+	$( '#wp-statuses-publish-box' ).on( 'click', '.edit-timestamp', function( e ) {
+		console.log( $( '#wp-statuses-dropdown' ).val() );
+	} );
+
+	$( '#wp-statuses-publish-box' ).on( 'click', '.save-timestamp', function( e ) {
+		// if now is < date then make sure Publish is future
+		console.log( wpStatuses.attributes.modified );
+	} );
+
+	$( '#wp-statuses-publish-box' ).on( 'click', '.cancel-timestamp', function( e ) {
+		// if now is >= date then make sure Future is publish
+		console.log( wpStatuses.attributes.modified );
+	} );
+
 } )( jQuery );

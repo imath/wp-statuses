@@ -54,7 +54,7 @@ class WP_Statuses_Admin {
 		wp_register_script(
 			'wp-statuses',
 			sprintf( '%1$sscript%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
-			array( 'jquery' ),
+			array( 'jquery', 'post' ),
 			wp_statuses_version(),
 			true
 		);
@@ -81,13 +81,17 @@ class WP_Statuses_Admin {
 	}
 
 	public function add_meta_box( $post_type, $post ) {
+		global $publish_callback_args;
+
+		// The Publishing box
 		add_meta_box(
 			'wp-statuses-publish-box',
 			__( 'Publishing', 'wp-statuses' ),
 			array( $this, 'publishing_box' ),
 			$post_type,
 			'side',
-			'high'
+			'high',
+			$publish_callback_args
 		);
 
 		// Validate the post type.
@@ -99,7 +103,7 @@ class WP_Statuses_Admin {
 		}
 	}
 
-	public function publishing_box( $post = null ) {
+	public function publishing_box( $post = null, $args = array() ) {
 		if ( empty( $post->post_type ) ) {
 			return;
 		}
@@ -116,17 +120,21 @@ class WP_Statuses_Admin {
 			'attributes' => array(
 				'password' => $post->post_password,
 				'sticky'   => is_sticky( $post->ID ),
+				'modified' => strtotime( mysql2date( 'Y/m/d g:i:s a', $post->post_modified_gmt ) ) * 1000,
 			),
 		) );
 		?>
 		<div class="submitbox" id="submitpost">
+
 			<?php
 			/**
 			 * Split parts for a better visibility.
 			 */
 			$this->get_minor_publishing_div( $post, $status );
 			$this->get_major_publishing_div( $post, $status );
-			$this->get_status_extra_attributes( $post, $status ); ?>
+			$this->get_status_extra_attributes( $post, $status );
+			$this->get_publishing_time_div( $post, $status, $args ); ?>
+
 		</div><!-- #submitpost -->
 		<?php
 	}
@@ -200,16 +208,27 @@ class WP_Statuses_Admin {
 		$status_display = '';
 
 		foreach ( $statuses as $status ) {
-			$selected = selected( $current, $status->name, false );
+			$current_status = $current;
+			$value          = $status->name;
+
+			// Password is a publish status
+			if ( 'password' === $status->name ) {
+				$value = 'publish';
+			}
+			// Future will become a publish status
+			if ( 'future' === $current ) {
+				$current_status = 'publish';
+
+				if ( 'publish' === $status->name ) {
+					$value = 'future';
+				}
+			}
+
+			$selected = selected( $current_status, $status->name, false );
 
 			if ( $selected ) {
 				$dashicon       = $status->dashicon;
 				$status_display = $status->labels['metabox_dropdown'];
-			}
-
-			$value = $status->name;
-			if ( 'password' === $status->name ) {
-				$value = 'publish';
 			}
 
 			$options[] = '<option value="' . esc_attr( $value ) .'" ' . $selected . ' data-dashicon="' . esc_attr( $status->dashicon ) . '" data-status="' . $status->name . '">' . esc_html( $status->labels['metabox_dropdown'] ) . '</option>';
@@ -285,6 +304,84 @@ class WP_Statuses_Admin {
 				do_action( 'wp_statuses_metabox_extra_attributes', $post, $status );?>
 			</div>
 		</div><!-- .misc-pub-attributes -->
+		<?php
+	}
+
+	public function get_publishing_time_div( $post = null, $status = '', $args = array() ) {
+		if ( empty( $post->post_type ) || empty( $status ) || ! current_user_can( $this->post_type_capability ) ) {
+			return;
+		}
+
+		global $action;
+		$is_future = time() < strtotime( $post->post_date_gmt . ' +0000' );
+
+		/* translators: Publish box date format, see https://secure.php.net/date */
+		$datef = __( 'M j, Y @ H:i' );
+
+		// Post already exists.
+		if ( 0 !== (int) $post->ID ) {
+			// scheduled for publishing at a future date.
+			if ( 'future' === $status || ( 'draft' !== $status && $is_future ) ) {
+				/* translators: Post date information. 1: Date on which the post is currently scheduled to be published */
+				$stamp = __( 'Scheduled for: <b>%1$s</b>', 'wp-statuses' );
+
+			// already published.
+			} elseif ( 'publish' === $post->post_status || 'private' === $post->post_status ) {
+				/* translators: Post date information. 1: Date on which the post was published */
+				$stamp = __( 'Published on: <b>%1$s</b>', 'wp-statuses' );
+
+			// draft, 1 or more saves, no date specified.
+			} elseif ( '0000-00-00 00:00:00' == $post->post_date_gmt ) {
+				$stamp = __( 'Publish <b>immediately</b>', 'wp-statuses' );
+
+			// draft, 1 or more saves, future date specified.
+			} elseif ( $is_future ) {
+				/* translators: Post date information. 1: Date on which the post is to be published */
+				$stamp = __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' );
+
+			// draft, 1 or more saves, date specified.
+			} else {
+				/* translators: Post date information. 1: Date on which the post is to be published */
+				$stamp = __( 'Publish on: <b>%1$s</b>', 'wp-statuses' );
+			}
+
+			$date = date_i18n( $datef, strtotime( $post->post_date ) );
+
+		// draft (no saves, and thus no date specified).
+		} else {
+			$stamp = __( 'Publish <b>immediately</b>', 'wp-statuses' );
+			$date = date_i18n( $datef, strtotime( current_time( 'mysql' ) ) );
+		}
+
+		if ( ! empty( $args['args']['revisions_count'] ) ) : ?>
+			<div class="misc-pub-section misc-pub-revisions">
+				<?php
+					/* translators: Post revisions heading. 1: The number of available revisions */
+					printf( __( 'Revisions: %s', 'wp-statuses' ), '<b>' . number_format_i18n( $args['args']['revisions_count'] ) . '</b>' );
+				?>
+				<a class="hide-if-no-js" href="<?php echo esc_url( get_edit_post_link( $args['args']['revision_id'] ) ); ?>">
+					<span aria-hidden="true"><?php echo esc_html_x( 'Browse', 'revisions', 'wp-statuses' ); ?></span>
+					<span class="screen-reader-text"><?php esc_html_e( 'Browse revisions', 'wp-statuses' ); ?></span>
+				</a>
+			</div><!-- .misc-pub-revisions -->
+		<?php endif; ?>
+
+			<div class="misc-pub-section curtime misc-pub-curtime">
+				<span id="timestamp">
+					<?php printf( $stamp, $date ); ?>
+				</span>
+
+				<a href="#edit_timestamp" class="edit-timestamp hide-if-no-js" role="button">
+					<span aria-hidden="true"><?php _e( 'Edit', 'wp-statuses' ); ?></span>
+					<span class="screen-reader-text"><?php _e( 'Edit date and time', 'wp-statuses' ); ?></span>
+				</a>
+
+				<fieldset id="timestampdiv" class="hide-if-js">
+					<legend class="screen-reader-text"><?php esc_html_e( 'Date and time', 'wp-statuses' ); ?></legend>
+
+					<?php touch_time( ( $action === 'edit' ), 1 ); ?>
+				</fieldset>
+			</div><!-- .misc-pub-curtime -->
 		<?php
 	}
 }
