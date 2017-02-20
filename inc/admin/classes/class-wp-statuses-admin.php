@@ -124,15 +124,30 @@ class WP_Statuses_Admin {
 		) );
 		?>
 		<div class="submitbox" id="submitpost">
+			<div id="minor-publishing">
 
-			<?php
-			/**
-			 * Split parts for a better visibility.
-			 */
-			$this->get_minor_publishing_div( $post, $status );
-			$this->get_major_publishing_div( $post, $status );
-			$this->get_status_extra_attributes( $post, $status );
-			$this->get_publishing_time_div( $post, $status, $args ); ?>
+				<?php
+				/**
+				 * Split parts for a better visibility.
+				 */
+				$this->get_minor_publishing_div( $post, $status ); ?>
+
+				<div id="misc-publishing-actions">
+
+					<?php
+					/**
+					 * Split actions for a better visibility.
+					 */
+					$this->get_status_publishing_div( $post, $status );
+					$this->get_status_extra_attributes( $post, $status );
+					$this->get_time_publishing_div( $post, $status, $args ); ?>
+
+				</div><!-- #misc-publishing-actions -->
+				<div class="clear"></div>
+
+			</div><!-- #minor-publishing -->
+
+			<div id="major-publishing-actions"></div>
 
 		</div><!-- #submitpost -->
 		<?php
@@ -143,59 +158,57 @@ class WP_Statuses_Admin {
 			return;
 		}
 		?>
-		<div id="minor-publishing">
 
-			<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
-			<div style="display:none;">
-				<?php submit_button( __( 'Save' ), '', 'save' ); ?>
+		<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
+		<div style="display:none;">
+			<?php submit_button( __( 'Save' ), '', 'save' ); ?>
+		</div>
+
+		<div id="minor-publishing-actions">
+			<div id="save-action">
+
+				<?php if ( 'draft' === $status ) : ?>
+
+					<input type="submit" name="save" id="save-post" value="<?php esc_attr_e( 'Save Draft', 'wp-statuses' ); ?>" class="button" />
+
+				<?php elseif ( 'pending' === $status && current_user_can( $this->post_type_capability ) ) : ?>
+
+					<input type="submit" name="save" id="save-post" value="<?php esc_attr_e( 'Save as Pending', 'wp-statuses' ); ?>" class="button" />
+
+				<?php endif ; ?>
+
+				<span class="spinner"></span>
+
 			</div>
 
-			<div id="minor-publishing-actions">
-				<div id="save-action">
+			<?php if ( is_post_type_viewable( $this->post_type_object ) ) : ?>
 
-					<?php if ( 'draft' === $status ) : ?>
-
-						<input type="submit" name="save" id="save-post" value="<?php esc_attr_e( 'Save Draft', 'wp-statuses' ); ?>" class="button" />
-
-					<?php elseif ( 'pending' === $status && current_user_can( $this->post_type_capability ) ) : ?>
-
-						<input type="submit" name="save" id="save-post" value="<?php esc_attr_e( 'Save as Pending', 'wp-statuses' ); ?>" class="button" />
-
-					<?php endif ; ?>
-
-					<span class="spinner"></span>
-
+				<div id="preview-action">
+					<?php printf( '<a class="preview button" href="%1$s" target="wp-preview-%2$s" id="post-preview">%3$s</a>',
+						esc_url( get_preview_post_link( $post ) ),
+						(int) $post->ID,
+						'draft' === $status ? esc_html__( 'Preview', 'wp-statuses' ) : esc_html__( 'Preview Changes', 'wp-statuses' )
+					); ?>
+					<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 				</div>
 
-				<?php if ( is_post_type_viewable( $this->post_type_object ) ) : ?>
+			<?php endif;
 
-					<div id="preview-action">
-						<?php printf( '<a class="preview button" href="%1$s" target="wp-preview-%2$s" id="post-preview">%3$s</a>',
-							esc_url( get_preview_post_link( $post ) ),
-							(int) $post->ID,
-							'draft' === $status ? esc_html__( 'Preview', 'wp-statuses' ) : esc_html__( 'Preview Changes', 'wp-statuses' )
-						); ?>
-						<input type="hidden" name="wp-preview" id="wp-preview" value="" />
-					</div>
+			/**
+			 * Fires before the post time/date setting in the Publish meta box.
+			 *
+			 * @since 4.4.0
+			 *
+			 * @param WP_Post $post WP_Post object for the current post.
+			 */
+			do_action( 'post_submitbox_minor_actions', $post ); ?>
 
-				<?php endif;
-
-				/**
-				 * Fires before the post time/date setting in the Publish meta box.
-				 *
-				 * @since 4.4.0
-				 *
-				 * @param WP_Post $post WP_Post object for the current post.
-				 */
-				do_action( 'post_submitbox_minor_actions', $post ); ?>
-
-				<div class="clear"></div>
-			</div><!-- #minor-publishing-actions -->
-		</div><!-- #minor-publishing -->
+			<div class="clear"></div>
+		</div><!-- #minor-publishing-actions -->
 		<?php
 	}
 
-	public function get_major_publishing_div( $post = null, $current = '' ) {
+	public function get_status_publishing_div( $post = null, $current = '' ) {
 		if ( empty( $post->post_type ) || empty( $current ) ) {
 			return;
 		}
@@ -243,18 +256,16 @@ class WP_Statuses_Admin {
 		}
 
 		?>
-		<div id="misc-publishing-actions">
-			<div class="misc-pub-section">
+		<div class="misc-pub-section">
 
-				<label for="post_status" class="screen-reader-text"><?php esc_html_e( 'Set status', 'wp-statuses' ); ?></label>
-				<?php printf(
-					'<span class="dashicons %1$s"></span> %2$s',
-					sanitize_html_class( $dashicon ),
-					join( "\n", $options )
-				); ?>
+			<label for="post_status" class="screen-reader-text"><?php esc_html_e( 'Set status', 'wp-statuses' ); ?></label>
+			<?php printf(
+				'<span class="dashicons %1$s"></span> %2$s',
+				sanitize_html_class( $dashicon ),
+				join( "\n", $options )
+			); ?>
 
-			</div><!-- .misc-pub-section -->
-		</div><!-- #misc-publishing-actions -->
+		</div><!-- .misc-pub-section -->
 		<?php
 	}
 
@@ -306,7 +317,7 @@ class WP_Statuses_Admin {
 		<?php
 	}
 
-	public function get_publishing_time_div( $post = null, $status = '', $args = array() ) {
+	public function get_time_publishing_div( $post = null, $status = '', $args = array() ) {
 		if ( empty( $post->post_type ) || empty( $status ) || ! current_user_can( $this->post_type_capability ) ) {
 			return;
 		}
@@ -381,6 +392,16 @@ class WP_Statuses_Admin {
 					<?php touch_time( ( $action === 'edit' ), 1 ); ?>
 				</fieldset>
 			</div><!-- .misc-pub-curtime -->
+
 		<?php
+		/**
+		 * Fires after the post time/date setting in the Publish meta box.
+		 *
+		 * @since 2.9.0
+		 * @since 4.4.0 Added the `$post` parameter.
+		 *
+		 * @param WP_Post $post WP_Post object for the current post.
+		 */
+		do_action( 'post_submitbox_misc_actions', $post );
 	}
 }
