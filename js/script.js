@@ -51,18 +51,22 @@
 		setStatusAttributes( newStatus );
 	} );
 
-	$( '#wp-statuses-publish-box' ).on( 'click', '.edit-timestamp', function( e ) {
-		console.log( $( '#wp-statuses-dropdown' ).val() );
+	$( '#wp-statuses-publish-box' ).on( 'click', '.save-timestamp', function() {
+		var formDate = new Date( $('#aa').val(), $('#mm').val() - 1, $('#jj').val(), $('#hh').val(), $('#mn').val() ),
+			now      = new Date(), diff = formDate - now, status = $( '#wp-statuses-dropdown' ).val();
+
+		if ( diff < 0 && status === 'future' ) {
+			$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'publish' );
+			$( '#wp-statuses-dropdown' ).val( 'publish' );
+		} else if ( diff > 0 && -1 !== $.inArray( status, [ 'draft', 'publish', 'pending' ] ) ) {
+			$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'future' );
+			$( '#wp-statuses-dropdown' ).val( 'future' );
+		}
 	} );
 
-	$( '#wp-statuses-publish-box' ).on( 'click', '.save-timestamp', function( e ) {
-		// if now is < date then make sure Publish is future
-		console.log( wpStatuses.attributes.modified );
-	} );
-
-	$( '#wp-statuses-publish-box' ).on( 'click', '.cancel-timestamp', function( e ) {
-		// if now is >= date then make sure Future is publish
-		console.log( wpStatuses.attributes.modified );
+	$( '#wp-statuses-publish-box' ).on( 'click', '.cancel-timestamp', function() {
+		$( '#wp-statuses-dropdown :selected' ).prop( 'value', wpStatuses.status );
+		$( '#wp-statuses-dropdown' ).val( wpStatuses.status );
 	} );
 
 } )( jQuery );

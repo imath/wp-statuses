@@ -120,7 +120,6 @@ class WP_Statuses_Admin {
 			'attributes' => array(
 				'password' => $post->post_password,
 				'sticky'   => is_sticky( $post->ID ),
-				'modified' => strtotime( mysql2date( 'Y/m/d g:i:s a', $post->post_modified_gmt ) ) * 1000,
 			),
 		) );
 		?>
