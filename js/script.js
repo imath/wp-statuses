@@ -1,7 +1,7 @@
 ( function( $ ) {
 
 	// Bail if not set
-	if ( typeof wpStatuses === 'undefined' ) {
+	if ( typeof wpStatuses === 'undefined' || typeof postL10n === 'undefined' ) {
 		return;
 	}
 
@@ -34,7 +34,7 @@
 		}
 	}
 
-	$( '#wp-statuses-publish-box' ).on( 'change', '#wp-statuses-dropdown', function( e ) {
+	$( '#submitdiv' ).on( 'change', '#wp-statuses-dropdown', function( e ) {
 		var newDashicon = $( e.currentTarget ).find( ':selected').data( 'dashicon' ),
 			oldDashicon = $( e.currentTarget ).parent().find( '.dashicons' ),
 			newStatus   = $( e.currentTarget ).find( ':selected').data( 'status' );
@@ -49,9 +49,18 @@
 
 		// Handle Status attributes
 		setStatusAttributes( newStatus );
+
+		// Handle The minor publishing action button
+		if ( 'pending' === newStatus || 'draft' === newStatus ) {
+			var text = 'pending' === newStatus ? postL10n.savePending : postL10n.saveDraft;
+
+			$( '#save-post' ).show().val( text );
+		} else {
+			$( '#save-post' ).hide()
+		}
 	} );
 
-	$( '#wp-statuses-publish-box' ).on( 'click', '.save-timestamp', function() {
+	$( '#submitdiv' ).on( 'click', '.save-timestamp', function() {
 		var formDate = new Date( $('#aa').val(), $('#mm').val() - 1, $('#jj').val(), $('#hh').val(), $('#mn').val() ),
 			now      = new Date(), diff = formDate - now, status = $( '#wp-statuses-dropdown' ).val();
 
@@ -64,7 +73,7 @@
 		}
 	} );
 
-	$( '#wp-statuses-publish-box' ).on( 'click', '.cancel-timestamp', function() {
+	$( '#submitdiv' ).on( 'click', '.cancel-timestamp', function() {
 		$( '#wp-statuses-dropdown :selected' ).prop( 'value', wpStatuses.status );
 		$( '#wp-statuses-dropdown' ).val( wpStatuses.status );
 	} );

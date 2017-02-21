@@ -83,9 +83,12 @@ class WP_Statuses_Admin {
 	public function add_meta_box( $post_type, $post ) {
 		global $publish_callback_args;
 
-		// The Publishing box
+		// Remove the built-in Publish meta box.
+		remove_meta_box( 'submitdiv', get_current_screen(), 'side' );
+
+		// Use plugin's Publishing box instead.
 		add_meta_box(
-			'wp-statuses-publish-box',
+			'submitdiv',
 			__( 'Publishing', 'wp-statuses' ),
 			array( $this, 'publishing_box' ),
 			$post_type,
@@ -111,6 +114,8 @@ class WP_Statuses_Admin {
 		$status = $post->post_status;
 		if ( 'auto-draft' === $status ) {
 			$status = 'draft';
+		} elseif ( 'publish' === $status && ! empty( $post->post_password ) ) {
+			$status = 'password';
 		}
 
 		// Load script for the metabox.
@@ -121,14 +126,14 @@ class WP_Statuses_Admin {
 				'password' => $post->post_password,
 				'sticky'   => is_sticky( $post->ID ),
 			),
-		) );
-		?>
+		) ); ?>
+
 		<div class="submitbox" id="submitpost">
 			<div id="minor-publishing">
 
 				<?php
 				/**
-				 * Split parts for a better visibility.
+				 * Take care of minor publishing actions.
 				 */
 				$this->get_minor_publishing_div( $post, $status ); ?>
 
@@ -136,7 +141,7 @@ class WP_Statuses_Admin {
 
 					<?php
 					/**
-					 * Split actions for a better visibility.
+					 * Split actions for a better lisibility.
 					 */
 					$this->get_status_publishing_div( $post, $status );
 					$this->get_status_extra_attributes( $post, $status );
@@ -147,7 +152,11 @@ class WP_Statuses_Admin {
 
 			</div><!-- #minor-publishing -->
 
-			<div id="major-publishing-actions"></div>
+			<div id="major-publishing-actions">
+				<?php $this->get_major_publishing_div( $post, $status ); ?>
+
+				<div class="clear"></div>
+			</div><!-- #major-publishing-actions -->
 
 		</div><!-- #submitpost -->
 		<?php
@@ -403,5 +412,56 @@ class WP_Statuses_Admin {
 		 * @param WP_Post $post WP_Post object for the current post.
 		 */
 		do_action( 'post_submitbox_misc_actions', $post );
+	}
+
+	public function get_major_publishing_div( $post = null, $status = '' ) {
+		if ( empty( $post->post_type ) || empty( $status ) ) {
+			return;
+		}
+
+		// Submit input arguments.
+		$args = array(
+			'text'             => __( 'Update', 'wp-statuses' ),
+			'type'             => 'primary large',
+			'name'             => 'save',
+			'wrap'             => false,
+			'other_attributes' => array( 'id' => 'publish' ),
+		);
+
+		if ( in_array( $status, array( 'draft', 'pending' ), true ) || 0 === (int) $post->ID ) {
+			$args = array_merge( $args, array(
+				'text' => __( 'Submit for Review', 'wp-statuses' ),
+				'name' => 'submit',
+			) );
+
+			if ( current_user_can( $this->post_type_capability ) ) {
+				$args['text'] = __( 'Publish', 'wp-statuses' );
+
+				if ( ! empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) {
+					$args['text'] = __( 'Schedule', 'wp-statuses' );
+				}
+			}
+		}
+
+		/**
+		 * Fires at the beginning of the publishing actions section of the Publish meta box.
+		 *
+		 * @since 2.7.0
+		 */
+		do_action( 'post_submitbox_start' ); ?>
+
+		<div id="delete-action">
+			<?php if ( current_user_can( "delete_post", $post->ID ) ) : ?>
+				<a class="submitdelete deletion" href="<?php echo esc_url( get_delete_post_link( $post->ID ) ); ?>">
+					<?php ! EMPTY_TRASH_DAYS ? esc_html_e( 'Delete Permanently', 'wp-statuses' ) : esc_html_e( 'Move to Trash', 'wp-statuses' ); ?>
+				</a>
+			<?php endif ; ?>
+		</div>
+
+		<div id="publishing-action">
+			<span class="spinner"></span>
+			<?php submit_button( $args['text'], $args['type'], $args['name'], $args['wrap'], $args['other_attributes'] ); ?>
+		</div>
+		<?php
 	}
 }
