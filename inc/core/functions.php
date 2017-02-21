@@ -83,6 +83,11 @@ function wp_statuses_register_password_protected() {
 		'show_in_admin_all_list'    => false,
 		'show_in_admin_status_list' => false,
 		'show_in_metabox_dropdown'  => true,
+		'show_in_inline_dropdown'   => true,
+		'labels'                    => array(
+			'metabox_dropdown' => __( 'Password Protected', 'wp-statuses' ),
+			'inline_dropdown'  => __( 'Password', 'wp-statuses' ),
+		),
 		'dashicon'                  => 'dashicons-lock',
 	) );
 }
@@ -93,14 +98,14 @@ function wp_statuses_register() {
 	$wp_post_statuses = array_map( 'wp_statuses_get', $wp_post_statuses );
 }
 
-function wp_statuses_get_metabox_statuses( $post_type = '' ) {
+function wp_statuses_get_statuses( $post_type = '', $context = 'metabox' ) {
 	global $wp_post_statuses;
 
 	if ( empty( $post_type ) ) {
 		return array();
 	}
 
-	$dropdown_statuses = wp_filter_object_list( $wp_post_statuses, array( 'show_in_metabox_dropdown' => true ) );
+	$dropdown_statuses = wp_filter_object_list( $wp_post_statuses, array( "show_in_{$context}_dropdown" => true ) );
 
 	foreach ( $dropdown_statuses as $status_name => $status ) {
 		if ( ! in_array( $post_type, $status->post_type, true ) ) {

@@ -26,7 +26,7 @@ class WP_Statuses_Core_Status {
 	public  $show_in_admin_status_list = null;
 	public	$show_in_admin_all_list = null;
 	public  $show_in_metabox_dropdown = null;
-	public  $show_in_quickedit_dropdown = null;
+	public  $show_in_inline_dropdown = null;
 	public  $dashicon = 'dashicons-post-status';
 
 	/**
@@ -53,8 +53,8 @@ class WP_Statuses_Core_Status {
 				$this->show_in_metabox_dropdown = true;
 			}
 
-			if ( ! isset( $status->show_in_quickedit_dropdown ) ) {
-				$this->show_in_quickedit_dropdown = true;
+			if ( ! isset( $status->show_in_inline_dropdown ) ) {
+				$this->show_in_inline_dropdown = true;
 			}
 		}
 
@@ -67,8 +67,8 @@ class WP_Statuses_Core_Status {
 			$this->labels['metabox_dropdown'] = $this->labels['label'];
 		}
 
-		if ( $this->show_in_quickedit_dropdown && ! isset( $this->labels['quickedit_dropdown'] ) ) {
-			$this->labels['quickedit_dropdown'] = $this->labels['metabox_dropdown'];
+		if ( $this->show_in_inline_dropdown && ! isset( $this->labels['inline_dropdown'] ) ) {
+			$this->labels['inline_dropdown'] = $this->labels['label'];
 		}
 	}
 
@@ -76,15 +76,15 @@ class WP_Statuses_Core_Status {
 		$labels = array(
 			'publish'    => array(
 				'labels' => array(
-					'metabox_dropdown'   => __( 'Publicly published', 'wp-statuses' ),
-					'quickedit_dropdown' => __( 'Published', 'wp-statuses' ),
+					'metabox_dropdown' => __( 'Publicly published', 'wp-statuses' ),
+					'inline_dropdown'  => __( 'Published', 'wp-statuses' ),
 				),
 				'dashicon' => 'dashicons-visibility',
 			),
 			'private'    => array(
 				'labels' => array(
-					'metabox_dropdown'   => __( 'Privately Published', 'wp-statuses' ),
-					'quickedit_dropdown' => __( 'Private', 'wp-statuses' ),
+					'metabox_dropdown' => __( 'Privately Published', 'wp-statuses' ),
+					'inline_dropdown'  => __( 'Private', 'wp-statuses' ),
 				),
 				'dashicon' => 'dashicons-hidden',
 			),

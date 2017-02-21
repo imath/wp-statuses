@@ -51,6 +51,7 @@ class WP_Statuses_Admin {
 	}
 
 	public function register_script() {
+		// Editor's script
 		wp_register_script(
 			'wp-statuses',
 			sprintf( '%1$sscript%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
@@ -77,6 +78,32 @@ class WP_Statuses_Admin {
 					padding-right: 3px;
 				}
 			' );
+		}
+
+		if ( 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
+			$inline_statuses = wp_statuses_get_statuses( $current_screen->post_type, 'inline' );
+			$statuses        = array();
+
+			foreach ( $inline_statuses as $inline_status ) {
+				if ( ! current_user_can( $this->post_type_capability ) && ! in_array( $inline_status->name, array( 'draft', 'pending' ), true ) ) {
+					continue;
+				}
+
+				$statuses[ $inline_status->name ] = $inline_status->labels['inline_dropdown'];
+			}
+
+			if ( ! empty( $inline_statuses ) ) {
+				wp_enqueue_script(
+					'wp-statuses-inline',
+					sprintf( '%1$sinline-script%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+					array( 'inline-edit-post' ),
+					wp_statuses_version(),
+					true
+				);
+				wp_localize_script( 'wp-statuses-inline', 'wpStatusesInline', array(
+					'statuses' => $statuses,
+				) );
+			}
 		}
 	}
 
@@ -222,7 +249,7 @@ class WP_Statuses_Admin {
 			return;
 		}
 
-		$statuses = wp_statuses_get_metabox_statuses( $post->post_type );
+		$statuses = wp_statuses_get_statuses( $post->post_type );
 
 		$options        = array( '<select name="post_status" id="wp-statuses-dropdown">' );
 		$dashicon       = 'dashicons-post-status';
