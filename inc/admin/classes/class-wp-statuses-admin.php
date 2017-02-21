@@ -257,7 +257,7 @@ class WP_Statuses_Admin {
 		// Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key
 		?>
 		<div style="display:none;">
-			<?php submit_button( __( 'Save' ), '', 'save' ); ?>
+			<?php submit_button( __( 'Save', 'wp-statuses' ), '', 'save' ); ?>
 		</div>
 
 		<div id="minor-publishing-actions">
@@ -464,7 +464,7 @@ class WP_Statuses_Admin {
 		$is_future = time() < strtotime( $post->post_date_gmt . ' +0000' );
 
 		/* translators: Publish box date format, see https://secure.php.net/date */
-		$datef = __( 'M j, Y @ H:i' );
+		$datef = __( 'M j, Y @ H:i', 'wp-statuses' );
 
 		// Post already exists.
 		if ( 0 !== (int) $post->ID ) {

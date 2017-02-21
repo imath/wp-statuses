@@ -1,0 +1,223 @@
+# Copyright (C) 2017 imath
+# This file is distributed under the GNU/GPL 2.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Statuses 1.0.0\n"
+"Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
+"POT-Creation-Date: 2017-02-21 21:50:43+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: imath <imath@cluster.press>\n"
+"Language-Team: FRENCH <imath@cluster.press>\n"
+"X-Generator: grunt-wp-i18n 0.5.4\n"
+
+#: inc/admin/classes/class-wp-statuses-admin.php:140
+msgid "&mdash; No Change &mdash;"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:163
+msgid "Publishing"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:260
+msgid "Save"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:268
+msgid "Save Draft"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:272
+msgid "Save as Pending"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:286
+msgid "Preview Changes"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:286
+msgid "Preview"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:372
+msgid "Set status"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:423
+msgid "Stick this post to the front page"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:430
+msgid "Password:"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:467
+#. translators: Publish box date format, see https:secure.php.net/date
+msgid "M j, Y @ H:i"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:474
+#. translators: Post date information. 1: Date on which the post is currently
+#. scheduled to be published
+msgid "Scheduled for: <b>%1$s</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:479
+#. translators: Post date information. 1: Date on which the post was published
+msgid "Published on: <b>%1$s</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:483
+#: inc/admin/classes/class-wp-statuses-admin.php:500
+msgid "Publish <b>immediately</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:488
+#. translators: Post date information. 1: Date on which the post is to be
+#. published
+msgid "Schedule for: <b>%1$s</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:493
+#. translators: Post date information. 1: Date on which the post is to be
+#. published
+msgid "Publish on: <b>%1$s</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:508
+#. translators: Post revisions heading. 1: The number of available revisions
+msgid "Revisions: %s"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:512
+msgid "Browse revisions"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:523
+msgid "Edit"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:524
+msgid "Edit date and time"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:528
+msgid "Date and time"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:561
+msgid "Update"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:570
+msgid "Submit for Review"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:575
+msgid "Publish"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:578
+msgid "Schedule"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:593
+msgid "Delete Permanently"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:593
+msgid "Move to Trash"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:194
+msgid "Publicly published"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:195
+msgid "Published"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:201
+msgid "Privately Published"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:202
+msgid "Private"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:208
+msgid "Pending Review"
+msgstr ""
+
+#: inc/core/classes/class-wp-statuses-core-status.php:214
+msgid "Draft"
+msgstr ""
+
+#: inc/core/custom.php:24
+msgid "Restricted to members <span class=\"count\">(%s)</span>"
+msgid_plural "Restricted to members <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/core/custom.php:31
+msgid "Restricted"
+msgstr ""
+
+#: inc/core/custom.php:83
+msgid "Please %s to view this content."
+msgstr ""
+
+#: inc/core/custom.php:86
+msgid "log in"
+msgstr ""
+
+#: inc/core/functions.php:126
+msgid "Password Protected <span class=\"count\">(%s)</span>"
+msgid_plural "Password Protected <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/core/functions.php:133
+msgid "Password Protected"
+msgstr ""
+
+#: inc/core/functions.php:134
+msgid "Password"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Statuses"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://imathi.eu/tag/wp-statuses/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Suggestions to improve the WordPress Post statuses API."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "imath"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://imathi.eu/"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:511
+msgctxt "revisions"
+msgid "Browse"
+msgstr ""
+
+#: inc/core/custom.php:22
+msgctxt "post status"
+msgid "Restricted to members"
+msgstr ""
+
+#: inc/core/functions.php:124
+msgctxt "post status"
+msgid "Password Protected"
+msgstr ""
