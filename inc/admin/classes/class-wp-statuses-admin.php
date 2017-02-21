@@ -114,7 +114,7 @@ class WP_Statuses_Admin {
 		$status = $post->post_status;
 		if ( 'auto-draft' === $status ) {
 			$status = 'draft';
-		} elseif ( 'publish' === $status && ! empty( $post->post_password ) ) {
+		} elseif ( ! empty( $post->post_password ) ) {
 			$status = 'password';
 		}
 
@@ -196,7 +196,7 @@ class WP_Statuses_Admin {
 					<?php printf( '<a class="preview button" href="%1$s" target="wp-preview-%2$s" id="post-preview">%3$s</a>',
 						esc_url( get_preview_post_link( $post ) ),
 						(int) $post->ID,
-						'draft' === $status ? esc_html__( 'Preview', 'wp-statuses' ) : esc_html__( 'Preview Changes', 'wp-statuses' )
+						'publish' === $status ? esc_html__( 'Preview Changes', 'wp-statuses' ) : esc_html__( 'Preview', 'wp-statuses' )
 					); ?>
 					<input type="hidden" name="wp-preview" id="wp-preview" value="" />
 				</div>
@@ -431,7 +431,7 @@ class WP_Statuses_Admin {
 		if ( in_array( $status, array( 'draft', 'pending' ), true ) || 0 === (int) $post->ID ) {
 			$args = array_merge( $args, array(
 				'text' => __( 'Submit for Review', 'wp-statuses' ),
-				'name' => 'submit',
+				'name' => 'publish',
 			) );
 
 			if ( current_user_can( $this->post_type_capability ) ) {

@@ -56,26 +56,57 @@
 
 			$( '#save-post' ).show().val( text );
 		} else {
-			$( '#save-post' ).hide()
+			$( '#save-post' ).hide();
 		}
 	} );
 
 	$( '#submitdiv' ).on( 'click', '.save-timestamp', function() {
 		var formDate = new Date( $('#aa').val(), $('#mm').val() - 1, $('#jj').val(), $('#hh').val(), $('#mn').val() ),
-			now      = new Date(), diff = formDate - now, status = $( '#wp-statuses-dropdown' ).val();
+			now      = new Date(), diff = formDate - now, status = $( '#wp-statuses-dropdown' ).val(),
+			oStatus  = $( '#wp-statuses-dropdown :selected' ).data( 'status' );
 
-		if ( diff < 0 && status === 'future' ) {
-			$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'publish' );
-			$( '#wp-statuses-dropdown' ).val( 'publish' );
-		} else if ( diff > 0 && -1 !== $.inArray( status, [ 'draft', 'publish', 'pending' ] ) ) {
+		// In case someone is moving the date backward, reset the Status to its origine.
+		if ( diff < 0 && 'future' === status ) {
+			var resetStatus = oStatus;
+			if ( 'password' === resetStatus ) {
+				resetStatus = 'publish';
+			}
+
+			$( '#wp-statuses-dropdown :selected' ).prop( 'value', oStatus );
+
+		// Set the status to be future for scheduled public posts.
+		} else if ( diff > 0 && 'publish' === status ) {
 			$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'future' );
-			$( '#wp-statuses-dropdown' ).val( 'future' );
+		}
+
+		// Handle The minor publishing action button
+		if ( 'draft' !== oStatus ) {
+			$( '#save-post' ).hide();
+		}
+
+		if ( 'pending' === oStatus ) {
+			$( '#save-post' ).show().val( postL10n.savePending );
 		}
 	} );
 
 	$( '#submitdiv' ).on( 'click', '.cancel-timestamp', function() {
-		$( '#wp-statuses-dropdown :selected' ).prop( 'value', wpStatuses.status );
-		$( '#wp-statuses-dropdown' ).val( wpStatuses.status );
+		var oStatus = $( '#wp-statuses-dropdown :selected' ).data( 'status' ) || wpStatuses.status;
+
+		if ( 'password' === oStatus ) {
+			oStatus = 'publish';
+		}
+
+		// Handle The minor publishing action button
+		if ( 'draft' !== oStatus ) {
+			$( '#save-post' ).hide();
+		}
+
+		if ( 'pending' === oStatus ) {
+			$( '#save-post' ).show().val( postL10n.savePending );
+		}
+
+		// Reset the original status.
+		$( '#wp-statuses-dropdown :selected' ).prop( 'value', oStatus );
 	} );
 
 } )( jQuery );
