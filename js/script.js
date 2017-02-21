@@ -72,7 +72,7 @@
 				resetStatus = 'publish';
 			}
 
-			$( '#wp-statuses-dropdown :selected' ).prop( 'value', oStatus );
+			$( '#wp-statuses-dropdown :selected' ).prop( 'value', resetStatus );
 
 		// Set the status to be future for scheduled public posts.
 		} else if ( diff > 0 && 'publish' === status ) {

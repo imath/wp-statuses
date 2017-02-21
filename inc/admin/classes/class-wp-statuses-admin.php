@@ -235,11 +235,18 @@ class WP_Statuses_Admin {
 			// Password is a publish status
 			if ( 'password' === $status->name ) {
 				$value = 'publish';
+
+				// Or a scheduled one.
+				if ( 'password' === $current && 'future' === $post->post_status ) {
+					$value = 'future';
+				}
 			}
+
 			// Future will become a publish status
 			if ( 'future' === $current ) {
 				$current_status = 'publish';
 
+				// Set the Published status as future.
 				if ( 'publish' === $status->name ) {
 					$value = 'future';
 				}
