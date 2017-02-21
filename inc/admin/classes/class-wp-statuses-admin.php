@@ -10,14 +10,39 @@
 // Exit if accessed directly.
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * The admin class
+ *
+ * @since  1.0.0
+ */
 class WP_Statuses_Admin {
+	/**
+	 * The post type displayed in the Admin screen.
+	 *
+	 * @var string
+	 */
 	public $post_type = '';
+
+	/**
+	 * The post type object displayed in the Admin screen.
+	 *
+	 * @var null|object
+	 */
 	public $post_type_object = null;
+
+	/**
+	 * The required capability to publish post types.
+	 *
+	 * @var string
+	 */
 	public $post_type_capability = 'publish_posts';
 
+	/**
+	 * The class constructor.
+	 *
+	 * @since  1.0.0
+	 */
 	public function __construct() {
-		//$this->setup_globals();
-		//$this->includes();
 		$this->hooks();
 	}
 
@@ -46,12 +71,17 @@ class WP_Statuses_Admin {
 	 * @since 1.0.0
 	 */
 	private function hooks() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_script' ), 1 );
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ), 10, 2 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_script' ),  1    );
+		add_action( 'add_meta_boxes',        array( $this, 'add_meta_box' ),    10, 2 );
 	}
 
+	/**
+	 * Register and enqueue needed scripts and css.
+	 *
+	 * @since  1.0.0
+	 */
 	public function register_script() {
-		// Editor's script
+		// Editor's screen
 		wp_register_script(
 			'wp-statuses',
 			sprintf( '%1$sscript%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
@@ -80,6 +110,7 @@ class WP_Statuses_Admin {
 			' );
 		}
 
+		// List tables screens
 		if ( 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
 			$inline_statuses = wp_statuses_get_statuses( $current_screen->post_type, 'inline' );
 			$statuses        = array();
@@ -92,6 +123,9 @@ class WP_Statuses_Admin {
 				$statuses[ $inline_status->name ] = $inline_status->labels['inline_dropdown'];
 			}
 
+			$bulk_statuses = $statuses;
+			unset( $bulk_statuses['password'] );
+
 			if ( ! empty( $inline_statuses ) ) {
 				wp_enqueue_script(
 					'wp-statuses-inline',
@@ -101,12 +135,22 @@ class WP_Statuses_Admin {
 					true
 				);
 				wp_localize_script( 'wp-statuses-inline', 'wpStatusesInline', array(
-					'statuses' => $statuses,
+					'inline'       => $statuses,
+					'bulk'         => $bulk_statuses,
+					'bulk_default' => __( '&mdash; No Change &mdash;', 'wp-statuses' ),
 				) );
 			}
 		}
 	}
 
+	/**
+	 * Replace the WordPress Publish metabox by plugin's one.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param string  $post_type The displayed post type.
+	 * @param WP_Post $post      The post object.
+	 */
 	public function add_meta_box( $post_type, $post ) {
 		global $publish_callback_args;
 
@@ -133,6 +177,14 @@ class WP_Statuses_Admin {
 		}
 	}
 
+	/**
+	 * The Publishing metabox.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post The displayed post object.
+	 * @param  array  $args  Additional arguments (eg: revisions' count).
+	 */
 	public function publishing_box( $post = null, $args = array() ) {
 		if ( empty( $post->post_type ) ) {
 			return;
@@ -189,13 +241,21 @@ class WP_Statuses_Admin {
 		<?php
 	}
 
+	/**
+	 * Output the minor publishing actions.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post   The displayed Post object.
+	 * @param  string  $status The Post's status.
+	 */
 	public function get_minor_publishing_div( $post = null, $status = '' ) {
 		if ( empty( $post->post_type ) || empty( $status ) ) {
 			return;
 		}
-		?>
 
-		<?php // Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key ?>
+		// Hidden submit button early on so that the browser chooses the right button when form is submitted with Return key
+		?>
 		<div style="display:none;">
 			<?php submit_button( __( 'Save' ), '', 'save' ); ?>
 		</div>
@@ -244,6 +304,14 @@ class WP_Statuses_Admin {
 		<?php
 	}
 
+	/**
+	 * Output the statuses dropdown.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post    The displayed Post object.
+	 * @param  string  $current The Post's status.
+	 */
 	public function get_status_publishing_div( $post = null, $current = '' ) {
 		if ( empty( $post->post_type ) || empty( $current ) ) {
 			return;
@@ -323,6 +391,14 @@ class WP_Statuses_Admin {
 		<?php
 	}
 
+	/**
+	 * Output Extra attributes according to the status.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post   The displayed Post object.
+	 * @param  string  $status The Post's status.
+	 */
 	public function get_status_extra_attributes( $post = null, $status = '' ) {
 		if ( empty( $post->post_type ) || empty( $status ) || ! current_user_can( $this->post_type_capability ) ) {
 			return;
@@ -371,6 +447,14 @@ class WP_Statuses_Admin {
 		<?php
 	}
 
+	/**
+	 * Output the time's selector & revisions' browser.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post   The displayed Post object.
+	 * @param  string  $status The Post's status.
+	 */
 	public function get_time_publishing_div( $post = null, $status = '', $args = array() ) {
 		if ( empty( $post->post_type ) || empty( $status ) || ! current_user_can( $this->post_type_capability ) ) {
 			return;
@@ -459,6 +543,14 @@ class WP_Statuses_Admin {
 		do_action( 'post_submitbox_misc_actions', $post );
 	}
 
+	/**
+	 * Output the major actions of the metabox.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @param  WP_Post $post   The displayed Post object.
+	 * @param  string  $status The Post's status.
+	 */
 	public function get_major_publishing_div( $post = null, $status = '' ) {
 		if ( empty( $post->post_type ) || empty( $status ) ) {
 			return;

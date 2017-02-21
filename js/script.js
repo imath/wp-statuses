@@ -1,3 +1,4 @@
+/* global wpStatuses, postL10n */
 ( function( $ ) {
 
 	// Bail if not set

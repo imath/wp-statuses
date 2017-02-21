@@ -26,6 +26,10 @@ function wp_statuses_register_members_restricted() {
 		'show_in_admin_all_list'    => true,
 		'show_in_admin_status_list' => true,
 		'show_in_metabox_dropdown'  => true,
+		'show_in_inline_dropdown'   => true,
+		'labels'                    => array(
+			'inline_dropdown'  => __( 'Restricted', 'wp-statuses' ),
+		),
 		'dashicon'                  => 'dashicons-groups',
 	) );
 }

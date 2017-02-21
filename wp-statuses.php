@@ -2,7 +2,7 @@
 /*
 Plugin Name: WP Statuses
 Plugin URI: https://imathi.eu/tag/wp-statuses/
-Description: TBD
+Description: Suggestions to improve the WordPress Post statuses API.
 Version: 1.0.0
 Requires at least: 4.7
 Tested up to: 4.7
@@ -22,12 +22,13 @@ if ( ! class_exists( 'WP_Statuses' ) ) :
  *
  * @package WP Statuses
  *
- * @since 2.0.0
+ * @since 1.0.0
  */
 final class WP_Statuses {
 
 	/**
 	 * Plugin's main instance
+	 *
 	 * @var object
 	 */
 	protected static $instance;
@@ -158,7 +159,7 @@ final class WP_Statuses {
 endif;
 
 /**
- * Boot function for the plugin
+ * Boot the plugin.
  *
  * @since 1.0.0
  */
