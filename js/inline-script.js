@@ -6,21 +6,21 @@
 		return;
 	}
 
-	wpStatuses = {
+	window.wpStatuses = {
 		init: function() {
 			var that = this;
 
 			// Reset the status for the bulk-edit action.
 			that.resetStatuses( $( '#bulk-edit' ).find( '[name="_status"]' ), '', 'bulk' );
 
-			$( '#the-list' ).on( 'click', '.editinline', function( event ) {
-				var Id       = window.inlineEditPost.getId( this ),
-					select   = $( '#edit-' + Id ).find( '[name="_status"]' ) || null,
-					password = $( '#edit-' + Id ).find( '[name="post_password"]' ) || null,
-					private  = $( '#edit-' + Id ).find( '[name="keep_private"]' ) || null,
-					sticky   = $( '#edit-' + Id ).find( '[name="sticky"]' ) || null;
+			$( '#the-list' ).on( 'click', '.editinline', function() {
+				var Id        = window.inlineEditPost.getId( this ),
+					select    = $( '#edit-' + Id ).find( '[name="_status"]' ) || null,
+					password  = $( '#edit-' + Id ).find( '[name="post_password"]' ) || null,
+					privateCb = $( '#edit-' + Id ).find( '[name="keep_private"]' ) || null,
+					sticky    = $( '#edit-' + Id ).find( '[name="sticky"]' ) || null;
 
-				if ( select && password && private ) {
+				if ( select && password && privateCb ) {
 					var selectedStatus = $( select ).val();
 					that.Id = Id;
 
@@ -46,8 +46,8 @@
 					$( select ).parent().after( $( password ).parents( 'label' ).first() );
 
 					// Remove Private checkbox
-					$( private ).parents( '.inline-edit-group' ).first().find( '.inline-edit-or' ).remove();
-					$( private ).parent().remove();
+					$( privateCb ).parents( '.inline-edit-group' ).first().find( '.inline-edit-or' ).remove();
+					$( privateCb ).parent().remove();
 
 					// Reset the statuses select tag.
 					that.resetStatuses( select, selectedStatus );
@@ -98,8 +98,8 @@
 				);
 			} );
 		}
-	}
+	};
 
-	$( document ).ready( function(){ wpStatuses.init(); } );
+	$( document ).ready( function(){ window.wpStatuses.init(); } );
 
 } )( jQuery );

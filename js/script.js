@@ -7,7 +7,7 @@
 	}
 
 	// Set selected Status attributes
-	setStatusAttributes = function( status ) {
+	window.setStatusAttributes = function( status ) {
 		// First reset attributes
 		$.each( $( '#wp-statuses-attibutes input' ), function( i, element ) {
 			if ( 'checkbox' === element.type || 'radio' === element.type ) {
@@ -33,7 +33,7 @@
 				$( '#sticky' ).prop( 'checked', wpStatuses.attributes.sticky );
 			}
 		}
-	}
+	};
 
 	$( '#submitdiv' ).on( 'change', '#wp-statuses-dropdown', function( e ) {
 		var newDashicon = $( e.currentTarget ).find( ':selected').data( 'dashicon' ),
@@ -49,7 +49,7 @@
 		oldDashicon.addClass( newDashicon );
 
 		// Handle Status attributes
-		setStatusAttributes( newStatus );
+		window.setStatusAttributes( newStatus );
 
 		// Handle The minor publishing action button
 		if ( 'pending' === newStatus || 'draft' === newStatus ) {
