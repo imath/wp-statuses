@@ -206,7 +206,7 @@ class WP_Statuses_Admin {
 			/**
 			 * Fires before the post time/date setting in the Publish meta box.
 			 *
-			 * @since 4.4.0
+			 * @since WordPress 4.4.0
 			 *
 			 * @param WP_Post $post WP_Post object for the current post.
 			 */
@@ -279,7 +279,18 @@ class WP_Statuses_Admin {
 				'<span class="dashicons %1$s"></span> %2$s',
 				sanitize_html_class( $dashicon ),
 				join( "\n", $options )
-			); ?>
+			);
+
+			/**
+			 * As WordPress is overriding the $_POST global inside _wp_translate_postdata()
+			 * We'll use this input to remember what was the real posted status.
+			 *
+			 * @see this part of the code, around line 100 of wp-admin/includes/post.php :
+			 * if ( isset($post_data['publish']) && ( '' != $post_data['publish'] ) && ( !isset($post_data['post_status']) || $post_data['post_status'] != 'private' ) )
+			 *	$post_data['post_status'] = 'publish';
+			 */
+			?>
+			<input type="hidden" name="_wp_statuses_status" id="wp-statuses-status" value="<?php echo esc_attr( $current ); ?>"/>
 
 		</div><!-- .misc-pub-section -->
 		<?php
@@ -413,8 +424,8 @@ class WP_Statuses_Admin {
 		/**
 		 * Fires after the post time/date setting in the Publish meta box.
 		 *
-		 * @since 2.9.0
-		 * @since 4.4.0 Added the `$post` parameter.
+		 * @since WordPress 2.9.0
+		 * @since WordPress 4.4.0 Added the `$post` parameter.
 		 *
 		 * @param WP_Post $post WP_Post object for the current post.
 		 */
@@ -453,7 +464,7 @@ class WP_Statuses_Admin {
 		/**
 		 * Fires at the beginning of the publishing actions section of the Publish meta box.
 		 *
-		 * @since 2.7.0
+		 * @since WordPress 2.7.0
 		 */
 		do_action( 'post_submitbox_start' ); ?>
 

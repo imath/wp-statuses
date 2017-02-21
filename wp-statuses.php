@@ -92,17 +92,20 @@ final class WP_Statuses {
 		spl_autoload_register( array( $this, 'autoload' ) );
 
 		require( $this->inc_dir . 'core/functions.php' );
+
+		if ( apply_filters( 'wp_statuses_use_custom_status', true ) ) {
+			require( $this->inc_dir . 'core/custom.php' );
+		}
 	}
 
 	/**
-	 * Setups some hooks to register post type stuff, scripts, set
-	 * the current user & load plugin's BuddyPress integration
+	 * Setups hooks to register post statuses & load the Administration.
 	 *
-	 * @since 2.0.0
+	 * @since 1.0.0
 	 */
 	private function setup_hooks() {
-		add_action( 'init', 'wp_status_register_password_protected',   10 );
-		add_action( 'init', 'wp_statuses_register',                  1000 );
+		add_action( 'init', 'wp_statuses_register_password_protected',   10 );
+		add_action( 'init', 'wp_statuses_register',                    1000 );
 
 		// Boot the Admin
 		if ( is_admin() ) {

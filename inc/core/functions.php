@@ -1,4 +1,14 @@
 <?php
+/**
+ * WP Statuses Functions.
+ *
+ * @package WP Statuses\inc
+ *
+ * @since 1.0.0
+ */
+
+// Exit if accessed directly.
+defined( 'ABSPATH' ) || exit;
 
 function wp_statuses_version() {
 	return wp_statuses()->version;
@@ -25,6 +35,16 @@ function wp_statuses_min_suffix() {
 	return apply_filters( 'wp_statuses_min_suffix', $min );
 }
 
+function wp_statuses_get_registered_post_types() {
+	/**
+	 * Filter here to edit the Post types built-in statuses apply to.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $value A list of public post types names.
+	 */
+	return apply_filters( 'wp_statuses_get_registered_post_types', get_post_types( array( 'show_ui' => true ) ) );
+}
 
 function wp_statuses_get( $status = null ) {
 	if ( empty( $status ) ) {
@@ -54,12 +74,12 @@ function wp_statuses_get( $status = null ) {
 	return $_status;
 }
 
-function wp_status_register_password_protected() {
+function wp_statuses_register_password_protected() {
 	register_post_status( 'password', array(
 		'label'                     => _x( 'Password Protected', 'post status', 'wp-statuses' ),
 		'public'                    => true,
 		'label_count'               => _n_noop( 'Password Protected <span class="count">(%s)</span>', 'Password Protected <span class="count">(%s)</span>', 'wp-statuses' ),
-		'post_type'                 => array( 'post' ),
+		'post_type'                 => wp_statuses_get_registered_post_types(),
 		'show_in_admin_all_list'    => false,
 		'show_in_admin_status_list' => false,
 		'show_in_metabox_dropdown'  => true,

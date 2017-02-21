@@ -58,6 +58,12 @@
 		} else {
 			$( '#save-post' ).hide();
 		}
+
+		/**
+		 * As WordPress is overriding the $_POST global inside _wp_translate_postdata()
+		 * We'll use this input to remember what was the real posted status.
+		 */
+		$( '#wp-statuses-status' ).val( newStatus );
 	} );
 
 	$( '#submitdiv' ).on( 'click', '.save-timestamp', function() {
