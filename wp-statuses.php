@@ -94,7 +94,17 @@ final class WP_Statuses {
 
 		require( $this->inc_dir . 'core/functions.php' );
 
-		if ( apply_filters( 'wp_statuses_use_custom_status', true ) ) {
+		/**
+		 * Filter here to have a preview about how custom status
+		 * are managed by the plugin using:
+		 * add_filter( 'wp_statuses_use_custom_status', '__return_true' );
+		 *
+		 * @since  1.0.0
+		 *
+		 * @param  bool $value True to have a demo of the custom status.
+		 *                     False otherwise.
+		 */
+		if ( apply_filters( 'wp_statuses_use_custom_status', false ) ) {
 			require( $this->inc_dir . 'core/custom.php' );
 		}
 	}

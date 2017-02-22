@@ -21,7 +21,7 @@
 					sticky    = $( '#edit-' + Id ).find( '[name="sticky"]' ) || null;
 
 				if ( select && password && privateCb ) {
-					var selectedStatus = $( select ).val();
+					var selectedStatus = $( '#inline_' + Id + ' ._status' ).html();
 					that.Id = Id;
 
 					// Save the date for a later use.
@@ -79,7 +79,7 @@
 		},
 
 		resetStatuses: function( tag, current, action ) {
-			var type = action || 'inline', selected = current || '';
+			var type = action || 'inline';
 
 			// Reset options.
 			tag.empty();
@@ -98,7 +98,7 @@
 				}
 
 				$( tag ).append(
-					$( '<option></option>' ).prop( 'value', s ).prop( 'selected', v === selected ).data( 'status', v ).html( t )
+					$( '<option></option>' ).prop( 'value', s ).prop( 'selected', v === current ).data( 'status', v ).html( t )
 				);
 			} );
 		}
