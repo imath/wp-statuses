@@ -112,6 +112,9 @@ final class WP_Statuses {
 		if ( is_admin() ) {
 			add_action( 'plugins_loaded', array( 'WP_Statuses_Admin', 'start' ), 10 );
 		}
+
+		// Load translations
+		add_action( 'init', array( $this, 'load_textdomain' ), 9 );
 	}
 
 	/**
@@ -121,7 +124,7 @@ final class WP_Statuses {
 	 */
 	public function load_textdomain() {
 		// Traditional WordPress plugin locale filter
-		load_plugin_textdomain( $this->domain, false, trailingslashit( basename( $this->plugin_dir ) ) . 'languages' );
+		load_plugin_textdomain( $this->domain, false, trailingslashit( basename( $this->dir ) ) . 'languages' );
 	}
 
 	/**

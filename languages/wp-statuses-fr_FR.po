@@ -5,219 +5,221 @@ msgstr ""
 "Project-Id-Version: WP Statuses 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
 "POT-Creation-Date: 2017-02-22 07:04:16+00:00\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
-"Last-Translator: imath <imath@cluster.press>\n"
+"PO-Revision-Date: 2017-02-22 08:05+0100\n"
+"Last-Translator: imath <mathchristo@yahoo.fr>\n"
 "Language-Team: FRENCH <imath@cluster.press>\n"
-"X-Generator: grunt-wp-i18n 0.5.4\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.1\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:140
 msgid "&mdash; No Change &mdash;"
-msgstr ""
+msgstr "&mdash; Aucun changement &mdash;"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:163
 msgid "Publishing"
-msgstr ""
+msgstr "﻿Publication"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:260
 msgid "Save"
-msgstr ""
+msgstr "Enregistrer"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:268
 msgid "Save Draft"
-msgstr ""
+msgstr "Enregistrer le brouillon"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:272
 msgid "Save as Pending"
-msgstr ""
+msgstr "Mettre à relire"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:286
 msgid "Preview Changes"
-msgstr ""
+msgstr "Prévisualiser les modifications"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:286
 msgid "Preview"
-msgstr ""
+msgstr "Aperçu"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:372
 msgid "Set status"
-msgstr ""
+msgstr "État"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:423
 msgid "Stick this post to the front page"
-msgstr ""
+msgstr "Mettre cet article en avant sur la page d&rsquo;accueil"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:430
 msgid "Password:"
-msgstr ""
+msgstr "Mot de passe&nbsp;:"
 
-#: inc/admin/classes/class-wp-statuses-admin.php:467
 #. translators: Publish box date format, see https:secure.php.net/date
+#: inc/admin/classes/class-wp-statuses-admin.php:467
 msgid "M j, Y @ H:i"
-msgstr ""
+msgstr "j F Y \\à G \\h i \\m\\i\\n "
 
-#: inc/admin/classes/class-wp-statuses-admin.php:474
 #. translators: Post date information. 1: Date on which the post is currently
 #. scheduled to be published
+#: inc/admin/classes/class-wp-statuses-admin.php:474
 msgid "Scheduled for: <b>%1$s</b>"
-msgstr ""
+msgstr "Planifié pour&nbsp;: <b>%1$s</b>"
 
-#: inc/admin/classes/class-wp-statuses-admin.php:479
 #. translators: Post date information. 1: Date on which the post was published
+#: inc/admin/classes/class-wp-statuses-admin.php:479
 msgid "Published on: <b>%1$s</b>"
-msgstr ""
+msgstr "Publié le&nbsp;: <b>%1$s</b>"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:483
 #: inc/admin/classes/class-wp-statuses-admin.php:500
 msgid "Publish <b>immediately</b>"
-msgstr ""
+msgstr "Publier <b>tout de suite</b>"
 
+#. translators: Post date information. 1: Date on which the post is to be
+#. published
 #: inc/admin/classes/class-wp-statuses-admin.php:488
-#. translators: Post date information. 1: Date on which the post is to be
-#. published
 msgid "Schedule for: <b>%1$s</b>"
-msgstr ""
+msgstr "Planifier pour : <b>%1$s</b>"
 
-#: inc/admin/classes/class-wp-statuses-admin.php:493
 #. translators: Post date information. 1: Date on which the post is to be
 #. published
+#: inc/admin/classes/class-wp-statuses-admin.php:493
 msgid "Publish on: <b>%1$s</b>"
-msgstr ""
+msgstr "Publier le&nbsp;: <b>%1$s</b>"
 
-#: inc/admin/classes/class-wp-statuses-admin.php:508
 #. translators: Post revisions heading. 1: The number of available revisions
+#: inc/admin/classes/class-wp-statuses-admin.php:508
 msgid "Revisions: %s"
-msgstr ""
+msgstr "Révisions&nbsp;: %s"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:512
 msgid "Browse revisions"
-msgstr ""
+msgstr "Parcourir les révisions"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:523
 msgid "Edit"
-msgstr ""
+msgstr "Modifier"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:524
 msgid "Edit date and time"
-msgstr ""
+msgstr "Modifier la date et l’heure"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:528
 msgid "Date and time"
-msgstr ""
+msgstr "Date et heure"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:561
 msgid "Update"
-msgstr ""
+msgstr "Mettre à jour"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:570
 msgid "Submit for Review"
-msgstr ""
+msgstr "Soumettre à relecture"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:575
 msgid "Publish"
-msgstr ""
+msgstr "Publier"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:578
 msgid "Schedule"
-msgstr ""
+msgstr "Planifier"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:593
 msgid "Delete Permanently"
-msgstr ""
+msgstr "Supprimer définitivement"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:593
 msgid "Move to Trash"
-msgstr ""
+msgstr "Déplacer dans la corbeille"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:194
 msgid "Publicly published"
-msgstr ""
+msgstr "Publier publiquement"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:195
 msgid "Published"
-msgstr ""
+msgstr "Publié"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:201
 msgid "Privately Published"
-msgstr ""
+msgstr "Publier en privé"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:202
 msgid "Private"
-msgstr ""
+msgstr "Privé"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:208
 msgid "Pending Review"
-msgstr ""
+msgstr "En attente de relecture"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:214
 msgid "Draft"
-msgstr ""
+msgstr "Brouillon"
 
 #: inc/core/custom.php:24
 msgid "Restricted to members <span class=\"count\">(%s)</span>"
 msgid_plural "Restricted to members <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Restreint aux membres <span class=\"count\">(%s)</span>"
+msgstr[1] "Restreints aux membres <span class=\"count\">(%s)</span>"
 
 #: inc/core/custom.php:31
 msgid "Restricted"
-msgstr ""
+msgstr "Restreint"
 
 #: inc/core/custom.php:83
 msgid "Please %s to view this content."
-msgstr ""
+msgstr "Merci de vous %s pour voir ce contenu."
 
 #: inc/core/custom.php:86
 msgid "log in"
-msgstr ""
+msgstr "connecter"
 
 #: inc/core/functions.php:128
 msgid "Password Protected <span class=\"count\">(%s)</span>"
 msgid_plural "Password Protected <span class=\"count\">(%s)</span>"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "Protégé par mot de passe <span class=\"count\">(%s)</span>"
+msgstr[1] "Protégés par mot de passe <span class=\"count\">(%s)</span>"
 
 #: inc/core/functions.php:135
 msgid "Password Protected"
-msgstr ""
+msgstr "Protégé par mot de passe"
 
 #: inc/core/functions.php:136
 msgid "Password"
-msgstr ""
+msgstr "Protégé"
 
 #. Plugin Name of the plugin/theme
 msgid "WP Statuses"
-msgstr ""
+msgstr "WP Statuses"
 
 #. Plugin URI of the plugin/theme
 msgid "https://imathi.eu/tag/wp-statuses/"
-msgstr ""
+msgstr "https://imathi.eu/tag/wp-statuses/"
 
 #. Description of the plugin/theme
 msgid "Suggestions to improve the WordPress Post statuses API."
-msgstr ""
+msgstr "Mes suggestions pour améliorer la &quot;Post Status API&quot; de WordPress."
 
 #. Author of the plugin/theme
 msgid "imath"
-msgstr ""
+msgstr "imath"
 
 #. Author URI of the plugin/theme
 msgid "https://imathi.eu/"
-msgstr ""
+msgstr "https://imathi.eu/"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:511
 msgctxt "revisions"
 msgid "Browse"
-msgstr ""
+msgstr "Parcourir"
 
 #: inc/core/custom.php:22
 msgctxt "post status"
 msgid "Restricted to members"
-msgstr ""
+msgstr "Restreint aux membres"
 
 #: inc/core/functions.php:126
 msgctxt "post status"
 msgid "Password Protected"
-msgstr ""
+msgstr "Protéger avec un mot de passe"

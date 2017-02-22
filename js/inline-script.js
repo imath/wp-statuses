@@ -43,7 +43,11 @@
 						$( sticky ).prop( 'disabled', true );
 					}
 
-					$( select ).parent().after( $( password ).parents( 'label' ).first() );
+					if ( 'undefined' === typeof wpStatusesInline.inline.password ) {
+						$( password ).parents( 'label' ).first().remove();
+					} else {
+						$( select ).parent().after( $( password ).parents( 'label' ).first() );
+					}
 
 					// Remove Private checkbox
 					$( privateCb ).parents( '.inline-edit-group' ).first().find( '.inline-edit-or' ).remove();

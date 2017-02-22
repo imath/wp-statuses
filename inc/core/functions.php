@@ -64,17 +64,19 @@ function wp_statuses_min_suffix() {
  *
  * @since  1.0.0
  *
- * @return array The list of Post types supported by the WordPress built-in statuses.
+ * @param  string $status_name The status name (eg: pending, draft etc..).
+ * @return array               The list of Post types supported by the WordPress built-in statuses.
  */
-function wp_statuses_get_registered_post_types() {
+function wp_statuses_get_registered_post_types( $status_name = '' ) {
 	/**
 	 * Filter here to edit the Post types built-in statuses apply to.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $value A list of public post types names.
+	 * @param array  $value       A list of public post types names.
+	 * @param string $status_name The status name (eg: pending, draft etc..).
 	 */
-	return apply_filters( 'wp_statuses_get_registered_post_types', get_post_types( array( 'show_ui' => true ) ) );
+	return apply_filters( 'wp_statuses_get_registered_post_types', get_post_types( array( 'show_ui' => true ) ), $status_name );
 }
 
 /**
@@ -124,7 +126,7 @@ function wp_statuses_register_password_protected() {
 		'label'                     => _x( 'Password Protected', 'post status', 'wp-statuses' ),
 		'public'                    => true,
 		'label_count'               => _n_noop( 'Password Protected <span class="count">(%s)</span>', 'Password Protected <span class="count">(%s)</span>', 'wp-statuses' ),
-		'post_type'                 => wp_statuses_get_registered_post_types(),
+		'post_type'                 => wp_statuses_get_registered_post_types( 'password' ),
 		'show_in_admin_all_list'    => false,
 		'show_in_admin_status_list' => false,
 		'show_in_metabox_dropdown'  => true,
