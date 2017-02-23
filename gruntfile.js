@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		clean: {
-			all: [ 'js/*.min.js' ]
+			all: [ 'js/*.min.js', '<%= pkg.name %>.zip' ]
 		},
 		makepot: {
 			target: {
@@ -79,6 +79,31 @@ module.exports = function( grunt ) {
 				esprimaOptions:{},
 				verbose: false
 			}
+		},
+		compress: {
+			main: {
+				options: {
+					archive: '<%= pkg.name %>.zip'
+				},
+				files: [{
+					expand: true,
+					src: [
+						'**/*',
+						'!node_modules/**',
+						'!npm-debug.log',
+						'!.editorconfig',
+						'!.git/**',
+						'!.gitignore',
+						'!.gitattributes',
+						'!grunt/**',
+						'!.jshintrc',
+						'!.jshintignore',
+						'!gruntfile.js',
+						'!package.json',
+					],
+					dest: './'
+				}]
+			}
 		}
 	} );
 
@@ -88,7 +113,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'commit',  ['checktextdomain', 'jstest'] );
 
-	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify'] );
+	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify', 'compress'] );
 
 	// Default task.
 	grunt.registerTask( 'default', ['commit'] );
