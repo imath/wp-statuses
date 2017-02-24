@@ -95,7 +95,7 @@ final class WP_Statuses {
 		require( $this->inc_dir . 'core/functions.php' );
 
 		/**
-		 * Filter here to have a preview about how custom status
+		 * Filter here to have a preview about how custom statuses
 		 * are managed by the plugin using:
 		 * add_filter( 'wp_statuses_use_custom_status', '__return_true' );
 		 *
@@ -133,7 +133,6 @@ final class WP_Statuses {
 	 * @since 1.0.0
 	 */
 	public function load_textdomain() {
-		// Traditional WordPress plugin locale filter
 		load_plugin_textdomain( $this->domain, false, trailingslashit( basename( $this->dir ) ) . 'languages' );
 	}
 

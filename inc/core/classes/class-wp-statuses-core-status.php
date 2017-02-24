@@ -1,8 +1,8 @@
 <?php
 /**
- * WP Statuses Admin Class.
+ * WP Statuses Status' Object Class.
  *
- * @package WP Statuses\admin\classes
+ * @package WP Statuses\inc\core\classes
  *
  * @since 1.0.0
  */

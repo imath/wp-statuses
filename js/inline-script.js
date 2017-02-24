@@ -24,15 +24,6 @@
 					var selectedStatus = $( '#inline_' + Id + ' ._status' ).html();
 					that.Id = Id;
 
-					// Save the date for a later use.
-					that.Date = new Date(
-						$( '[name="aa"]' ).val(),
-						$( '[name="mm"]' ).val() - 1,
-						$( '[name="jj"]' ).val(),
-						$( '[name="hh"]' ).val(),
-						$( '[name="mn"]' ).val()
-					);
-
 					if ( $( password ).val() ) {
 						selectedStatus = 'password';
 					} else {

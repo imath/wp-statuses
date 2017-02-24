@@ -2,7 +2,7 @@
 /**
  * WP Statuses Functions.
  *
- * @package WP Statuses\inc
+ * @package WP Statuses\inc\core
  *
  * @since 1.0.0
  */
