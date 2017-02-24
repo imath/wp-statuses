@@ -107,6 +107,7 @@ function wp_statuses_register_archived_post_status() {
 			'metabox_dropdown' => __( 'Archived', 'wp-statuses' ),
 			'inline_dropdown'  => __( 'Archived', 'wp-statuses' ),
 		),
+		'dashicon'                  => 'dashicons-archive',
 	) );
 }
 add_action( 'init', 'wp_statuses_register_archived_post_status', 11 );
