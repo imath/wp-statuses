@@ -128,6 +128,13 @@ class WP_Statuses_Core_Status {
 	public  $show_in_inline_dropdown = null;
 
 	/**
+	 * Whether to use the status in WordPress's Press this Editor.
+	 *
+	 * @var null|bool
+	 */
+	public  $show_in_press_this_dropdown = null;
+
+	/**
 	 * The dashicon to use for the status.
 	 *
 	 * @var string

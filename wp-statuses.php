@@ -104,7 +104,7 @@ final class WP_Statuses {
 		 * @param  bool $value True to have a demo of the custom status.
 		 *                     False otherwise.
 		 */
-		if ( apply_filters( 'wp_statuses_use_custom_status', false ) ) {
+		if ( apply_filters( 'wp_statuses_use_custom_status', true ) ) {
 			require( $this->inc_dir . 'core/custom.php' );
 		}
 	}

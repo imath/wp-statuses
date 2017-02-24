@@ -71,8 +71,11 @@ class WP_Statuses_Admin {
 	 * @since 1.0.0
 	 */
 	private function hooks() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_script' ),  1    );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_script' ),  1, 1 );
 		add_action( 'add_meta_boxes',        array( $this, 'add_meta_box' ),    10, 2 );
+
+		// Press This
+		add_filter( 'press_this_save_post',  array( $this, 'reset_status' ),    10, 1 );
 	}
 
 	/**
@@ -80,7 +83,8 @@ class WP_Statuses_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function register_script() {
+	public function register_script( $press_this = '' ) {
+
 		// Editor's screen
 		wp_register_script(
 			'wp-statuses',
@@ -90,54 +94,85 @@ class WP_Statuses_Admin {
 			true
 		);
 
-		$current_screen = get_current_screen();
-		if ( isset( $current_screen->id ) && in_array( $current_screen->id, array( 'page', 'post' ), true ) ) {
-			wp_add_inline_style( 'edit', '
-				#wp-statuses-publish-box .inside {
-					margin: 0;
-					padding: 0;
+		// Regular Admin screens.
+		if ( 'press-this.php' !== $press_this ) {
+			$current_screen = get_current_screen();
+
+			if ( isset( $current_screen->id ) && in_array( $current_screen->id, array( 'page', 'post' ), true ) ) {
+				wp_add_inline_style( 'edit', '
+					#wp-statuses-publish-box .inside {
+						margin: 0;
+						padding: 0;
+					}
+
+					#wp-statuses-dropdown {
+						width: calc( 100% - 29px );
+					}
+
+					#misc-publishing-actions .misc-pub-section span.dashicons {
+						vertical-align: middle;
+						color: #82878c;
+						padding-right: 3px;
+					}
+				' );
+			}
+
+			// List tables screens
+			if ( 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
+				$inline_statuses = wp_statuses_get_statuses( $current_screen->post_type, 'inline' );
+				$statuses        = array();
+
+				foreach ( $inline_statuses as $inline_status ) {
+					if ( ! current_user_can( $this->post_type_capability ) && ! in_array( $inline_status->name, array( 'draft', 'pending' ), true ) ) {
+						continue;
+					}
+
+					$statuses[ $inline_status->name ] = $inline_status->labels['inline_dropdown'];
 				}
 
-				#wp-statuses-dropdown {
-					width: calc( 100% - 29px );
+				$bulk_statuses = $statuses;
+				unset( $bulk_statuses['password'] );
+
+				if ( ! empty( $inline_statuses ) ) {
+					wp_enqueue_script(
+						'wp-statuses-inline',
+						sprintf( '%1$sinline-script%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+						array( 'inline-edit-post' ),
+						wp_statuses_version(),
+						true
+					);
+					wp_localize_script( 'wp-statuses-inline', 'wpStatusesInline', array(
+						'inline'       => $statuses,
+						'bulk'         => $bulk_statuses,
+						'bulk_default' => __( '&mdash; No Change &mdash;', 'wp-statuses' ),
+					) );
 				}
+			}
 
-				#misc-publishing-actions .misc-pub-section span.dashicons {
-					vertical-align: middle;
-					color: #82878c;
-					padding-right: 3px;
-				}
-			' );
-		}
+		// Press This specific screen
+		} else {
+			$pressthis_statuses = wp_statuses_get_statuses( 'post', 'press_this' );
+			$statuses           = array();
 
-		// List tables screens
-		if ( 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
-			$inline_statuses = wp_statuses_get_statuses( $current_screen->post_type, 'inline' );
-			$statuses        = array();
-
-			foreach ( $inline_statuses as $inline_status ) {
-				if ( ! current_user_can( $this->post_type_capability ) && ! in_array( $inline_status->name, array( 'draft', 'pending' ), true ) ) {
+			foreach ( $pressthis_statuses as $pressthis_status ) {
+				// Only include Press this statuses if the user can use them.
+				if ( ! current_user_can( $this->post_type_capability ) ) {
 					continue;
 				}
 
-				$statuses[ $inline_status->name ] = $inline_status->labels['inline_dropdown'];
+				$statuses[ $pressthis_status->name ] = $pressthis_status->labels['press_this_dropdown'];
 			}
 
-			$bulk_statuses = $statuses;
-			unset( $bulk_statuses['password'] );
-
-			if ( ! empty( $inline_statuses ) ) {
+			if ( ! empty( $statuses ) ) {
 				wp_enqueue_script(
-					'wp-statuses-inline',
-					sprintf( '%1$sinline-script%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
-					array( 'inline-edit-post' ),
+					'wp-statuses-press-this',
+					sprintf( '%1$spress-this-script%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+					array( 'press-this' ),
 					wp_statuses_version(),
 					true
 				);
-				wp_localize_script( 'wp-statuses-inline', 'wpStatusesInline', array(
-					'inline'       => $statuses,
-					'bulk'         => $bulk_statuses,
-					'bulk_default' => __( '&mdash; No Change &mdash;', 'wp-statuses' ),
+				wp_localize_script( 'wp-statuses-press-this', 'wpStatusesPressThis', array(
+					'statuses' => $statuses,
 				) );
 			}
 		}
@@ -601,5 +636,30 @@ class WP_Statuses_Admin {
 			<?php submit_button( $args['text'], $args['type'], $args['name'], $args['wrap'], $args['other_attributes'] ); ?>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Reset the Press This posted post status if needed.
+	 *
+	 * @since  1.1.0
+	 *
+	 * @param  array  $post_data The list of Post data.
+	 * @return array             The list of Post data.
+	 */
+	public function reset_status( $post_data = array() ) {
+		if ( empty( $_POST['_wp_statuses_status'] ) ) {
+			return $post_data;
+		}
+
+		// Validdate the status
+		$status = get_post_status_object( $_POST['_wp_statuses_status'] );
+
+		if ( ! $status ) {
+			return $post_data;
+		}
+
+		return array_merge( $post_data, array(
+			'post_status' => $status->name,
+		) );
 	}
 }
