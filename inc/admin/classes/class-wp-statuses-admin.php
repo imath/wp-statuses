@@ -200,11 +200,12 @@ class WP_Statuses_Admin {
 		// Load script for the metabox.
 		wp_enqueue_script ( 'wp-statuses' );
 		wp_localize_script( 'wp-statuses', 'wpStatuses', array(
-			'status'     => $status,
-			'attributes' => array(
+			'status'          => $status,
+			'attributes'      => array(
 				'password' => $post->post_password,
 				'sticky'   => is_sticky( $post->ID ),
 			),
+			'public_statuses' => wp_statuses_get_public_statuses( $post->post_type ),
 		) ); ?>
 
 		<div class="submitbox" id="submitpost">
@@ -405,7 +406,7 @@ class WP_Statuses_Admin {
 		}
 
 		$sticky_class = $password_class = 'hide-if-js';
-		if ( 'private' !== $status && ! $post->post_password ) {
+		if ( wp_statuses_is_public( $status ) && ! $post->post_password ) {
 			$sticky_class = '';
 		}
 

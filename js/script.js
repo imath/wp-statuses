@@ -26,7 +26,7 @@
 			if ( wpStatuses.attributes.password ) {
 				$( '#post_password' ).val( wpStatuses.attributes.password );
 			}
-		} else if ( 'private' !== status ) {
+		} else if ( -1 !== $.inArray( status, wpStatuses.public_statuses ) ) {
 			$( '#sticky-span' ).removeClass( 'hide-if-js' );
 
 			if ( wpStatuses.attributes.sticky ) {

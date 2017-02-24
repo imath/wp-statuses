@@ -178,3 +178,80 @@ function wp_statuses_get_statuses( $post_type = '', $context = 'metabox' ) {
 
 	return $dropdown_statuses;
 }
+
+/**
+ * Get public statuses regarding the context.
+ *
+ * @since 1.0.0
+ *
+ * @param string $post_type The name of the post type, statuses are applying to.
+ * @param string $context   Whether public statuses are requested for an wp-admin usage or not.
+ *                          Default: 'admin'.
+ * @return array            A list of public statuses' names.
+ */
+function wp_statuses_get_public_statuses( $post_type = '', $context = 'admin' ) {
+	global $wp_post_statuses;
+
+	if ( $post_type ) {
+		// Validate the post type
+		$type = get_post_type_object( $post_type );
+		if ( ! $type ) {
+			$post_type = '';
+		}
+	}
+
+	$public_statuses = array();
+	$args            = array( 'public' => true );
+	$operator        = 'AND';
+
+	// Draft and Pending are protected
+	if ( 'admin' === $context ) {
+		$args['protected'] = true;
+		$operator          = 'OR';
+	}
+
+	$statuses = wp_filter_object_list( $wp_post_statuses, $args, $operator );
+
+	foreach ( $statuses as $status ) {
+		if ( $post_type && ! in_array( $post_type, $status->post_type, true ) ) {
+			continue;
+		}
+
+		$public_statuses[] = $status->name;
+	}
+
+	/**
+	 * Filter here to edit the public statuses.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param array  $public_statuses A list of public statuses' names.
+	 * @param string $post_type       The name of the post type, statuses are applying to.
+	 * @param string $context         Whether public statuses are requested for an wp-admin usage or not.
+	 */
+	return apply_filters( 'wp_statuses_get_public_statuses', $public_statuses, $post_type, $context );
+}
+
+/**
+ * Checks if a status is public
+ *
+ * @since 1.1.0
+ *
+ * @param  string $status The status to check.
+ * @return bool           True if a status is public. False otherwise.
+ */
+function wp_statuses_is_public( $status = '' ) {
+	$context = '';
+
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		$context = 'admin';
+	}
+
+	$statuses = wp_statuses_get_public_statuses( '', $context );
+
+	if ( ! $statuses || ! $status ) {
+		return false;
+	}
+
+	return in_array( $status, $statuses, true );
+}
