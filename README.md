@@ -5,11 +5,14 @@ This plugin includes some suggestions and tries to contribute to [#12706](https:
 
 ![The Publishing Metabox](https://cldup.com/gqFKVZbBYJ.png)
 
-Using the following filter, you'll be able to have a demo of the custom statuses integration for the page's post type:
+Using the following filter, you'll be able to have a demo of the custom statuses integration.
 
 ```php
 add_filter( 'wp_statuses_use_custom_status', '__return_true' )
 ```
+
+The above filter will create a `restricted` status for the Page's post type which is hiding the page's content until the user logs in.
+It will also create an `archive` status for the Post's post type to remove posts from the loop without putting them into trash.
 
 Configuration needed
 --------------------
