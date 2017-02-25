@@ -98,7 +98,7 @@ class WP_Statuses_Admin {
 		if ( 'press-this.php' !== $press_this ) {
 			$current_screen = get_current_screen();
 
-			if ( isset( $current_screen->id ) && in_array( $current_screen->id, array( 'page', 'post' ), true ) ) {
+			if ( isset( $current_screen->base ) && in_array( $current_screen->base, array( 'page', 'post' ), true ) ) {
 				wp_add_inline_style( 'edit', '
 					#wp-statuses-publish-box .inside {
 						margin: 0;
@@ -118,7 +118,7 @@ class WP_Statuses_Admin {
 			}
 
 			// List tables screens
-			if ( 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
+			if ( isset( $current_screen->base ) && 'edit' === $current_screen->base && ! empty( $current_screen->post_type ) ) {
 				$inline_statuses = wp_statuses_get_statuses( $current_screen->post_type, 'inline' );
 				$statuses        = array();
 
