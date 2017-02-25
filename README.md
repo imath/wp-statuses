@@ -51,9 +51,9 @@ register_post_status( 'archive', array(
 		'label_count'                 => _n_noop( 'Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>', 'wp-statuses' ),
 		'public'                      => false,
 		'show_in_admin_all_list'      => false,
+		'show_in_admin_status_list'   => true,
 
 		/* WP Statuses specific arguments. */
-		'show_in_admin_status_list'   => true,
 		'post_type'                   => array( 'post' ), // Only for posts!
 		'show_in_metabox_dropdown'    => true,
 		'show_in_inline_dropdown'     => true,
