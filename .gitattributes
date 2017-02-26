@@ -3,5 +3,6 @@
 /.gitignore export-ignore
 /.jshintignore export-ignore
 /.jshintrc export-ignore
-/Gruntfile.js export-ignore
+/CONTRIBUTING.md
+/gruntfile.js export-ignore
 /package.json export-ignore
