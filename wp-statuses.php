@@ -3,7 +3,7 @@
 Plugin Name: WP Statuses
 Plugin URI: https://imathi.eu/tag/wp-statuses/
 Description: Suggestions to improve the WordPress Post statuses API.
-Version: 1.1.0
+Version: 1.2.0
 Requires at least: 4.7
 Tested up to: 4.7
 License: GNU/GPL 2
@@ -68,7 +68,7 @@ final class WP_Statuses {
 	 */
 	private function setup_globals() {
 		// Version
-		$this->version = '1.1.0';
+		$this->version = '1.2.0';
 
 		// Domain
 		$this->domain = 'wp-statuses';

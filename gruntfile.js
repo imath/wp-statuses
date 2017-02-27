@@ -9,9 +9,9 @@ module.exports = function( grunt ) {
 		jshint: {
 			options: grunt.file.readJSON( '.jshintrc' ),
 			grunt: {
-				src: ['Gruntfile.js']
+				src: ['gruntfile.js']
 			},
-			all: ['Gruntfile.js', 'js/*.js']
+			all: ['gruntfile.js', 'js/*.js']
 		},
 		checktextdomain: {
 			options: {
