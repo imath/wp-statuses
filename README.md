@@ -19,16 +19,16 @@ Using the above filter will demonstrate how it is possible to add custom statuse
 
 #### Custom statuses for Custom Post Types
 
-In this [gist](https://gist.github.com/imath/2b6d2ce1ead6aba11c8ad12c6beb4770) a new Post Type named "ticket" is registered along with custom statuses. It's a tiny use case showing how you can __with less than 150 lines__ create an Issue reporting system. The ticket's post type has 5 statuses:
+In this [gist](https://gist.github.com/imath/2b6d2ce1ead6aba11c8ad12c6beb4770) a new Post Type named "ticket" is registered along with custom statuses. It's a tiny use case showing how you can __with less than 150 lines__ begin to build an Issue reporting system. The ticket's post type has 5 statuses:
 
 + The WordPress builtin Draft and Pending statuses,
-+ Three custom statuses: `bug`, `enhancement` & `security`, as shown below.
++ Three custom statuses: `assigned`, `resolved` & `invalid`, as shown below.
 
-![Custom statuses in the Publishing Metabox](https://cldup.com/XYjl4OAMe5.png)
+![Custom statuses in the Publishing Metabox](https://cldup.com/fggsxk5-O0.png)
 
 WP Statuses also takes care of the Bulk Edit and Quick Edit actions of the Post types administration screens. Below is a screen capture of the Quick Edit form for an item of the ticket's post type.
 
-![Quick edit](https://cldup.com/sQT7XjRQy9.png)
+![Quick edit](https://cldup.com/sr8ggoKZb5.png)
 
 #### Registering a custom status
 
