@@ -93,7 +93,7 @@ window.wp = window.wp || {};
 					jj: parseInt( $('#jj').val(), 10  ),
 					hh: parseInt( $('#hh').val(), 10  ),
 					mn: parseInt( $('#mn').val(), 10 )
-				}, publishOn, dateDiff, status = $( '#wp-statuses-dropdown' ).val(), month,
+				}, publishOn, dateDiff, status = $( '#wp-statuses-dropdown' ).val(), month, day,
 				rStatus = $( '#wp-statuses-dropdown :selected' ).data( 'status' ),
 				originalStatus = $( '#original_post_status' ).val();
 
@@ -171,7 +171,8 @@ window.wp = window.wp || {};
 
 			// Update the timestamp
 			if ( publishOn ) {
-				month = dateObject.mm + 1, day = dateObject.jj;
+				month = dateObject.mm + 1;
+				day   = dateObject.jj;
 
 				if ( 1 === month.toString().length ) {
 					month = '0' + month;
