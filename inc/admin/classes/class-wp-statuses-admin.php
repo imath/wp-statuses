@@ -194,7 +194,7 @@ class WP_Statuses_Admin {
 
 		// Use plugin's Publishing box instead.
 		add_meta_box(
-			'submitdiv',
+			'wp-statuses-publish-box',
 			__( 'Publishing', 'wp-statuses' ),
 			array( $this, 'publishing_box' ),
 			$post_type,
@@ -239,6 +239,10 @@ class WP_Statuses_Admin {
 			'attributes'      => array(
 				'password' => $post->post_password,
 				'sticky'   => is_sticky( $post->ID ),
+			),
+			'strings' => array(
+				'previewChanges' => __( 'Preview Changes', 'wp-statuses' ),
+				'preview'        => __( 'Preview', 'wp-statuses' ),
 			),
 			'public_statuses' => wp_statuses_get_public_statuses( $post->post_type ),
 		) ); ?>

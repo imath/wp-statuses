@@ -1,4 +1,8 @@
 /* global wpStatuses, postL10n */
+
+// Make sure the wp object exists.
+window.wp = window.wp || {};
+
 ( function( $ ) {
 
 	// Bail if not set
@@ -6,114 +10,265 @@
 		return;
 	}
 
-	// Set selected Status attributes
-	window.setStatusAttributes = function( status ) {
-		// First reset attributes
-		$.each( $( '#wp-statuses-attibutes input' ), function( i, element ) {
-			if ( 'checkbox' === element.type || 'radio' === element.type ) {
-				$( element ).prop( 'checked', false );
+	var wpStatusesBox = {
 
-			} else if ( 'text' === element.type ) {
-				$( element ).val( '' );
+		init: function() {
+			this.publishingBox   = $( '#wp-statuses-publish-box' );
+			this.resetStamp      = $( '#timestamp' ).html();
+			this.timeStampDiv    = $( '#timestampdiv' );
+			this.majorSubmitName = $( '#publish' ).prop( 'name' );
+
+			this.setListeners();
+		},
+
+		setListeners: function() {
+			// Status changed
+			this.publishingBox.on( 'change', '#wp-statuses-dropdown', this.updateStatus.bind( this ) );
+
+			// Edit publish time click
+			this.publishingBox.on( 'click', '.edit-timestamp, .cancel-timestamp, .save-timestamp', this.editTimestamp.bind( this ) );
+
+			// Submit form
+			$( '#post' ).on( 'submit', this.submitForm.bind( this ) );
+		},
+
+		updateStatus: function( e ) {
+			var newDashicon = $( e.currentTarget ).find( ':selected').data( 'dashicon' ),
+				oldDashicon = $( e.currentTarget ).parent().find( '.dashicons' ),
+				newStatus   = $( e.currentTarget ).find( ':selected').data( 'status' );
+
+			if ( ! newDashicon ) {
+				newDashicon = 'dashicons-post-status';
 			}
 
-			$( element ).parent( '.wp-statuses-attribute-container' ).addClass( 'hide-if-js' );
-		} );
+			// Reset Class
+			oldDashicon.prop( 'class', '' ).addClass( 'dashicons' );
+			oldDashicon.addClass( newDashicon );
 
-		if ( 'password' === status || ( status === wpStatuses.status && wpStatuses.attributes.password ) ) {
-			$( '#password-span' ).removeClass( 'hide-if-js' );
+			// Handle Status attributes
+			this.setStatusAttributes( newStatus );
 
-			if ( wpStatuses.attributes.password ) {
-				$( '#post_password' ).val( wpStatuses.attributes.password );
+			if ( 'password' === newStatus ) {
+				newStatus = 'publish';
+				$( '#wp-statuses-dropdown :selected' ).prop( 'value', newStatus );
 			}
-		} else if ( -1 !== $.inArray( status, wpStatuses.public_statuses ) ) {
-			$( '#sticky-span' ).removeClass( 'hide-if-js' );
 
-			if ( wpStatuses.attributes.sticky ) {
-				$( '#sticky' ).prop( 'checked', wpStatuses.attributes.sticky );
+			$( '#wp-statuses-status' ).val( newStatus );
+
+			// Make sure UI texts are updated.
+			this.updateText();
+		},
+
+		setStatusAttributes: function( status ) {
+			// First reset attributes
+			$.each( $( '#wp-statuses-attibutes input' ), function( i, element ) {
+				if ( 'checkbox' === element.type || 'radio' === element.type ) {
+					$( element ).prop( 'checked', false );
+
+				} else if ( 'text' === element.type ) {
+					$( element ).val( '' );
+				}
+
+				$( element ).parent( '.wp-statuses-attribute-container' ).addClass( 'hide-if-js' );
+			} );
+
+			if ( 'password' === status || ( status === wpStatuses.status && wpStatuses.attributes.password ) ) {
+				$( '#password-span' ).removeClass( 'hide-if-js' );
+
+				if ( wpStatuses.attributes.password ) {
+					$( '#post_password' ).val( wpStatuses.attributes.password );
+				}
+			} else if ( -1 !== $.inArray( status, wpStatuses.public_statuses ) ) {
+				$( '#sticky-span' ).removeClass( 'hide-if-js' );
+
+				if ( wpStatuses.attributes.sticky ) {
+					$( '#sticky' ).prop( 'checked', wpStatuses.attributes.sticky );
+				}
 			}
+		},
+
+		updateText: function() {
+			var currentDate, formDate, originalDate, dateObject = {
+					aa: parseInt( $('#aa').val(), 10 ),
+					mm: parseInt( $('#mm').val(), 10 ) - 1,
+					jj: parseInt( $('#jj').val(), 10  ),
+					hh: parseInt( $('#hh').val(), 10  ),
+					mn: parseInt( $('#mn').val(), 10 )
+				}, publishOn, dateDiff, status = $( '#wp-statuses-dropdown' ).val(),
+				rStatus = $( '#wp-statuses-dropdown :selected' ).data( 'status' ),
+				originalStatus = $( '#original_post_status' ).val();
+
+			if ( ! this.timeStampDiv.length ) {
+				return true;
+			}
+
+			// Set dates
+			formDate     = new Date( dateObject.aa, dateObject.mm, dateObject.jj, dateObject.hh, dateObject.mn );
+			currentDate  = new Date( $('#cur_aa').val(), $('#cur_mm').val() - 1, $('#cur_jj').val(), $('#cur_hh').val(),$('#cur_mn').val() );
+			originalDate = new Date( $('#hidden_aa').val(), $('#hidden_mm').val() - 1, $('#hidden_jj').val(), $('#hidden_hh').val(),$('#hidden_mn').val() );
+
+			// Catch unexpected date problems.
+			if ( formDate.getFullYear() !== dateObject.aa || ( formDate.getMonth() ) !== dateObject.mm || formDate.getDate() !== dateObject.jj || formDate.getMinutes() !== dateObject.mn ) {
+				this.timeStampDiv.find( '.timestamp-wrap' ).addClass( 'form-invalid' );
+				return false;
+			} else {
+				this.timeStampDiv.find( '.timestamp-wrap' ).removeClass( 'form-invalid' );
+			}
+
+			// Reset the Major Publish name
+			$('#publish').prop( 'name', this.majorSubmitName );
+
+			// Future, past or now ?
+			dateDiff = formDate - currentDate;
+
+			// Schedule action
+			if ( dateDiff > 0 && -1 !== $.inArray( status, ['draft', 'pending', 'publish'] ) ) {
+				publishOn = postL10n.publishOnFuture;
+				$( '#publish' ).val( postL10n.schedule );
+				$( '#publish' ).prop( 'name', 'publish' );
+
+				if ( 'password' === rStatus ) {
+					$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'future' );
+				}
+
+			// Publish action
+			} else if ( dateDiff <= 0 && -1 !== $.inArray( status, ['draft', 'pending', 'publish', 'future'] ) && ( 'publish' !== originalStatus || ( 'publish' === originalStatus && -1 !== $.inArray( status, ['draft', 'pending'] ) ) ) ) {
+				publishOn = postL10n.publishOn;
+				$( '#publish' ).val( postL10n.publish );
+				$( '#publish' ).prop( 'name', 'publish' );
+
+				if ( 'password' === rStatus ) {
+					$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'publish' );
+				}
+
+			// Update action
+			} else {
+				publishOn = postL10n.publishOnPast;
+				$( '#publish' ).val( postL10n.update );
+
+				// Make sure the name property is
+				if ( -1 === $.inArray( status, ['draft', 'pending', 'publish', 'future'] ) ) {
+					$('#publish').prop( 'name', 'save' );
+				}
+			}
+
+			// If the date is the same, set it to trigger update events.
+			if ( originalDate.toUTCString() === formDate.toUTCString() ) {
+				// Re-set to the current value.
+				$('#timestamp').html( this.resetStamp );
+			} else {
+				var month = dateObject.mm + 1, day = dateObject.jj;
+
+				if ( 1 === month.toString().length ) {
+					month = '0' + month;
+				}
+
+				if ( 1 === day.toString().length ) {
+					day = '0' + day;
+				}
+
+				$( '#timestamp' ).html(
+					'\n' + publishOn + ' <b>' +
+					postL10n.dateFormat
+						.replace( '%1$s', $( 'option[value="' + month + '"]', '#mm' ).data( 'text' ) )
+						.replace( '%2$s', day )
+						.replace( '%3$s', dateObject.aa )
+						.replace( '%4$s', ( '00' + dateObject.hh.toString() ).slice( -2 ) )
+						.replace( '%5$s', ( '00' + dateObject.mn.toString() ).slice( -2 ) ) +
+						'</b> '
+				);
+			}
+
+			// Handle The minor publishing action button
+			if ( 'pending' === status || 'draft' === status ) {
+				var text = 'pending' === status ? postL10n.savePending : postL10n.saveDraft;
+
+				if ( $( '#save-post' ).length ) {
+					$( '#save-post' ).show().val( text );
+				} else {
+					$( '#save-action' ).prepend(
+						$( '<input></input>' ).val( text ).prop( {
+							type : 'submit',
+							name : 'save',
+							id   : 'save-post'
+						} ).addClass( 'button' )
+					);
+				}
+
+				$( '#post-preview' ).html( wpStatuses.strings.preview );
+
+			} else {
+				$( '#save-post' ).hide();
+
+				if ( 'publish' === originalStatus ) {
+					$( '#post-preview' ).html( wpStatuses.strings.previewChanges );
+				}
+			}
+
+			return true;
+		},
+
+		editTimestamp: function( e ) {
+			var link = $( e.currentTarget ), timeStampDiv = this.timeStampDiv;
+
+			e.preventDefault();
+
+			if ( timeStampDiv.hasClass( 'hide-if-js' ) ) {
+				timeStampDiv.slideDown( 'fast', function() {
+					$( 'input, select', timeStampDiv.find( '.timestamp-wrap' ) ).first().focus();
+				} ).removeClass( 'hide-if-js' );
+
+				link.hide();
+
+			// Handle Time Stamp Div links.
+			} else {
+				// Cancelling the Time Stamp edit.
+				if ( link.hasClass( 'cancel-timestamp' ) ) {
+					$.each( timeStampDiv.find( '[type="hidden"]' ), function( i, element ) {
+						var id = $( element ).prop( 'id' ).replace( 'hidden_', '#' );
+
+						if ( 0 === id.indexOf( '#' ) ) {
+							$( id ).val( $( element ).val() );
+						}
+					} );
+				}
+
+				// Validate texts
+				var textUpdated = this.updateText();
+
+				/**
+				 * Do not restore the display if Validating the Time stamp
+				 * failed and the Save action was clicked
+				 */
+				if ( true !== textUpdated && link.hasClass( 'save-timestamp' ) ) {
+					return;
+				}
+
+				// Restore display.
+				timeStampDiv.slideUp( 'fast' ).siblings( 'a.edit-timestamp' ).show().focus();
+				timeStampDiv.addClass( 'hide-if-js' );
+			}
+		},
+
+		submitForm: function( e ) {
+			if ( true === this.updateText() ) {
+				return e;
+			}
+
+			e.preventDefault();
+
+			this.timeStampDiv.show();
+
+			if ( wp.autosave ) {
+				wp.autosave.enableButtons();
+			}
+
+			$( '#publishing-action .spinner' ).removeClass( 'is-active' );
 		}
 	};
 
-	$( '#submitdiv' ).on( 'change', '#wp-statuses-dropdown', function( e ) {
-		var newDashicon = $( e.currentTarget ).find( ':selected').data( 'dashicon' ),
-			oldDashicon = $( e.currentTarget ).parent().find( '.dashicons' ),
-			newStatus   = $( e.currentTarget ).find( ':selected').data( 'status' );
-
-		if ( ! newDashicon ) {
-			newDashicon = 'dashicons-post-status';
-		}
-
-		// Reset Class
-		oldDashicon.prop( 'class', '' ).addClass( 'dashicons' );
-		oldDashicon.addClass( newDashicon );
-
-		// Handle Status attributes
-		window.setStatusAttributes( newStatus );
-
-		// Handle The minor publishing action button
-		if ( 'pending' === newStatus || 'draft' === newStatus ) {
-			var text = 'pending' === newStatus ? postL10n.savePending : postL10n.saveDraft;
-
-			$( '#save-post' ).show().val( text );
-		} else {
-			$( '#save-post' ).hide();
-		}
-
-		/**
-		 * As WordPress is overriding the $_POST global inside _wp_translate_postdata()
-		 * We'll use this input to remember what was the real posted status.
-		 */
-		$( '#wp-statuses-status' ).val( newStatus );
-	} );
-
-	$( '#submitdiv' ).on( 'click', '.save-timestamp', function() {
-		var formDate = new Date( $('#aa').val(), $('#mm').val() - 1, $('#jj').val(), $('#hh').val(), $('#mn').val() ),
-			now      = new Date(), diff = formDate - now, status = $( '#wp-statuses-dropdown' ).val(),
-			oStatus  = $( '#wp-statuses-dropdown :selected' ).data( 'status' );
-
-		// In case someone is moving the date backward, reset the Status to its origine.
-		if ( diff < 0 && 'future' === status ) {
-			var resetStatus = oStatus;
-			if ( 'password' === resetStatus ) {
-				resetStatus = 'publish';
-			}
-
-			$( '#wp-statuses-dropdown :selected' ).prop( 'value', resetStatus );
-
-		// Set the status to be future for scheduled public posts.
-		} else if ( diff > 0 && 'publish' === status ) {
-			$( '#wp-statuses-dropdown :selected' ).prop( 'value', 'future' );
-		}
-
-		// Handle The minor publishing action button
-		if ( 'draft' !== oStatus ) {
-			$( '#save-post' ).hide();
-		}
-
-		if ( 'pending' === oStatus ) {
-			$( '#save-post' ).show().val( postL10n.savePending );
-		}
-	} );
-
-	$( '#submitdiv' ).on( 'click', '.cancel-timestamp', function() {
-		var oStatus = $( '#wp-statuses-dropdown :selected' ).data( 'status' ) || wpStatuses.status;
-
-		if ( 'password' === oStatus ) {
-			oStatus = 'publish';
-		}
-
-		// Handle The minor publishing action button
-		if ( 'draft' !== oStatus ) {
-			$( '#save-post' ).hide();
-		}
-
-		if ( 'pending' === oStatus ) {
-			$( '#save-post' ).show().val( postL10n.savePending );
-		}
-
-		// Reset the original status.
-		$( '#wp-statuses-dropdown :selected' ).prop( 'value', oStatus );
+	$( document ).ready( function() {
+		wpStatusesBox.init();
 	} );
 
 } )( jQuery );
