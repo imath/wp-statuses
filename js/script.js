@@ -14,7 +14,6 @@ window.wp = window.wp || {};
 
 		init: function() {
 			this.publishingBox   = $( '#wp-statuses-publish-box' );
-			this.resetStamp      = $( '#timestamp' ).html();
 			this.timeStampDiv    = $( '#timestampdiv' );
 			this.majorSubmitName = $( '#publish' ).prop( 'name' );
 
@@ -94,7 +93,7 @@ window.wp = window.wp || {};
 					jj: parseInt( $('#jj').val(), 10  ),
 					hh: parseInt( $('#hh').val(), 10  ),
 					mn: parseInt( $('#mn').val(), 10 )
-				}, publishOn, dateDiff, status = $( '#wp-statuses-dropdown' ).val(),
+				}, publishOn, dateDiff, status = $( '#wp-statuses-dropdown' ).val(), month,
 				rStatus = $( '#wp-statuses-dropdown :selected' ).data( 'status' ),
 				originalStatus = $( '#original_post_status' ).val();
 
@@ -149,15 +148,30 @@ window.wp = window.wp || {};
 				// Make sure the name property is
 				if ( -1 === $.inArray( status, ['draft', 'pending', 'publish', 'future'] ) ) {
 					$('#publish').prop( 'name', 'save' );
+
+					// Use customized labels.
+					publishOn = wpStatuses.strings.labels[ rStatus ].metabox_save_on;
+					$( '#publish' ).val( wpStatuses.strings.labels[ rStatus ].metabox_submit );
 				}
 			}
 
-			// If the date is the same, set it to trigger update events.
+			// If the date is the same, set a different label.
 			if ( originalDate.toUTCString() === formDate.toUTCString() ) {
-				// Re-set to the current value.
-				$('#timestamp').html( this.resetStamp );
-			} else {
-				var month = dateObject.mm + 1, day = dateObject.jj;
+				publishOn = wpStatuses.strings.labels[ rStatus ].metabox_save_on;
+
+				if ( dateDiff <= 0 || originalStatus === status ) {
+					publishOn = wpStatuses.strings.labels[ rStatus ].metabox_saved_on;
+				}
+
+				if ( -1 !== $.inArray( originalStatus, ['draft', 'auto-draft'] ) ) {
+					$( '#timestamp' ).html( '\n' + wpStatuses.strings.labels[ rStatus ].metabox_save_now );
+					publishOn = false;
+				}
+			}
+
+			// Update the timestamp
+			if ( publishOn ) {
+				month = dateObject.mm + 1, day = dateObject.jj;
 
 				if ( 1 === month.toString().length ) {
 					month = '0' + month;

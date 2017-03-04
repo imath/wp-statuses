@@ -28,6 +28,7 @@ function wp_statuses_register_members_restricted() {
 		'show_in_metabox_dropdown'  => true,
 		'show_in_inline_dropdown'   => true,
 		'labels'                    => array(
+			'metabox_submit'   => __( 'Save', 'wp-statuses' ),
 			'inline_dropdown'  => __( 'Restricted', 'wp-statuses' ),
 		),
 		'dashicon'                  => 'dashicons-groups',
@@ -78,8 +79,16 @@ function wp_statuses_register_archived_post_status() {
 		'show_in_inline_dropdown'     => true,
 		'show_in_press_this_dropdown' => true,
 		'labels'                      => array(
-			'metabox_dropdown'    => __( 'Archived',        'wp-statuses' ),
-			'inline_dropdown'     => __( 'Archived',        'wp-statuses' ),
+			'metabox_dropdown'    => __( 'Archived', 'wp-statuses' ),
+			'metabox_submit'      => __( 'Archive', 'wp-statuses' ),
+			'metabox_save_on'     => __( 'Archive on:', 'wp-statuses' ),
+			/* translators: Post date information. 1: Date on which the post is to be archived */
+			'metabox_save_date'   => __( 'Archive on: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_saved_on'    => __( 'Archived on:', 'wp-statuses' ),
+			/* translators: Post date information. 1: Date on which the post was archived */
+			'metabox_saved_date'  => __( 'Archived on: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_save_now'    => __( 'Archive <b>now</b>', 'wp-statuses' ),
+			'inline_dropdown'     => __( 'Archived', 'wp-statuses' ),
 			'press_this_dropdown' => __( 'Add to archives', 'wp-statuses' ),
 		),
 		'dashicon'                    => 'dashicons-archive',

@@ -172,18 +172,23 @@ class WP_Statuses_Core_Status {
 			}
 		}
 
-		$this->labels = array_merge( $this->labels, array(
-			'label'       => $this->label,
-			'label_count' => $this->label_count,
+		$this->labels = wp_parse_args( $this->labels, array(
+			'label'              => $this->label,
+			'label_count'        => $this->label_count,
+			'metabox_dropdown'   => $this->label,
+			'metabox_publish'    => __( 'Publish', 'wp-statuses' ),
+			'metabox_submit'     => __( 'Update', 'wp-statuses' ),
+			'metabox_save_on'    => __( 'Publish on:', 'wp-statuses' ),
+			/* translators: Post date information. 1: Date on which the post is to be published */
+			'metabox_save_date'  => __( 'Publish on: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_saved_on'   => __( 'Published on:', 'wp-statuses' ),
+			/* translators: Post date information. 1: Date on which the post was published */
+			'metabox_saved_date' => __( 'Published on: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_save_now'   => __( 'Publish <b>immediately</b>', 'wp-statuses' ),
+			/* translators: Post date information. 1: Date on which the post is to be published */
+			'metabox_save_later' => __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' ),
+			'inline_dropdown'    => $this->label,
 		) );
-
-		if ( ! isset( $this->labels['metabox_dropdown'] ) ) {
-			$this->labels['metabox_dropdown'] = $this->labels['label'];
-		}
-
-		if ( $this->show_in_inline_dropdown && ! isset( $this->labels['inline_dropdown'] ) ) {
-			$this->labels['inline_dropdown'] = $this->labels['label'];
-		}
 	}
 
 	/**
@@ -205,8 +210,16 @@ class WP_Statuses_Core_Status {
 			),
 			'private'    => array(
 				'labels' => array(
-					'metabox_dropdown' => __( 'Privately Published', 'wp-statuses' ),
-					'inline_dropdown'  => __( 'Private', 'wp-statuses' ),
+					'metabox_dropdown'   => __( 'Privately Published', 'wp-statuses' ),
+					'metabox_submit'     => __( 'Save as Private', 'wp-statuses' ),
+					'metabox_save_on'    => __( 'Save as Private on:', 'wp-statuses' ),
+					/* translators: Post date information. 1: Date on which the post is to be saved privately */
+					'metabox_save_date'  => __( 'Save as Private on: <b>%1$s</b>', 'wp-statuses' ),
+					'metabox_saved_on'   => __( 'Saved as Private on:', 'wp-statuses' ),
+					/* translators: Post date information. 1: Date on which the post was saved privately */
+					'metabox_saved_date' => __( 'Saved as Private on: <b>%1$s</b>', 'wp-statuses' ),
+					'metabox_save_now'   => __( 'Save as private <b>now</b>', 'wp-statuses' ),
+					'inline_dropdown'    => __( 'Private', 'wp-statuses' ),
 				),
 				'dashicon' => 'dashicons-hidden',
 			),

@@ -38,6 +38,13 @@ class WP_Statuses_Admin {
 	public $post_type_capability = 'publish_posts';
 
 	/**
+	 * The custom labels
+	 *
+	 * @var  array
+	 */
+	public $labels = array();
+
+	/**
 	 * The class constructor.
 	 *
 	 * @since  1.0.0
@@ -232,6 +239,21 @@ class WP_Statuses_Admin {
 			$status = 'password';
 		}
 
+		// Get the customizable labels
+		$statuses_labels = wp_statuses_get_metabox_labels( $post->post_type );
+
+		foreach ( $statuses_labels as $status_name => $labels_list ) {
+			$this->labels[ $status_name ] = wp_array_slice_assoc( $labels_list, array(
+				'metabox_submit',
+				'metabox_save_on',
+				'metabox_save_date',
+				'metabox_saved_on',
+				'metabox_saved_date',
+				'metabox_save_now',
+				'metabox_save_later',
+			) );
+		}
+
 		// Load script for the metabox.
 		wp_enqueue_script ( 'wp-statuses' );
 		wp_localize_script( 'wp-statuses', 'wpStatuses', array(
@@ -243,6 +265,7 @@ class WP_Statuses_Admin {
 			'strings' => array(
 				'previewChanges' => __( 'Preview Changes', 'wp-statuses' ),
 				'preview'        => __( 'Preview', 'wp-statuses' ),
+				'labels'         => $this->labels,
 			),
 			'public_statuses' => wp_statuses_get_public_statuses( $post->post_type ),
 		) ); ?>
@@ -510,34 +533,30 @@ class WP_Statuses_Admin {
 		if ( 0 !== (int) $post->ID ) {
 			// scheduled for publishing at a future date.
 			if ( 'future' === $status || ( 'draft' !== $status && $is_future ) ) {
-				/* translators: Post date information. 1: Date on which the post is currently scheduled to be published */
-				$stamp = __( 'Scheduled for: <b>%1$s</b>', 'wp-statuses' );
+				$stamp = $this->labels[ $status ]['metabox_save_later'];
 
 			// already published.
-			} elseif ( 'publish' === $post->post_status || 'private' === $post->post_status ) {
-				/* translators: Post date information. 1: Date on which the post was published */
-				$stamp = __( 'Published on: <b>%1$s</b>', 'wp-statuses' );
+			} elseif ( ! in_array( $status, array( 'draft', 'future', 'pending' ), true ) ) {
+				$stamp = $this->labels[ $status ]['metabox_saved_date'];
 
 			// draft, 1 or more saves, no date specified.
-			} elseif ( '0000-00-00 00:00:00' == $post->post_date_gmt ) {
-				$stamp = __( 'Publish <b>immediately</b>', 'wp-statuses' );
+			} elseif ( '0000-00-00 00:00:00' === $post->post_date_gmt ) {
+				$stamp = $this->labels[ $status ]['metabox_save_now'];
 
 			// draft, 1 or more saves, future date specified.
 			} elseif ( $is_future ) {
-				/* translators: Post date information. 1: Date on which the post is to be published */
-				$stamp = __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' );
+				$stamp = $this->labels[ $status ]['metabox_save_later'];
 
 			// draft, 1 or more saves, date specified.
 			} else {
-				/* translators: Post date information. 1: Date on which the post is to be published */
-				$stamp = __( 'Publish on: <b>%1$s</b>', 'wp-statuses' );
+				$stamp = $this->labels[ $status ]['metabox_save_date'];
 			}
 
 			$date = date_i18n( $datef, strtotime( $post->post_date ) );
 
 		// draft (no saves, and thus no date specified).
 		} else {
-			$stamp = __( 'Publish <b>immediately</b>', 'wp-statuses' );
+			$stamp = $this->labels[ $status ]['metabox_save_now'];
 			$date = date_i18n( $datef, strtotime( current_time( 'mysql' ) ) );
 		}
 
@@ -598,7 +617,7 @@ class WP_Statuses_Admin {
 
 		// Submit input arguments.
 		$args = array(
-			'text'             => __( 'Update', 'wp-statuses' ),
+			'text'             => $this->labels[ $status ]['metabox_submit'],
 			'type'             => 'primary large',
 			'name'             => 'save',
 			'wrap'             => false,
@@ -614,7 +633,7 @@ class WP_Statuses_Admin {
 			if ( current_user_can( $this->post_type_capability ) ) {
 				$args['text'] = __( 'Publish', 'wp-statuses' );
 
-				if ( ! empty($post->post_date_gmt) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) {
+				if ( ! empty( $post->post_date_gmt ) && time() < strtotime( $post->post_date_gmt . ' +0000' ) ) {
 					$args['text'] = __( 'Schedule', 'wp-statuses' );
 				}
 			}

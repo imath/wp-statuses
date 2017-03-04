@@ -180,6 +180,34 @@ function wp_statuses_get_statuses( $post_type = '', $context = 'metabox' ) {
 }
 
 /**
+ * Get the list of statuses labels for a post type.
+ *
+ * @since  1.2.0
+ *
+ * @param  string $post_type The Name of the post type to get the statuses' labels for.
+ * @return array             An associative array listing labels for each status.
+ */
+function wp_statuses_get_metabox_labels( $post_type = '' ) {
+	global $wp_post_statuses;
+
+	$labels = array();
+
+	foreach ( $wp_post_statuses as $status_name => $status ) {
+		if ( ! empty( $post_type ) && ! in_array( $post_type, $status->post_type, true ) ) {
+			continue;
+		}
+
+		if ( empty( $status->labels ) ) {
+			continue;
+		}
+
+		$labels[ $status_name ] = $status->labels;
+	}
+
+	return $labels;
+}
+
+/**
  * Get public statuses regarding the context.
  *
  * @since 1.0.0
