@@ -3,16 +3,15 @@ msgstr ""
 "Project-Id-Version: WP Statuses 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
 "POT-Creation-Date: 2017-03-04 13:35:15+00:00\n"
-"PO-Revision-Date: 2017-05-05 08:12+0000\n"
+"PO-Revision-Date: 2017-05-05 10:21+0200\n"
 "Last-Translator: Michael Freund <freund@mediastuttgart.de>\n"
 "Language-Team: German\n"
-"Language: de-DE\n"
+"Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco - https://localise.biz/\n"
-"Plural-Forms: nplurals=2; plural=n != 1\n"
-"X-Loco-Template: ../../languages/plugins/wp-statuses-de_DE_formal.po"
+"X-Generator: Poedit 2.0.1\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:154
 msgid "&mdash; No Change &mdash;"
@@ -59,7 +58,7 @@ msgstr "Passwort:"
 #. translators: Publish box date format, see https:secure.php.net/date
 #: inc/admin/classes/class-wp-statuses-admin.php:530
 msgid "M j, Y @ H:i"
-msgstr "j F Y \\u\\m G:i \\U\\h\\r "
+msgstr "j F Y \\u\\m G:i \\U\\h\\r"
 
 #. translators: Post revisions heading. 1: The number of available revisions
 #: inc/admin/classes/class-wp-statuses-admin.php:567
@@ -271,8 +270,7 @@ msgstr "https://imathi.eu/tag/wp-statuses/"
 
 #. Description of the plugin/theme
 msgid "Suggestions to improve the WordPress Post statuses API."
-msgstr ""
-"Vorschläge um die WordPress API für den Status von Einträgen zu verbessern."
+msgstr "Vorschläge um die WordPress API für den Status von Einträgen zu verbessern."
 
 #. Author of the plugin/theme
 msgid "imath"
