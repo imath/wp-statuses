@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Statuses 1.0.0\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
 "POT-Creation-Date: 2017-03-04 13:35:15+00:00\n"
-"PO-Revision-Date: 2017-05-05 08:00+0000\n"
+"PO-Revision-Date: 2017-05-05 08:13+0000\n"
 "Last-Translator: Michael Freund <freund@mediastuttgart.de>\n"
 "Language-Team: German (Formal)\n"
 "Language: de-DE-formal\n"
@@ -97,7 +97,7 @@ msgstr "Planen"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:652
 msgid "Delete Permanently"
-msgstr "Supprimer définitivement"
+msgstr "Permanent löschen"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:652
 msgid "Move to Trash"
@@ -128,7 +128,7 @@ msgstr "Veröffentlicht am: <b>%1$s</b>"
 
 #: inc/core/classes/class-wp-statuses-core-status.php:187
 msgid "Publish <b>immediately</b>"
-msgstr "Publier <b>tout de suite</b>"
+msgstr "Jetzt veröffentlichen"
 
 #. translators: Post date information. 1: Date on which the post is to be
 #. published
