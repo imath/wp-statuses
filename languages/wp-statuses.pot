@@ -2,9 +2,9 @@
 # This file is distributed under the GNU/GPL 2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statuses 1.2.0\n"
+"Project-Id-Version: WP Statuses 1.2.1\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
-"POT-Creation-Date: 2017-03-04 13:35:15+00:00\n"
+"POT-Creation-Date: 2017-05-25 10:16:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,92 +13,92 @@ msgstr ""
 "Language-Team: FRENCH <imath@cluster.press>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
 
-#: inc/admin/classes/class-wp-statuses-admin.php:154
+#: inc/admin/classes/class-wp-statuses-admin.php:159
 msgid "&mdash; No Change &mdash;"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:205
+#: inc/admin/classes/class-wp-statuses-admin.php:215
 msgid "Publishing"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:266
-#: inc/admin/classes/class-wp-statuses-admin.php:349
+#: inc/admin/classes/class-wp-statuses-admin.php:276
+#: inc/admin/classes/class-wp-statuses-admin.php:359
 msgid "Preview Changes"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:267
-#: inc/admin/classes/class-wp-statuses-admin.php:349
+#: inc/admin/classes/class-wp-statuses-admin.php:277
+#: inc/admin/classes/class-wp-statuses-admin.php:359
 msgid "Preview"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:323 inc/core/custom.php:31
+#: inc/admin/classes/class-wp-statuses-admin.php:333 inc/core/custom.php:31
 msgid "Save"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:331
+#: inc/admin/classes/class-wp-statuses-admin.php:341
 msgid "Save Draft"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:335
+#: inc/admin/classes/class-wp-statuses-admin.php:345
 msgid "Save as Pending"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:435
+#: inc/admin/classes/class-wp-statuses-admin.php:445
 msgid "Set status"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:486
+#: inc/admin/classes/class-wp-statuses-admin.php:496
 msgid "Stick this post to the front page"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:493
+#: inc/admin/classes/class-wp-statuses-admin.php:503
 msgid "Password:"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:530
+#: inc/admin/classes/class-wp-statuses-admin.php:540
 #. translators: Publish box date format, see https:secure.php.net/date
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:567
+#: inc/admin/classes/class-wp-statuses-admin.php:577
 #. translators: Post revisions heading. 1: The number of available revisions
 msgid "Revisions: %s"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:571
+#: inc/admin/classes/class-wp-statuses-admin.php:581
 msgid "Browse revisions"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:582
+#: inc/admin/classes/class-wp-statuses-admin.php:592
 msgid "Edit"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:583
+#: inc/admin/classes/class-wp-statuses-admin.php:593
 msgid "Edit date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:587
+#: inc/admin/classes/class-wp-statuses-admin.php:597
 msgid "Date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:629
+#: inc/admin/classes/class-wp-statuses-admin.php:639
 msgid "Submit for Review"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:634
+#: inc/admin/classes/class-wp-statuses-admin.php:644
 #: inc/core/classes/class-wp-statuses-core-status.php:179
 msgid "Publish"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:637
+#: inc/admin/classes/class-wp-statuses-admin.php:647
 msgid "Schedule"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:652
+#: inc/admin/classes/class-wp-statuses-admin.php:662
 msgid "Delete Permanently"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:652
+#: inc/admin/classes/class-wp-statuses-admin.php:662
 msgid "Move to Trash"
 msgstr ""
 
@@ -246,17 +246,17 @@ msgstr ""
 msgid "Add to archives"
 msgstr ""
 
-#: inc/core/functions.php:128
+#: inc/core/functions.php:165
 msgid "Password Protected <span class=\"count\">(%s)</span>"
 msgid_plural "Password Protected <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: inc/core/functions.php:135
+#: inc/core/functions.php:172
 msgid "Password Protected"
 msgstr ""
 
-#: inc/core/functions.php:136
+#: inc/core/functions.php:173
 msgid "Password"
 msgstr ""
 
@@ -280,7 +280,7 @@ msgstr ""
 msgid "https://imathi.eu/"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:570
+#: inc/admin/classes/class-wp-statuses-admin.php:580
 msgctxt "revisions"
 msgid "Browse"
 msgstr ""
@@ -290,7 +290,7 @@ msgctxt "post status"
 msgid "Restricted to members"
 msgstr ""
 
-#: inc/core/functions.php:126
+#: inc/core/functions.php:163
 msgctxt "post status"
 msgid "Password Protected"
 msgstr ""
