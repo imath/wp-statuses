@@ -105,6 +105,11 @@ class WP_Statuses_Admin {
 		if ( 'press-this.php' !== $press_this ) {
 			$current_screen = get_current_screen();
 
+			// Bail if the post type is not supported.
+			if ( isset( $current_screen->post_type ) && ! wp_statuses_is_post_type_supported( $current_screen->post_type ) ) {
+				return;
+			}
+
 			if ( isset( $current_screen->base ) && in_array( $current_screen->base, array( 'page', 'post' ), true ) ) {
 				wp_add_inline_style( 'edit', '
 					#wp-statuses-publish-box .inside {
@@ -195,6 +200,11 @@ class WP_Statuses_Admin {
 	 */
 	public function add_meta_box( $post_type, $post ) {
 		global $publish_callback_args;
+
+		// Bail if the Post Type is not supported.
+		if ( ! wp_statuses_is_post_type_supported( $post_type ) ) {
+			return;
+		}
 
 		// Remove the built-in Publish meta box.
 		remove_meta_box( 'submitdiv', get_current_screen(), 'side' );

@@ -57,6 +57,43 @@ function wp_statuses_min_suffix() {
 }
 
 /**
+ * Get the supported post types.
+ *
+ * @since 1.2.1
+ *
+ * @return array The list of supported Post Types name.
+ */
+function wp_statuses_get_supported_post_types() {
+	// All Post Types using the WordPress UI except the Attachment one.
+	$post_types = array_diff( get_post_types( array( 'show_ui' => true ) ), array( 'attachment' ) );
+
+	/**
+	 * Filter here to disable specific post types.
+	 *
+	 * @since 1.2.1
+	 *
+	 * @param array $post_types The list of supported Post Types name.
+	 */
+	return apply_filters( 'wp_statuses_get_supported_post_types', $post_types );
+}
+
+/**
+ * Checks if a post type can have custom statuses.
+ *
+ * @since 1.2.1
+ *
+ * @param  string  $post_type The name of the Post Type.
+ * @return boolean            True if supported. False otherwise.
+ */
+function wp_statuses_is_post_type_supported( $post_type = '' ) {
+	if ( ! $post_type ) {
+		return false;
+	}
+
+	return in_array( $post_type, wp_statuses_get_supported_post_types(), true );
+}
+
+/**
  * Get the registered Post Types for the WordPress built-in statuses.
  *
  * This is used to set the 'post' attribute of the WP_Statuses_Core_Status object.
@@ -76,7 +113,7 @@ function wp_statuses_get_registered_post_types( $status_name = '' ) {
 	 * @param array  $value       A list of public post types names.
 	 * @param string $status_name The status name (eg: pending, draft etc..).
 	 */
-	return apply_filters( 'wp_statuses_get_registered_post_types', get_post_types( array( 'show_ui' => true ) ), $status_name );
+	return apply_filters( 'wp_statuses_get_registered_post_types', wp_statuses_get_supported_post_types(), $status_name );
 }
 
 /**
