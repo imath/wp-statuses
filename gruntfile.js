@@ -99,7 +99,8 @@ module.exports = function( grunt ) {
 						'!.jshintrc',
 						'!.jshintignore',
 						'!gruntfile.js',
-						'!package.json'
+						'!package.json',
+						'!icon.svg'
 					],
 					dest: './'
 				}]
