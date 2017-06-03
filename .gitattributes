@@ -3,7 +3,7 @@
 /.gitignore export-ignore
 /.jshintignore export-ignore
 /.jshintrc export-ignore
-/CONTRIBUTING.md
+/CONTRIBUTING.md export-ignore
 /gruntfile.js export-ignore
 /package.json export-ignore
-/icon.svg export-ignore
+/icon.png export-ignore
