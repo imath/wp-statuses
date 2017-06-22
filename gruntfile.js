@@ -100,7 +100,9 @@ module.exports = function( grunt ) {
 						'!.jshintignore',
 						'!gruntfile.js',
 						'!package.json',
-						'!icon.png'
+						'!icon.png',
+						'!CONTRIBUTING.md',
+						'!LICENSE'
 					],
 					dest: './'
 				}]

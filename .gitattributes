@@ -4,6 +4,7 @@
 /.jshintignore export-ignore
 /.jshintrc export-ignore
 /CONTRIBUTING.md export-ignore
+/LICENSE export-ignore
 /gruntfile.js export-ignore
 /package.json export-ignore
 /icon.png export-ignore
