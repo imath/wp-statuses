@@ -80,32 +80,13 @@ module.exports = function( grunt ) {
 				verbose: false
 			}
 		},
-		compress: {
-			main: {
+		'git-archive': {
+			archive: {
 				options: {
-					archive: '<%= pkg.name %>.zip'
-				},
-				files: [{
-					expand: true,
-					src: [
-						'**/*',
-						'!node_modules/**',
-						'!npm-debug.log',
-						'!.editorconfig',
-						'!.git/**',
-						'!.gitignore',
-						'!.gitattributes',
-						'!grunt/**',
-						'!.jshintrc',
-						'!.jshintignore',
-						'!gruntfile.js',
-						'!package.json',
-						'!icon.png',
-						'!CONTRIBUTING.md',
-						'!LICENSE'
-					],
-					dest: './'
-				}]
+					'format'  : 'zip',
+					'output'  : '<%= pkg.name %>.zip',
+					'tree-ish': 'HEAD@{0}'
+				}
 			}
 		}
 	} );
@@ -115,6 +96,8 @@ module.exports = function( grunt ) {
 	grunt.registerTask( 'shrink', ['clean', 'uglify'] );
 
 	grunt.registerTask( 'commit',  ['checktextdomain', 'jstest'] );
+
+	grunt.registerTask( 'compress', ['git-archive'] );
 
 	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify', 'compress'] );
 
