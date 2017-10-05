@@ -157,19 +157,19 @@ class WP_Statuses_Core_Status {
 
 		if ( $status_data ) {
 			$this->labels   = $status_data['labels'];
-			$this->dashicon = $status_data['dashicon'];
+			$this->dashicon = $status_data['dashicon'];			
+		}
 
-			if ( ! isset( $status->post_type )  ) {
-				$this->post_type = wp_statuses_get_registered_post_types( $status->name );
-			}
+		if ( ! isset( $status->post_type )  ) {
+			$this->post_type = wp_statuses_get_registered_post_types( $status->name );
+		}
 
-			if ( ! isset( $status->show_in_metabox_dropdown ) ) {
-				$this->show_in_metabox_dropdown = true;
-			}
+ 		if ( ! isset( $status->show_in_metabox_dropdown ) ) {
+			$this->show_in_metabox_dropdown = true;
+		}
 
-			if ( ! isset( $status->show_in_inline_dropdown ) ) {
-				$this->show_in_inline_dropdown = true;
-			}
+		if ( ! isset( $status->show_in_inline_dropdown ) ) {
+			$this->show_in_inline_dropdown = true;
 		}
 
 		$this->labels = wp_parse_args( $this->labels, array(
