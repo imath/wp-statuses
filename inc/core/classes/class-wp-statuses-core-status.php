@@ -164,7 +164,7 @@ class WP_Statuses_Core_Status {
 			$this->post_type = wp_statuses_get_registered_post_types( $status->name );
 		}
 
- 		if ( ! isset( $status->show_in_metabox_dropdown ) ) {
+		if ( ! isset( $status->show_in_metabox_dropdown ) ) {
 			$this->show_in_metabox_dropdown = true;
 		}
 
