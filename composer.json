@@ -2,11 +2,11 @@
     "name": "imath/wp-statuses",
     "description": "WordPress plugin to ease Custom Post Statuses integration",
     "type": "wordpress-plugin",
-    "license": "MIT",
+    "license": "GNU/GPL v2",
     "authors": [
         {
             "name": "imath",
-            "email": "info@imathi.eu",
+            "email": "contact@imathi.eu",
             "homepage": "https://imathi.eu"
         }
     ],
