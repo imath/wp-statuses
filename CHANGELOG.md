@@ -1,5 +1,19 @@
 # Change Log
 
+## 1.2.4
+
+_Requires WordPress 4.7_
+
+### Features
+
+- Adds a Composer config file.
+
+### Props
+
+@AdamQuadmon
+
+---
+
 ## 1.2.3
 
 _Requires WordPress 4.7_

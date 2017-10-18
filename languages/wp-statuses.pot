@@ -2,15 +2,15 @@
 # This file is distributed under the GNU/GPL 2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statuses 1.2.3\n"
+"Project-Id-Version: WP Statuses 1.2.4\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
-"POT-Creation-Date: 2017-07-22 12:02:36+00:00\n"
+"POT-Creation-Date: 2017-10-18 05:47:13+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
-"Last-Translator: imath <imath@cluster.press>\n"
-"Language-Team: FRENCH <imath@cluster.press>\n"
+"Last-Translator: imath <contact@imathi.eu>\n"
+"Language-Team: FRENCH <contact@imathi.eu>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:159
