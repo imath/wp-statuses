@@ -247,7 +247,9 @@ class WP_Statuses_Admin {
 			$status = 'draft';
 		} elseif ( ! empty( $post->post_password ) ) {
 			$status = 'password';
-		}
+		} elseif ( 'future' === $status ) {
+		    $status = 'publish';
+        }
 
 		// Get the customizable labels
 		$statuses_labels = wp_statuses_get_metabox_labels( $post->post_type );
