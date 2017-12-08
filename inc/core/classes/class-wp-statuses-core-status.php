@@ -237,6 +237,8 @@ class WP_Statuses_Core_Status {
 			),
 		);
 
+		$labels = apply_filters( 'wp_statuses_labels', $labels );
+
 		if ( ! isset( $labels[ $name ] ) ) {
 			return null;
 		}

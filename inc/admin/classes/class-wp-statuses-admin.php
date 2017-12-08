@@ -390,7 +390,7 @@ class WP_Statuses_Admin {
 			return;
 		}
 
-		$statuses = wp_statuses_get_statuses( $post->post_type );
+		$statuses = apply_filters( 'wp_statuses_get_statuses', wp_statuses_get_statuses( $post->post_type ) );
 
 		$options        = array( '<select name="post_status" id="wp-statuses-dropdown">' );
 		$dashicon       = 'dashicons-post-status';
