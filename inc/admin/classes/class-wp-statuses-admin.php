@@ -543,7 +543,12 @@ class WP_Statuses_Admin {
 		if ( 0 !== (int) $post->ID ) {
 			// scheduled for publishing at a future date.
 			if ( 'future' === $status || ( 'draft' !== $status && $is_future ) ) {
-				$stamp = $this->labels[ $status ]['metabox_save_later'];
+				// Default is schedule for string.
+				$stamp = __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' );
+
+				if ( isset( $this->labels[ $status ]['metabox_save_later'] ) ) {
+					$stamp = $this->labels[ $status ]['metabox_save_later'];
+				}
 
 			// already published.
 			} elseif ( ! in_array( $status, array( 'draft', 'future', 'pending' ), true ) ) {
@@ -625,9 +630,16 @@ class WP_Statuses_Admin {
 			return;
 		}
 
+		// Default is submit box's default value.
+		$text = '';
+		
+		if ( isset( $this->labels[ $status ]['metabox_submit'] ) ) {
+			$text = $this->labels[ $status ]['metabox_submit'];
+		}
+
 		// Submit input arguments.
 		$args = array(
-			'text'             => $this->labels[ $status ]['metabox_submit'],
+			'text'             => $text,
 			'type'             => 'primary large',
 			'name'             => 'save',
 			'wrap'             => false,
