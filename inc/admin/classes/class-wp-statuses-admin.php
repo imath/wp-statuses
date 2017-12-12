@@ -336,7 +336,7 @@ class WP_Statuses_Admin {
 		<div id="minor-publishing-actions">
 			<div id="save-action">
 
-				<?php if ( 'draft' === $status ) : ?>
+				<?php if ( 'draft' === $status && isset( $this->labels['draft'] ) ) : ?>
 
 					<input type="submit" name="save" id="save-post" value="<?php esc_attr_e( 'Save Draft', 'wp-statuses' ); ?>" class="button" />
 
@@ -539,39 +539,46 @@ class WP_Statuses_Admin {
 		/* translators: Publish box date format, see https://secure.php.net/date */
 		$datef = __( 'M j, Y @ H:i', 'wp-statuses' );
 
+		// Default stamps.
+		$stamps = array(
+			'metabox_save_later' => __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_saved_date' => __( 'Saved on: <b>%1$s</b>', 'wp-statuses' ),
+			'metabox_save_now'   => __( 'Save <b>now</b>', 'wp-statuses' ),
+			'metabox_save_date'  => __( 'Save on: <b>%1$s</b>', 'wp-statuses' ),
+		);
+
+		if ( isset( $this->labels[ $status ] ) ) {
+			$stamps = wp_parse_args( $this->labels[ $status ], $stamps );
+		}
+
 		// Post already exists.
 		if ( 0 !== (int) $post->ID ) {
 			// scheduled for publishing at a future date.
 			if ( 'future' === $status || ( 'draft' !== $status && $is_future ) ) {
-				// Default is schedule for string.
-				$stamp = __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' );
-
-				if ( isset( $this->labels[ $status ]['metabox_save_later'] ) ) {
-					$stamp = $this->labels[ $status ]['metabox_save_later'];
-				}
+					$stamp = $stamps['metabox_save_later'];
 
 			// already published.
 			} elseif ( ! in_array( $status, array( 'draft', 'future', 'pending' ), true ) ) {
-				$stamp = $this->labels[ $status ]['metabox_saved_date'];
+				$stamp = $stamps['metabox_saved_date'];
 
 			// draft, 1 or more saves, no date specified.
 			} elseif ( '0000-00-00 00:00:00' === $post->post_date_gmt ) {
-				$stamp = $this->labels[ $status ]['metabox_save_now'];
+				$stamp = $stamps['metabox_save_now'];
 
 			// draft, 1 or more saves, future date specified.
 			} elseif ( $is_future ) {
-				$stamp = $this->labels[ $status ]['metabox_save_later'];
+				$stamp = $stamps['metabox_save_later'];
 
 			// draft, 1 or more saves, date specified.
 			} else {
-				$stamp = $this->labels[ $status ]['metabox_save_date'];
+				$stamp = $stamps['metabox_save_date'];
 			}
 
 			$date = date_i18n( $datef, strtotime( $post->post_date ) );
 
 		// draft (no saves, and thus no date specified).
 		} else {
-			$stamp = $this->labels[ $status ]['metabox_save_now'];
+			$stamp = $stamps['metabox_save_now'];
 			$date = date_i18n( $datef, strtotime( current_time( 'mysql' ) ) );
 		}
 
@@ -632,7 +639,7 @@ class WP_Statuses_Admin {
 
 		// Default is submit box's default value.
 		$text = '';
-		
+
 		if ( isset( $this->labels[ $status ]['metabox_submit'] ) ) {
 			$text = $this->labels[ $status ]['metabox_submit'];
 		}
@@ -646,7 +653,19 @@ class WP_Statuses_Admin {
 			'other_attributes' => array( 'id' => 'publish' ),
 		);
 
-		if ( in_array( $status, array( 'draft', 'pending' ), true ) || 0 === (int) $post->ID ) {
+		$default_labels = reset( $this->labels );
+		$default_status = key( $this->labels );
+
+		// The current post type does not support the Publish status.
+		if ( 'publish' !== $default_status ) {
+			$args['text'] = __( 'Save', 'wp-statuses' );
+
+			if ( isset( $default_labels['metabox_submit'] ) ) {
+				$args['text'] = $default_labels['metabox_submit'];
+			}
+
+		// The current post type supports the Publish status.
+		} elseif ( in_array( $status, array( 'draft', 'pending' ), true ) || 0 === (int) $post->ID ) {
 			$args = array_merge( $args, array(
 				'text' => __( 'Submit for Review', 'wp-statuses' ),
 				'name' => 'publish',

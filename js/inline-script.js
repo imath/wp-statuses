@@ -30,7 +30,7 @@
 						$( password ).prop( 'disabled', true );
 					}
 
-					if ( -1 === $.inArray( selectedStatus, [ 'draft', 'pending', 'publish', 'future'] ) ) {
+					if ( ! wpStatusesInline.inline.publish || -1 === $.inArray( selectedStatus, [ 'draft', 'pending', 'publish', 'future'] ) ) {
 						$( sticky ).prop( 'disabled', true );
 					}
 
