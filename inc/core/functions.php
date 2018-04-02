@@ -198,12 +198,13 @@ function wp_statuses_register() {
  * Get the registered statuses for the given post type.
  *
  * @since  1.0.0
+ * @since  1.3.0 Add a filter to allow statuses order changes.
  *
  * @param  string $post_type The Name of the post type to get available statuses for.
  * @param  string $context   The context of the dropdown box. It can be:
  *                           - The Publishing metabox ('metabox' ),
  *                           - The inline edit row of the Post Type's Table list ('inline').
- * @return array             An filtered array containing the matching WP_Statuses_Core_Status objects.
+ * @return array             A filtered array containing the matching WP_Statuses_Core_Status objects.
  */
 function wp_statuses_get_statuses( $post_type = '', $context = 'metabox' ) {
 	global $wp_post_statuses;
@@ -220,7 +221,22 @@ function wp_statuses_get_statuses( $post_type = '', $context = 'metabox' ) {
 		}
 	}
 
-	return $dropdown_statuses;
+	/**
+	 * Filter here to edit the order of the displayed statuses.
+	 *
+	 * @since  1.3.0
+	 *
+	 * @param  array  $dropdown_statuses A filtered array containing the matching WP_Statuses_Core_Status objects.
+	 * @param  string $context           The context of the dropdown box.
+	 */
+	$sorted_statuses = apply_filters( 'wp_statuses_get_ordered_statuses', $dropdown_statuses, $context );
+
+	if ( array_diff_key( $dropdown_statuses, $sorted_statuses ) ) {
+		_doing_it_wrong( __FUNCTION__, __( 'You need to preserve keys to customize the order.', 'wp-statuses' ), '1.3.0' );
+		return $dropdown_statuses;
+	}
+
+	return $sorted_statuses;
 }
 
 /**
@@ -332,7 +348,7 @@ function wp_statuses_is_public( $status = '' ) {
  * Unregisters a status for the given list of post type names.
  *
  * @since 1.3.0
- * 
+ *
  * @param  string $status    The status name
  * @param  array  $post_type A list of post type names.
  * @return boolean           True if the Status has been unregistered for the post types.
@@ -340,7 +356,7 @@ function wp_statuses_is_public( $status = '' ) {
  */
 function wp_statuses_unregister_status_for_post_type( $status = '', $post_type = array() ) {
 	if ( ! doing_action( 'wp_statuses_registered' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'You need to hook to the wp_statuses_registered action to unregister a status for one or more post type.', 'wp-statuses' ), '1.2.5' );
+		_doing_it_wrong( __FUNCTION__, __( 'You need to hook to the wp_statuses_registered action to unregister a status for one or more post type.', 'wp-statuses' ), '1.3.0' );
 		return false;
 	}
 
