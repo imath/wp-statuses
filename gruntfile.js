@@ -50,8 +50,8 @@ module.exports = function( grunt ) {
 					mainFile: 'wp-statuses.php',
 					potFilename: 'wp-statuses.pot',
 					processPot: function( pot ) {
-						pot.headers['last-translator']      = 'imath <imath@cluster.press>';
-						pot.headers['language-team']        = 'FRENCH <imath@cluster.press>';
+						pot.headers['last-translator']      = 'imath <contact@imathi.eu>';
+						pot.headers['language-team']        = 'FRENCH <contact@imathi.eu>';
 						pot.headers['report-msgid-bugs-to'] = 'https://github.com/imath/wp-statuses/issues';
 						return pot;
 					},
