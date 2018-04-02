@@ -200,14 +200,7 @@ class WP_Statuses_Core_Status {
 	 * @return array        The additional properties matching the name of the status.
 	 */
 	public function get_initial_types_data( $name = '' ) {
-		/**
-		 * Filter here to edit the WordPress default statuses labels.
-		 *
-		 * @since 1.3.0
-		 *
-		 * @param array $value An associative array keyed by status names.
-		 */
-		$labels = apply_filters( 'wp_statuses_initial_labels', array(
+		$labels = array(
 			'publish'    => array(
 				'labels' => array(
 					'metabox_dropdown' => __( 'Publicly published', 'wp-statuses' ),
@@ -242,7 +235,7 @@ class WP_Statuses_Core_Status {
 				),
 				'dashicon' => 'dashicons-edit',
 			),
-		) );
+		);
 
 		if ( ! isset( $labels[ $name ] ) ) {
 			return null;

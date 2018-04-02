@@ -185,13 +185,6 @@ function wp_statuses_register() {
 	global $wp_post_statuses;
 
 	$wp_post_statuses = array_map( 'wp_statuses_get', $wp_post_statuses );
-
-	/**
-	 * Hook here to be sure all available statuses are registered.
-	 *
-	 * @since 1.3.0
-	 */
-	do_action( 'wp_statuses_registered' );
 }
 
 /**
@@ -326,39 +319,4 @@ function wp_statuses_is_public( $status = '' ) {
 	}
 
 	return in_array( $status, $statuses, true );
-}
-
-/**
- * Unregisters a status for the given list of post type names.
- *
- * @since 1.3.0
- * 
- * @param  string $status    The status name
- * @param  array  $post_type A list of post type names.
- * @return boolean           True if the Status has been unregistered for the post types.
- *                           False otherwise.
- */
-function wp_statuses_unregister_status_for_post_type( $status = '', $post_type = array() ) {
-	if ( ! doing_action( 'wp_statuses_registered' ) ) {
-		_doing_it_wrong( __FUNCTION__, __( 'You need to hook to the wp_statuses_registered action to unregister a status for one or more post type.', 'wp-statuses' ), '1.2.5' );
-		return false;
-	}
-
-	global $wp_post_statuses;
-	$post_types = (array) $post_type;
-	$statuses   = (array) $status;
-
-	if ( ! isset( $wp_post_statuses[ $status ]->post_type ) || ! $post_types ) {
-		return false;
-	}
-
-	if ( 'publish' === $status ) {
-		$statuses = array_merge( $statuses, array( 'draft', 'pending' ) );
-	}
-
-	foreach ( $statuses as $s ) {
-		$wp_post_statuses[ $s ]->post_type = array_diff( $wp_post_statuses[ $s ]->post_type, $post_types );
-	}
-
-	return true;
 }
