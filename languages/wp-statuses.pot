@@ -1,14 +1,14 @@
-# Copyright (C) 2017 imath
+# Copyright (C) 2018 imath
 # This file is distributed under the GNU/GPL 2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statuses 1.2.4\n"
+"Project-Id-Version: WP Statuses 1.2.5\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
-"POT-Creation-Date: 2017-10-18 05:47:13+00:00\n"
+"POT-Creation-Date: 2018-04-02 06:25:16+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: imath <contact@imathi.eu>\n"
 "Language-Team: FRENCH <contact@imathi.eu>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
@@ -60,45 +60,52 @@ msgstr ""
 msgid "M j, Y @ H:i"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:577
+#: inc/admin/classes/class-wp-statuses-admin.php:547
+#: inc/core/classes/class-wp-statuses-core-status.php:189
+#. translators: Post date information. 1: Date on which the post is to be
+#. published
+msgid "Schedule for: <b>%1$s</b>"
+msgstr ""
+
+#: inc/admin/classes/class-wp-statuses-admin.php:582
 #. translators: Post revisions heading. 1: The number of available revisions
 msgid "Revisions: %s"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:581
+#: inc/admin/classes/class-wp-statuses-admin.php:586
 msgid "Browse revisions"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:592
+#: inc/admin/classes/class-wp-statuses-admin.php:597
 msgid "Edit"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:593
+#: inc/admin/classes/class-wp-statuses-admin.php:598
 msgid "Edit date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:597
+#: inc/admin/classes/class-wp-statuses-admin.php:602
 msgid "Date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:639
+#: inc/admin/classes/class-wp-statuses-admin.php:651
 msgid "Submit for Review"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:644
+#: inc/admin/classes/class-wp-statuses-admin.php:656
 #: inc/core/classes/class-wp-statuses-core-status.php:179
 msgid "Publish"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:647
+#: inc/admin/classes/class-wp-statuses-admin.php:659
 msgid "Schedule"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:662
+#: inc/admin/classes/class-wp-statuses-admin.php:674
 msgid "Delete Permanently"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:662
+#: inc/admin/classes/class-wp-statuses-admin.php:674
 msgid "Move to Trash"
 msgstr ""
 
@@ -127,12 +134,6 @@ msgstr ""
 
 #: inc/core/classes/class-wp-statuses-core-status.php:187
 msgid "Publish <b>immediately</b>"
-msgstr ""
-
-#: inc/core/classes/class-wp-statuses-core-status.php:189
-#. translators: Post date information. 1: Date on which the post is to be
-#. published
-msgid "Schedule for: <b>%1$s</b>"
 msgstr ""
 
 #: inc/core/classes/class-wp-statuses-core-status.php:206
@@ -280,7 +281,7 @@ msgstr ""
 msgid "https://imathi.eu/"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:580
+#: inc/admin/classes/class-wp-statuses-admin.php:585
 msgctxt "revisions"
 msgid "Browse"
 msgstr ""
