@@ -12,7 +12,6 @@
     ],
     "minimum-stability": "stable",
     "require": {
-      "php": ">=5.3.2",
-      "composer/installers": "~v1.0.12"
+      "php": ">=5.3.2"
     }
 }
