@@ -39,7 +39,7 @@ To register a custom status and make it appear into the Post Type's UIs, you wil
 | Array | `post_type` | The list of post type names the status should be applied to |
 | bool | `show_in_metabox_dropdown` | Whether to show the status in the Publishing Metabox |
 | bool | `show_in_inline_dropdown` | Whether to show the status in the Bulk Edit and Quick Edit forms |
-| Array | `labels` | An associative array containing the labels for the two previous contexts. If there are not defined, The value of the `label` argunent of the `register_post_status()` function will be used. Keys are `metabox_dropdown` for the Publishing Metabox and `inline_dropdown` for Bulk/Quick Edit forms |
+| Array | `labels` | An associative array containing the labels for the two previous contexts. If there are not defined, The value of the `label` argument of the `register_post_status()` function will be used. Keys are `metabox_dropdown` for the Publishing Metabox and `inline_dropdown` for Bulk/Quick Edit forms |
 | String | `dashicon` | The dachicon's name |
 
 For example, to add an `archive` custom status to Posts, you can use the WordPress function this way:
