@@ -201,8 +201,11 @@ class WP_Statuses_Admin {
 	public function add_meta_box( $post_type, $post ) {
 		global $publish_callback_args;
 
-		// Bail if the Post Type is not supported.
-		if ( ! wp_statuses_is_post_type_supported( $post_type ) ) {
+		// Bail if the Post Type is not supported, or if post uses Gutenberg block editor
+		if (
+			! wp_statuses_is_post_type_supported( $post_type )
+			|| ( function_exists( 'use_block_editor_for_post' ) && use_block_editor_for_post( $post ) )
+		) {
 			return;
 		}
 
