@@ -1,0 +1,11 @@
+{
+    "presets": ["@wordpress/default"],
+    "plugins": [
+        [
+            "@wordpress/babel-plugin-makepot",
+            {
+                "output": "languages/js/wp-statuses-sidebar.pot"
+            }
+        ]
+    ]
+}

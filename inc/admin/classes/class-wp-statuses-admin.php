@@ -83,6 +83,13 @@ class WP_Statuses_Admin {
 
 		// Press This
 		add_filter( 'press_this_save_post',  array( $this, 'reset_status' ),    10, 1 );
+
+		// Block editor
+		if ( function_exists( 'register_block_type' ) )  {
+			add_action( 'init',                        array( $this, 'register_block_editor_script' ), 1001 );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_asset' ), 10 );
+			add_filter( 'block_editor_preload_paths',  array( $this, 'preload_path' ), 10 );
+		}
 	}
 
 	/**
@@ -727,6 +734,25 @@ class WP_Statuses_Admin {
 
 		return array_merge( $post_data, array(
 			'post_status' => $status->name,
+		) );
+	}
+
+	public function register_block_editor_script() {
+		wp_register_script(
+			'wp-statuses-sidebar',
+			sprintf( '%1$ssidebar%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n' ),
+			wp_statuses_version()
+		);
+	}
+
+	public function enqueue_block_editor_asset() {
+		wp_enqueue_script( 'wp-statuses-sidebar' );
+	}
+
+	public function preload_path( $paths = array() ) {
+		return array_merge( $paths, array(
+			'/wp/v2/statuses?context=edit'
 		) );
 	}
 }
