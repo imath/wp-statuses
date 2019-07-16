@@ -378,3 +378,48 @@ function wp_statuses_unregister_status_for_post_type( $status = '', $post_type =
 
 	return true;
 }
+
+/**
+ * Gets the registered post types for statuses in REST Requests.
+ *
+ * @since 2.0.0
+ *
+ * @param  array $data       The status data.
+ * @param  string $attribute The REST field's name attribute.
+ * @return array             The list of supported post types.
+ */
+function wp_statuses_rest_get_post_types( $data, $attribute ) {
+	$value = array();
+
+	if ( 'post_type' !== $attribute || ! isset( $data['slug'] ) ) {
+		return $value;
+	}
+
+	global $wp_post_statuses;
+	$statuses = wp_list_pluck( $wp_post_statuses, 'post_type', 'name' );
+
+	if ( isset( $statuses[ $data['slug'] ] ) ) {
+		$rest_post_types = get_post_types( array( 'show_in_rest' => true ) );
+		$value           = array_intersect( $rest_post_types, $statuses[ $data['slug'] ] );
+	}
+
+	return array_values( $value );
+}
+
+/**
+ * Registers a new property for the REST Status controller schema.
+ *
+ * @since 2.0.0
+ */
+function wp_statuses_register_post_types_field() {
+	register_rest_field( 'status', 'post_type', array(
+		'get_callback'    => 'wp_statuses_rest_get_post_types',
+		'schema'          => array(
+			'context'     => array( 'view', 'edit' ),
+			'description' => __( 'The list of post types the status applies to.', 'wp-statuses' ),
+			'type'        => 'array',
+			'readonly'    => true,
+		),
+	) );
+}
+add_action( 'rest_api_init', 'wp_statuses_register_post_types_field', 11 );
