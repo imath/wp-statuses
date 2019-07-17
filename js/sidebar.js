@@ -889,13 +889,13 @@ var WPStatusesInfo = compose([withSelect(function (select) {
   var postTypeName = getEditedPostAttribute('type');
   return {
     postType: getPostType(postTypeName),
-    status: getEditedPostAttribute('status')
+    status: getEditedPostAttribute('custom_status')
   };
 }), withDispatch(function (dispatch) {
   return {
     onUpdateStatus: function onUpdateStatus(WPStatusesStatus) {
       dispatch('core/editor').editPost({
-        status: WPStatusesStatus
+        custom_status: WPStatusesStatus
       });
     }
   };
@@ -931,7 +931,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59630" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53580" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -22,14 +22,14 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var bool|string
 	 */
-	public  $label = false;
+	public $label = false;
 
 	/**
 	 * The Post Types' List Table views label
 	 *
 	 * @var bool|string
 	 */
-	public  $label_count = false;
+	public $label_count = false;
 
 	/**
 	 * The status labels.
@@ -38,7 +38,7 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var array
 	 */
-	public  $labels = array();
+	public $labels = array();
 
 
 	/**
@@ -46,7 +46,7 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var null|bool
 	 */
-	public  $exclude_from_search = null;
+	public $exclude_from_search = null;
 
 	/**
 	 * Whether it's a WordPress built-in status.
@@ -61,49 +61,49 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var null|bool
 	 */
-	public  $public = null;
+	public $public = null;
 
 	/**
 	 * Whether the status is for internal use only.
 	 *
 	 * @var null|bool
 	 */
-	public	$internal = null;
+	public $internal = null;
 
 	/**
 	 * Whether posts with this status should be protected.
 	 *
 	 * @var null|bool
 	 */
-	public	$protected = null;
+	public $protected = null;
 
 	/**
 	 * Whether posts with this status should be private.
 	 *
 	 * @var null|bool
 	 */
-	public  $private = null;
+	public $private = null;
 
 	/**
 	 * Whether posts with this status should be publicly-queryable.
 	 *
 	 * @var null|bool
 	 */
-	public	$publicly_queryable = null;
+	public $publicly_queryable = null;
 
 	/**
 	 * The list of post types the status applies to.
 	 *
 	 * @var array
 	 */
-	public  $post_type = array();
+	public $post_type = array();
 
 	/**
 	 * Whether to include posts in the edit listing for their post type
 	 *
 	 * @var null|bool
 	 */
-	public  $show_in_admin_status_list = null;
+	public $show_in_admin_status_list = null;
 
 	/**
 	 * Show in the list of statuses with post counts at the top of the edit
@@ -111,35 +111,35 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var null|bool
 	 */
-	public	$show_in_admin_all_list = null;
+	public $show_in_admin_all_list = null;
 
 	/**
 	 * Whether to use the status in WordPress's Publishing metabox.
 	 *
 	 * @var null|bool
 	 */
-	public  $show_in_metabox_dropdown = null;
+	public $show_in_metabox_dropdown = null;
 
 	/**
 	 * Whether to use the status in WordPress's List Table inline/bulk edit actions.
 	 *
 	 * @var null|bool
 	 */
-	public  $show_in_inline_dropdown = null;
+	public $show_in_inline_dropdown = null;
 
 	/**
 	 * Whether to use the status in WordPress's Press this Editor.
 	 *
 	 * @var null|bool
 	 */
-	public  $show_in_press_this_dropdown = null;
+	public $show_in_press_this_dropdown = null;
 
 	/**
 	 * The dashicon to use for the status.
 	 *
 	 * @var string
 	 */
-	public  $dashicon = 'dashicons-post-status';
+	public $dashicon = 'dashicons-post-status';
 
 	/**
 	 * Constructor.
@@ -249,5 +249,16 @@ class WP_Statuses_Core_Status {
 		}
 
 		return $labels[ $name ];
+	}
+
+	/**
+	 * Is the status a built-in one ?
+	 *
+	 * @since  2.0.0
+	 *
+	 * @return boolean True if the status is a built-in one. False otherwise.
+	 */
+	public function is_builtin() {
+		return true === $this->_builtin;
 	}
 }

@@ -49,12 +49,12 @@ const WPStatusesInfo = compose( [
 
 		return {
 			postType: getPostType( postTypeName ),
-			status: getEditedPostAttribute( 'status' ),
+			status: getEditedPostAttribute( 'custom_status' ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {
 		onUpdateStatus( WPStatusesStatus ) {
-			dispatch( 'core/editor' ).editPost( { status: WPStatusesStatus } );
+			dispatch( 'core/editor' ).editPost( { custom_status: WPStatusesStatus } );
 		},
 	} ) ),
 ] )( WPStatusesPanel );

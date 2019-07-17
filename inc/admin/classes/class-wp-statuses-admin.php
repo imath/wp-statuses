@@ -747,10 +747,27 @@ class WP_Statuses_Admin {
 	}
 
 	public function enqueue_block_editor_asset() {
+		if ( ! in_array( get_post_type(), wp_statuses_get_customs_post_types(), true ) ) {
+			return;
+		}
+
 		wp_enqueue_script( 'wp-statuses-sidebar' );
+		wp_add_inline_style( 'wp-edit-post', '
+			.edit-post-post-visibility, .edit-post-post-schedule { display: none }
+			.components-panel__row.wp-statuses-info .components-base-control__label,
+			.components-panel__row.wp-statuses-info .components-select-control__input {
+				display: inline-block;
+				max-width: 100%;
+				width: 100%;
+			}
+		' );
 	}
 
 	public function preload_path( $paths = array() ) {
+		if ( ! in_array( get_post_type(), wp_statuses_get_customs_post_types(), true ) ) {
+			return $paths;
+		}
+
 		return array_merge( $paths, array(
 			'/wp/v2/statuses?context=edit'
 		) );

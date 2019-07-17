@@ -173,6 +173,7 @@ function wp_statuses_register_password_protected() {
 			'inline_dropdown'  => __( 'Password', 'wp-statuses' ),
 		),
 		'dashicon'                  => 'dashicons-lock',
+		'_builtin'                  => true,
 	) );
 }
 
@@ -380,6 +381,43 @@ function wp_statuses_unregister_status_for_post_type( $status = '', $post_type =
 }
 
 /**
+ * Gets all custom stati.
+ *
+ * @since 2.0.0
+ *
+ * @return array The list of custom status objects.
+ */
+function wp_statuses_get_customs() {
+	$stati = get_post_stati( array( 'internal' => false ), 'objects' );
+
+	foreach ( $stati as $s => $status ) {
+		if ( $status->is_builtin() ) {
+			unset( $stati[ $s ] );
+		}
+	}
+
+	return $stati;
+}
+
+/**
+ * Gets all post types concerned by one or more custom status.
+ *
+ * @since 2.0.0
+ *
+ * @return array The list of post types concerned by one or more custom status.
+ */
+function wp_statuses_get_customs_post_types() {
+	$post_types           = array();
+	$post_types_by_status = wp_list_pluck( wp_statuses_get_customs(), 'post_type', 'name' );
+
+	foreach ( $post_types_by_status as $types ) {
+		$post_types = array_merge( $post_types, array_values( $types ) );
+	}
+
+	return array_unique( $post_types );
+}
+
+/**
  * Gets the registered post types for statuses in REST Requests.
  *
  * @since 2.0.0
@@ -421,5 +459,61 @@ function wp_statuses_register_post_types_field() {
 			'readonly'    => true,
 		),
 	) );
+
+	foreach ( wp_statuses_get_customs_post_types() as $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+		if ( ! isset( $post_type_object->show_in_rest ) || true !== $post_type_object->show_in_rest ) {
+			continue;
+		}
+
+		add_filter( "rest_prepare_{$post_type}", 'wp_statuses_rest_prepare_for_response', 10, 3 );
+		add_filter( "rest_pre_insert_{$post_type}", 'wp_statuses_rest_prepare_for_database', 10, 2 );
+	}
 }
 add_action( 'rest_api_init', 'wp_statuses_register_post_types_field', 11 );
+
+/**
+ * Adds a specific custom status property for the WP REST Response.
+ *
+ * @since 2.0.0
+ *
+ * @param  WP_REST_Response $response The response object.
+ * @param  WP_Post          $post     Post object.
+ * @param  WP_REST_Request  $request  Request object.
+ * @return WP_REST_Response           The response object.
+ */
+function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_Post $post, WP_REST_Request $request ) {
+	if ( 'edit' !== $request->get_param( 'context' ) ) {
+		return $response;
+	}
+
+	$post_type = $response->get_data();
+	$post_type['custom_status'] = get_post_status( $post );
+	$post_type['status'] = 'private';
+	$response->set_data( $post_type );
+
+	return $response;
+}
+
+/**
+ * Looks for a valid specific custom status property to use it when creating/updating post types.
+ *
+ * @since 2.0.0
+ *
+ * @param stdClass        $prepared_post An object representing a single post prepared
+ *                                       for inserting or updating the database.
+ * @param WP_REST_Request $request       TheRequest object.
+ * @return stdClass                      The object to save in database.
+ */
+function wp_statuses_rest_prepare_for_database( $prepared_post, WP_REST_Request $request ) {
+	$custom_status = $request->get_param( 'custom_status' );
+
+	if ( ! $custom_status || ! wp_statuses_get( $custom_status ) ) {
+		return $prepared_post;
+	}
+
+	// Use the custom status.
+	$prepared_post->post_status = $custom_status;
+
+	return $prepared_post;
+}
