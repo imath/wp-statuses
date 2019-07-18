@@ -6,6 +6,7 @@
   "description": "Suggestions to improve the WordPress Post statuses API.",
   "devDependencies": {
     "@babel/core": "^7.5.4",
+    "@babel/runtime-corejs2": "^7.5.5",
     "@wordpress/babel-plugin-makepot": "^2.1.2",
     "@wordpress/babel-preset-default": "^2.1.0",
     "grunt": "^1.0.4",
