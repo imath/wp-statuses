@@ -209,10 +209,7 @@ class WP_Statuses_Admin {
 		global $publish_callback_args;
 
 		// Bail if the Post Type is not supported, or if post uses Gutenberg block editor
-		if (
-			! wp_statuses_is_post_type_supported( $post_type )
-			|| ( function_exists( 'use_block_editor_for_post' ) && use_block_editor_for_post( $post ) )
-		) {
+		if ( ! wp_statuses_is_post_type_supported( $post_type ) ) {
 			return;
 		}
 
@@ -227,7 +224,9 @@ class WP_Statuses_Admin {
 			$post_type,
 			'side',
 			'high',
-			$publish_callback_args
+			array_merge( (array) $publish_callback_args, array(
+				'__back_compat_meta_box' => true,
+			) )
 		);
 
 		// Validate the post type.
