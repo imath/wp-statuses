@@ -3,6 +3,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "X-Generator: babel-plugin-makepot\n"
 
-#: src/sidebar/index.js:35
+#: src/sidebar/index.js:33
 msgid "Status"
 msgstr ""

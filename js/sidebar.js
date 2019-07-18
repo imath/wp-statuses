@@ -829,6 +829,7 @@ var _wp$data = wp.data,
     withSelect = _wp$data.withSelect,
     withDispatch = _wp$data.withDispatch;
 var _lodash = lodash,
+    get = _lodash.get,
     indexOf = _lodash.indexOf,
     forEach = _lodash.forEach;
 var SelectControl = wp.components.SelectControl;
@@ -852,12 +853,13 @@ function WPStatusesPanel(_ref) {
   var onUpdateStatus = _ref.onUpdateStatus,
       postType = _ref.postType,
       _ref$status = _ref.status,
-      status = _ref$status === void 0 ? 'draft' : _ref$status;
+      status = _ref$status === void 0 ? 'draft' : _ref$status,
+      hasPublishAction = _ref.hasPublishAction;
   var options = [];
 
   if (postType && postType.slug) {
-    forEach(wpStati, function (data, i) {
-      if (-1 !== indexOf(data.post_types, postType.slug)) {
+    forEach(wpStati, function (data) {
+      if (-1 !== indexOf(data.post_types, postType.slug) && (hasPublishAction || -1 !== indexOf(['draft', 'pending'], data.value))) {
         options.push({
           label: data.label,
           value: data.value
@@ -881,7 +883,8 @@ function WPStatusesPanel(_ref) {
 ;
 var WPStatusesInfo = compose([withSelect(function (select) {
   var _select = select('core/editor'),
-      getEditedPostAttribute = _select.getEditedPostAttribute;
+      getEditedPostAttribute = _select.getEditedPostAttribute,
+      getCurrentPost = _select.getCurrentPost;
 
   var _select2 = select('core'),
       getPostType = _select2.getPostType;
@@ -889,7 +892,8 @@ var WPStatusesInfo = compose([withSelect(function (select) {
   var postTypeName = getEditedPostAttribute('type');
   return {
     postType: getPostType(postTypeName),
-    status: getEditedPostAttribute('custom_status')
+    status: getEditedPostAttribute('custom_status'),
+    hasPublishAction: get(getCurrentPost(), ['_links', 'wp:action-publish'], false)
   };
 }), withDispatch(function (dispatch) {
   return {
@@ -931,7 +935,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53580" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49827" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
