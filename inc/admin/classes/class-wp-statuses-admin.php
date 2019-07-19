@@ -753,12 +753,15 @@ class WP_Statuses_Admin {
 		wp_enqueue_script( 'wp-statuses-sidebar' );
 		wp_add_inline_style( 'wp-edit-post', '
 			.edit-post-post-visibility, .edit-post-post-schedule { display: none }
+			.components-panel__row.wp-statuses-info { display: block }
 			.components-panel__row.wp-statuses-info .components-base-control__label,
-			.components-panel__row.wp-statuses-info .components-select-control__input {
+			.components-panel__row.wp-statuses-info .components-select-control__input,
+			.components-panel__row.wp-statuses-info .components-text-control__input {
 				display: inline-block;
 				max-width: 100%;
 				width: 100%;
 			}
+			.components-base-control.wp-statuses-password { margin-top: 20px }
 		' );
 	}
 

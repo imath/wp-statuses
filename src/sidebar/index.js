@@ -4,7 +4,7 @@ const { createElement } = wp.element;
 const { __, _x, _n, _nx } = wp.i18n;
 const { withSelect, withDispatch, registerStore } = wp.data;
 const { get, indexOf, forEach } = lodash;
-const { SelectControl } = wp.components;
+const { SelectControl, TextControl } = wp.components;
 const { compose } = wp.compose;
 const { apiFetch } = wp;
 
@@ -63,13 +63,14 @@ registerStore( 'wp-statuses', {
 	},
 } );
 
-function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPublishAction, stati } ) {
+function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPublishAction, stati, password } ) {
 	let options = [];
+	const needsPassword = 'password' === status;
 
 	if ( postType && postType.slug ) {
         forEach( stati, function( data ) {
             if ( -1 !== indexOf( data.post_type, postType.slug ) && ( hasPublishAction || -1 !== indexOf( ['draft', 'pending'], data.slug ) ) ) {
-                options.push( { label: data.name, value: data.slug } );
+                options.push( { label: data.label, value: data.slug } );
             }
 		} );
 	}
@@ -82,6 +83,15 @@ function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPubli
 				onChange={ ( status ) => onUpdateStatus( status ) }
 				options={ options }
 			/>
+
+			{ needsPassword &&
+				<TextControl
+					label={ __( 'Password', 'wp-statuses' ) }
+					value={ password }
+					className="wp-statuses-password"
+					onChange={ ( password ) => onUpdateStatus( status, password ) }
+				/>
+			}
 		</PluginPostStatusInfo>
 	);
 };
@@ -98,11 +108,15 @@ const WPStatusesInfo = compose( [
 			status: getEditedPostAttribute( 'custom_status' ),
 			hasPublishAction: get( getCurrentPost(), [ '_links', 'wp:action-publish' ], false ),
 			stati: stati,
+			password: getEditedPostAttribute( 'password' ),
 		};
 	} ),
 	withDispatch( ( dispatch ) => ( {
-		onUpdateStatus( WPStatusesStatus ) {
-			dispatch( 'core/editor' ).editPost( { custom_status: WPStatusesStatus } );
+		onUpdateStatus( WPStatusesStatus, password = '' ) {
+			dispatch( 'core/editor' ).editPost( {
+				custom_status: WPStatusesStatus,
+				password: password,
+			} );
 		},
 	} ) ),
 ] )( WPStatusesPanel );

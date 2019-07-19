@@ -422,7 +422,7 @@ function wp_statuses_get_customs_post_types() {
  *
  * @since 2.0.0
  *
- * @param  array $data       The status data.
+ * @param  array  $data      The status data.
  * @param  string $attribute The REST field's name attribute.
  * @return array             The list of supported post types.
  */
@@ -445,6 +445,33 @@ function wp_statuses_rest_get_post_types( $data, $attribute ) {
 }
 
 /**
+ * Gets the label for the Block Editor's dropdown in REST Requests.
+ *
+ * @since 2.0.0
+ *
+ * @param  array  $data      The status data.
+ * @param  string $attribute The REST field's name attribute.
+ * @return string            The label to use into the Block editor.
+ */
+function wp_statuses_rest_get_label( $data, $attribute ) {
+	$value = '';
+
+	if ( 'label' !== $attribute || ! isset( $data['slug'] ) ) {
+		return $value;
+	}
+
+	// Defaults to the status name.
+	$value = $data['name'];
+
+	$status = wp_statuses_get( $data['slug'] );
+	if ( isset( $status->labels['metabox_dropdown'] ) ) {
+		$value = esc_html( $status->labels['metabox_dropdown'] );
+	}
+
+	return $value;
+}
+
+/**
  * Registers a new property for the REST Status controller schema.
  *
  * @since 2.0.0
@@ -456,6 +483,16 @@ function wp_statuses_register_post_types_field() {
 			'context'     => array( 'view', 'edit' ),
 			'description' => __( 'The list of post types the status applies to.', 'wp-statuses' ),
 			'type'        => 'array',
+			'readonly'    => true,
+		),
+	) );
+
+	register_rest_field( 'status', 'label', array(
+		'get_callback'    => 'wp_statuses_rest_get_label',
+		'schema'          => array(
+			'context'     => array( 'view', 'edit' ),
+			'description' => __( 'The label to use into the Block editor.', 'wp-statuses' ),
+			'type'        => 'string',
 			'readonly'    => true,
 		),
 	) );
@@ -489,6 +526,13 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
 
 	$post_type = $response->get_data();
 	$post_type['custom_status'] = get_post_status( $post );
+
+	// Use a specific status for password protected posts.
+	if ( isset( $post->post_password ) && $post->post_password ) {
+		$post_type['custom_status'] = 'password';
+	}
+
+	// Always trick the Block Editor so that is uses the "Update" major action button.
 	$post_type['status'] = 'private';
 	$response->set_data( $post_type );
 
@@ -514,6 +558,11 @@ function wp_statuses_rest_prepare_for_database( $prepared_post, WP_REST_Request 
 
 	// Use the custom status.
 	$prepared_post->post_status = $custom_status;
+
+	// Use the publish status for password protected posts.
+	if ( 'password' === $custom_status ) {
+		$prepared_post->post_status = 'publish';
+	}
 
 	return $prepared_post;
 }

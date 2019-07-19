@@ -1094,107 +1094,7 @@ module.exports = require('../../modules/_core').Object.keys;
 
 },{"../../modules/es6.object.keys":"../../node_modules/core-js/library/modules/es6.object.keys.js","../../modules/_core":"../../node_modules/core-js/library/modules/_core.js"}],"../../node_modules/@babel/runtime-corejs2/core-js/object/keys.js":[function(require,module,exports) {
 module.exports = require("core-js/library/fn/object/keys");
-},{"core-js/library/fn/object/keys":"../../node_modules/core-js/library/fn/object/keys.js"}],"../../node_modules/core-js/modules/_is-object.js":[function(require,module,exports) {
-module.exports = function (it) {
-  return typeof it === 'object' ? it !== null : typeof it === 'function';
-};
-
-},{}],"../../node_modules/core-js/modules/_an-object.js":[function(require,module,exports) {
-var isObject = require('./_is-object');
-module.exports = function (it) {
-  if (!isObject(it)) throw TypeError(it + ' is not an object!');
-  return it;
-};
-
-},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js"}],"../../node_modules/core-js/modules/_fails.js":[function(require,module,exports) {
-module.exports = function (exec) {
-  try {
-    return !!exec();
-  } catch (e) {
-    return true;
-  }
-};
-
-},{}],"../../node_modules/core-js/modules/_descriptors.js":[function(require,module,exports) {
-// Thank's IE8 for his funny defineProperty
-module.exports = !require('./_fails')(function () {
-  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
-});
-
-},{"./_fails":"../../node_modules/core-js/modules/_fails.js"}],"../../node_modules/core-js/modules/_global.js":[function(require,module,exports) {
-
-// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
-var global = module.exports = typeof window != 'undefined' && window.Math == Math
-  ? window : typeof self != 'undefined' && self.Math == Math ? self
-  // eslint-disable-next-line no-new-func
-  : Function('return this')();
-if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
-
-},{}],"../../node_modules/core-js/modules/_dom-create.js":[function(require,module,exports) {
-var isObject = require('./_is-object');
-var document = require('./_global').document;
-// typeof document.createElement is 'object' in old IE
-var is = isObject(document) && isObject(document.createElement);
-module.exports = function (it) {
-  return is ? document.createElement(it) : {};
-};
-
-},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js","./_global":"../../node_modules/core-js/modules/_global.js"}],"../../node_modules/core-js/modules/_ie8-dom-define.js":[function(require,module,exports) {
-module.exports = !require('./_descriptors') && !require('./_fails')(function () {
-  return Object.defineProperty(require('./_dom-create')('div'), 'a', { get: function () { return 7; } }).a != 7;
-});
-
-},{"./_descriptors":"../../node_modules/core-js/modules/_descriptors.js","./_fails":"../../node_modules/core-js/modules/_fails.js","./_dom-create":"../../node_modules/core-js/modules/_dom-create.js"}],"../../node_modules/core-js/modules/_to-primitive.js":[function(require,module,exports) {
-// 7.1.1 ToPrimitive(input [, PreferredType])
-var isObject = require('./_is-object');
-// instead of the ES6 spec version, we didn't implement @@toPrimitive case
-// and the second argument - flag - preferred type is a string
-module.exports = function (it, S) {
-  if (!isObject(it)) return it;
-  var fn, val;
-  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
-  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
-  throw TypeError("Can't convert object to primitive value");
-};
-
-},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js"}],"../../node_modules/core-js/modules/_object-dp.js":[function(require,module,exports) {
-var anObject = require('./_an-object');
-var IE8_DOM_DEFINE = require('./_ie8-dom-define');
-var toPrimitive = require('./_to-primitive');
-var dP = Object.defineProperty;
-
-exports.f = require('./_descriptors') ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-  anObject(O);
-  P = toPrimitive(P, true);
-  anObject(Attributes);
-  if (IE8_DOM_DEFINE) try {
-    return dP(O, P, Attributes);
-  } catch (e) { /* empty */ }
-  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
-  if ('value' in Attributes) O[P] = Attributes.value;
-  return O;
-};
-
-},{"./_an-object":"../../node_modules/core-js/modules/_an-object.js","./_ie8-dom-define":"../../node_modules/core-js/modules/_ie8-dom-define.js","./_to-primitive":"../../node_modules/core-js/modules/_to-primitive.js","./_descriptors":"../../node_modules/core-js/modules/_descriptors.js"}],"../../node_modules/core-js/modules/es6.function.name.js":[function(require,module,exports) {
-var dP = require('./_object-dp').f;
-var FProto = Function.prototype;
-var nameRE = /^\s*function ([^ (]*)/;
-var NAME = 'name';
-
-// 19.2.4.2 name
-NAME in FProto || require('./_descriptors') && dP(FProto, NAME, {
-  configurable: true,
-  get: function () {
-    try {
-      return ('' + this).match(nameRE)[1];
-    } catch (e) {
-      return '';
-    }
-  }
-});
-
-},{"./_object-dp":"../../node_modules/core-js/modules/_object-dp.js","./_descriptors":"../../node_modules/core-js/modules/_descriptors.js"}],"../../node_modules/@babel/runtime-corejs2/node_modules/regenerator-runtime/runtime.js":[function(require,module,exports) {
+},{"core-js/library/fn/object/keys":"../../node_modules/core-js/library/fn/object/keys.js"}],"../../node_modules/@babel/runtime-corejs2/node_modules/regenerator-runtime/runtime.js":[function(require,module,exports) {
 /**
  * Copyright (c) 2014-present, Facebook, Inc.
  *
@@ -2672,6 +2572,15 @@ module.exports = _defineProperty;
 var core = module.exports = { version: '2.6.9' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
 
+},{}],"../../node_modules/core-js/modules/_global.js":[function(require,module,exports) {
+
+// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+var global = module.exports = typeof window != 'undefined' && window.Math == Math
+  ? window : typeof self != 'undefined' && self.Math == Math ? self
+  // eslint-disable-next-line no-new-func
+  : Function('return this')();
+if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
+
 },{}],"../../node_modules/core-js/modules/_library.js":[function(require,module,exports) {
 module.exports = false;
 
@@ -2710,7 +2619,80 @@ var $exports = module.exports = function (name) {
 
 $exports.store = store;
 
-},{"./_shared":"../../node_modules/core-js/modules/_shared.js","./_uid":"../../node_modules/core-js/modules/_uid.js","./_global":"../../node_modules/core-js/modules/_global.js"}],"../../node_modules/core-js/modules/_property-desc.js":[function(require,module,exports) {
+},{"./_shared":"../../node_modules/core-js/modules/_shared.js","./_uid":"../../node_modules/core-js/modules/_uid.js","./_global":"../../node_modules/core-js/modules/_global.js"}],"../../node_modules/core-js/modules/_is-object.js":[function(require,module,exports) {
+module.exports = function (it) {
+  return typeof it === 'object' ? it !== null : typeof it === 'function';
+};
+
+},{}],"../../node_modules/core-js/modules/_an-object.js":[function(require,module,exports) {
+var isObject = require('./_is-object');
+module.exports = function (it) {
+  if (!isObject(it)) throw TypeError(it + ' is not an object!');
+  return it;
+};
+
+},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js"}],"../../node_modules/core-js/modules/_fails.js":[function(require,module,exports) {
+module.exports = function (exec) {
+  try {
+    return !!exec();
+  } catch (e) {
+    return true;
+  }
+};
+
+},{}],"../../node_modules/core-js/modules/_descriptors.js":[function(require,module,exports) {
+// Thank's IE8 for his funny defineProperty
+module.exports = !require('./_fails')(function () {
+  return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
+});
+
+},{"./_fails":"../../node_modules/core-js/modules/_fails.js"}],"../../node_modules/core-js/modules/_dom-create.js":[function(require,module,exports) {
+var isObject = require('./_is-object');
+var document = require('./_global').document;
+// typeof document.createElement is 'object' in old IE
+var is = isObject(document) && isObject(document.createElement);
+module.exports = function (it) {
+  return is ? document.createElement(it) : {};
+};
+
+},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js","./_global":"../../node_modules/core-js/modules/_global.js"}],"../../node_modules/core-js/modules/_ie8-dom-define.js":[function(require,module,exports) {
+module.exports = !require('./_descriptors') && !require('./_fails')(function () {
+  return Object.defineProperty(require('./_dom-create')('div'), 'a', { get: function () { return 7; } }).a != 7;
+});
+
+},{"./_descriptors":"../../node_modules/core-js/modules/_descriptors.js","./_fails":"../../node_modules/core-js/modules/_fails.js","./_dom-create":"../../node_modules/core-js/modules/_dom-create.js"}],"../../node_modules/core-js/modules/_to-primitive.js":[function(require,module,exports) {
+// 7.1.1 ToPrimitive(input [, PreferredType])
+var isObject = require('./_is-object');
+// instead of the ES6 spec version, we didn't implement @@toPrimitive case
+// and the second argument - flag - preferred type is a string
+module.exports = function (it, S) {
+  if (!isObject(it)) return it;
+  var fn, val;
+  if (S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (typeof (fn = it.valueOf) == 'function' && !isObject(val = fn.call(it))) return val;
+  if (!S && typeof (fn = it.toString) == 'function' && !isObject(val = fn.call(it))) return val;
+  throw TypeError("Can't convert object to primitive value");
+};
+
+},{"./_is-object":"../../node_modules/core-js/modules/_is-object.js"}],"../../node_modules/core-js/modules/_object-dp.js":[function(require,module,exports) {
+var anObject = require('./_an-object');
+var IE8_DOM_DEFINE = require('./_ie8-dom-define');
+var toPrimitive = require('./_to-primitive');
+var dP = Object.defineProperty;
+
+exports.f = require('./_descriptors') ? Object.defineProperty : function defineProperty(O, P, Attributes) {
+  anObject(O);
+  P = toPrimitive(P, true);
+  anObject(Attributes);
+  if (IE8_DOM_DEFINE) try {
+    return dP(O, P, Attributes);
+  } catch (e) { /* empty */ }
+  if ('get' in Attributes || 'set' in Attributes) throw TypeError('Accessors not supported!');
+  if ('value' in Attributes) O[P] = Attributes.value;
+  return O;
+};
+
+},{"./_an-object":"../../node_modules/core-js/modules/_an-object.js","./_ie8-dom-define":"../../node_modules/core-js/modules/_ie8-dom-define.js","./_to-primitive":"../../node_modules/core-js/modules/_to-primitive.js","./_descriptors":"../../node_modules/core-js/modules/_descriptors.js"}],"../../node_modules/core-js/modules/_property-desc.js":[function(require,module,exports) {
 module.exports = function (bitmap, value) {
   return {
     enumerable: !(bitmap & 1),
@@ -3276,8 +3258,6 @@ var _getOwnPropertySymbols = _interopRequireDefault(require("@babel/runtime-core
 
 var _keys = _interopRequireDefault(require("@babel/runtime-corejs2/core-js/object/keys"));
 
-require("core-js/modules/es6.function.name");
-
 var _regenerator = _interopRequireDefault(require("@babel/runtime-corejs2/regenerator"));
 
 require("regenerator-runtime/runtime");
@@ -3308,7 +3288,9 @@ var _lodash = lodash,
     get = _lodash.get,
     indexOf = _lodash.indexOf,
     forEach = _lodash.forEach;
-var SelectControl = wp.components.SelectControl;
+var _wp$components = wp.components,
+    SelectControl = _wp$components.SelectControl,
+    TextControl = _wp$components.TextControl;
 var compose = wp.compose.compose;
 var _wp = wp,
     apiFetch = _wp.apiFetch;
@@ -3388,14 +3370,16 @@ function WPStatusesPanel(_ref) {
       _ref$status = _ref.status,
       status = _ref$status === void 0 ? 'draft' : _ref$status,
       hasPublishAction = _ref.hasPublishAction,
-      stati = _ref.stati;
+      stati = _ref.stati,
+      password = _ref.password;
   var options = [];
+  var needsPassword = 'password' === status;
 
   if (postType && postType.slug) {
     forEach(stati, function (data) {
       if (-1 !== indexOf(data.post_type, postType.slug) && (hasPublishAction || -1 !== indexOf(['draft', 'pending'], data.slug))) {
         options.push({
-          label: data.name,
+          label: data.label,
           value: data.slug
         });
       }
@@ -3411,6 +3395,13 @@ function WPStatusesPanel(_ref) {
       return onUpdateStatus(status);
     },
     options: options
+  }), needsPassword && createElement(TextControl, {
+    label: __('Password', 'wp-statuses'),
+    value: password,
+    className: "wp-statuses-password",
+    onChange: function onChange(password) {
+      return onUpdateStatus(status, password);
+    }
   }));
 }
 
@@ -3429,13 +3420,16 @@ var WPStatusesInfo = compose([withSelect(function (select) {
     postType: getPostType(postTypeName),
     status: getEditedPostAttribute('custom_status'),
     hasPublishAction: get(getCurrentPost(), ['_links', 'wp:action-publish'], false),
-    stati: stati
+    stati: stati,
+    password: getEditedPostAttribute('password')
   };
 }), withDispatch(function (dispatch) {
   return {
     onUpdateStatus: function onUpdateStatus(WPStatusesStatus) {
+      var password = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
       dispatch('core/editor').editPost({
-        custom_status: WPStatusesStatus
+        custom_status: WPStatusesStatus,
+        password: password
       });
     }
   };
@@ -3443,7 +3437,7 @@ var WPStatusesInfo = compose([withSelect(function (select) {
 registerPlugin('wp-statuses-sidebar', {
   render: WPStatusesInfo
 });
-},{"@babel/runtime-corejs2/core-js/object/define-property":"../../node_modules/@babel/runtime-corejs2/core-js/object/define-property.js","@babel/runtime-corejs2/core-js/object/define-properties":"../../node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js","@babel/runtime-corejs2/core-js/object/get-own-property-descriptors":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js","@babel/runtime-corejs2/core-js/object/get-own-property-descriptor":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js","@babel/runtime-corejs2/core-js/object/get-own-property-symbols":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js","@babel/runtime-corejs2/core-js/object/keys":"../../node_modules/@babel/runtime-corejs2/core-js/object/keys.js","core-js/modules/es6.function.name":"../../node_modules/core-js/modules/es6.function.name.js","@babel/runtime-corejs2/regenerator":"../../node_modules/@babel/runtime-corejs2/regenerator/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","@babel/runtime-corejs2/helpers/defineProperty":"../../node_modules/@babel/runtime-corejs2/helpers/defineProperty.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"@babel/runtime-corejs2/core-js/object/define-property":"../../node_modules/@babel/runtime-corejs2/core-js/object/define-property.js","@babel/runtime-corejs2/core-js/object/define-properties":"../../node_modules/@babel/runtime-corejs2/core-js/object/define-properties.js","@babel/runtime-corejs2/core-js/object/get-own-property-descriptors":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptors.js","@babel/runtime-corejs2/core-js/object/get-own-property-descriptor":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-descriptor.js","@babel/runtime-corejs2/core-js/object/get-own-property-symbols":"../../node_modules/@babel/runtime-corejs2/core-js/object/get-own-property-symbols.js","@babel/runtime-corejs2/core-js/object/keys":"../../node_modules/@babel/runtime-corejs2/core-js/object/keys.js","@babel/runtime-corejs2/regenerator":"../../node_modules/@babel/runtime-corejs2/regenerator/index.js","regenerator-runtime/runtime":"../../node_modules/regenerator-runtime/runtime.js","@babel/runtime-corejs2/helpers/defineProperty":"../../node_modules/@babel/runtime-corejs2/helpers/defineProperty.js","core-js/modules/web.dom.iterable":"../../node_modules/core-js/modules/web.dom.iterable.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -3471,7 +3465,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62489" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49556" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
