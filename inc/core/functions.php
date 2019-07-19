@@ -551,8 +551,37 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
  */
 function wp_statuses_rest_prepare_for_database( $prepared_post, WP_REST_Request $request ) {
 	$custom_status = $request->get_param( 'custom_status' );
+	$status        = $request->get_param( 'status' );
 
-	if ( ! $custom_status || ! wp_statuses_get( $custom_status ) ) {
+	// Makes sure the custom status is preserved when updating the post content.
+	if ( ! $custom_status && $status && 'private' === $status ) {
+		$request_headers = $request->get_headers();
+		$edit_links      = array(
+			'edit' => esc_url( get_edit_post_link( $prepared_post->ID ) ),
+			'new'  => esc_url( add_query_arg( 'post_type', $prepared_post->post_type, admin_url( 'post-new.php' ) ) ),
+		);
+
+		if ( 'post' === $prepared_post->post_type ) {
+			$edit_links['new'] = remove_query_arg( 'post_type', $edit_links['new'] );
+		}
+
+		if ( ! isset( $request_headers['referer'] ) ) {
+			return $prepared_post;
+		}
+
+		$referer = $request_headers['referer'];
+		if ( is_array( $referer ) ) {
+			$referer = esc_url( reset( $referer ) );
+		}
+
+		if ( ! in_array( $referer, $edit_links, true ) ) {
+			return $prepared_post;
+		}
+
+		// Keep the current status, as updating the status is done thanks to the `custom_status`.
+		$custom_status = get_post_status( $prepared_post->ID );
+
+	} elseif ( ! wp_statuses_get( $custom_status ) ) {
 		return $prepared_post;
 	}
 
