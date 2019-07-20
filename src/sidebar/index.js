@@ -1,7 +1,7 @@
 const { registerPlugin } = wp.plugins;
 const { PluginPostStatusInfo } = wp.editPost;
 const { createElement } = wp.element;
-const { __, _x, _n, _nx } = wp.i18n;
+const { __, sprintf } = wp.i18n;
 const { withSelect, withDispatch, registerStore } = wp.data;
 const { get, indexOf, forEach } = lodash;
 const { SelectControl, TextControl } = wp.components;
@@ -63,10 +63,24 @@ registerStore( 'wp-statuses', {
 	},
 } );
 
-function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPublishAction, stati, password } ) {
-	let options = [];
-	const needsPassword = 'password' === status;
+function WPStatusesPanel( { onUpdateStatus, postType, custom_status = 'draft', currentPost, stati, password } ) {
+	const needsPassword    = 'password' === custom_status;
+	const hasPublishAction = get( currentPost, [ '_links', 'wp:action-publish' ], false );
 
+	if ( 'future' === currentPost.status && 'future' !== custom_status ) {
+		custom_status = 'future';
+		onUpdateStatus( custom_status );
+	}
+
+	if ( 'future' === custom_status && stati.publish ) {
+		return (
+			<PluginPostStatusInfo className="wp-statuses-info">
+				{ sprintf( __( 'Next status will be "%s" once the scheduled date will be reached.', 'wp-statuses' ), stati.publish.label ) }
+			</PluginPostStatusInfo>
+		);
+	}
+
+	let options = [];
 	if ( postType && postType.slug ) {
         forEach( stati, function( data ) {
             if ( -1 !== indexOf( data.post_type, postType.slug ) && ( hasPublishAction || -1 !== indexOf( ['draft', 'pending'], data.slug ) ) ) {
@@ -79,8 +93,8 @@ function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPubli
 		<PluginPostStatusInfo className="wp-statuses-info">
 			<SelectControl
 				label={ __( 'Status', 'wp-statuses' ) }
-				value={ status }
-				onChange={ ( status ) => onUpdateStatus( status ) }
+				value={ custom_status }
+				onChange={ ( custom_status ) => onUpdateStatus( custom_status ) }
 				options={ options }
 			/>
 
@@ -89,7 +103,7 @@ function WPStatusesPanel( { onUpdateStatus, postType, status = 'draft', hasPubli
 					label={ __( 'Password', 'wp-statuses' ) }
 					value={ password }
 					className="wp-statuses-password"
-					onChange={ ( password ) => onUpdateStatus( status, password ) }
+					onChange={ ( password ) => onUpdateStatus( custom_status, password ) }
 				/>
 			}
 		</PluginPostStatusInfo>
@@ -105,8 +119,8 @@ const WPStatusesInfo = compose( [
 
 		return {
 			postType: getPostType( postTypeName ),
-			status: getEditedPostAttribute( 'custom_status' ),
-			hasPublishAction: get( getCurrentPost(), [ '_links', 'wp:action-publish' ], false ),
+			custom_status: getEditedPostAttribute( 'custom_status' ),
+			currentPost: getCurrentPost(),
 			stati: stati,
 			password: getEditedPostAttribute( 'password' ),
 		};

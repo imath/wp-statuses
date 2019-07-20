@@ -3277,9 +3277,7 @@ var PluginPostStatusInfo = wp.editPost.PluginPostStatusInfo;
 var createElement = wp.element.createElement;
 var _wp$i18n = wp.i18n,
     __ = _wp$i18n.__,
-    _x = _wp$i18n._x,
-    _n = _wp$i18n._n,
-    _nx = _wp$i18n._nx;
+    sprintf = _wp$i18n.sprintf;
 var _wp$data = wp.data,
     withSelect = _wp$data.withSelect,
     withDispatch = _wp$data.withDispatch,
@@ -3367,13 +3365,26 @@ registerStore('wp-statuses', {
 function WPStatusesPanel(_ref) {
   var onUpdateStatus = _ref.onUpdateStatus,
       postType = _ref.postType,
-      _ref$status = _ref.status,
-      status = _ref$status === void 0 ? 'draft' : _ref$status,
-      hasPublishAction = _ref.hasPublishAction,
+      _ref$custom_status = _ref.custom_status,
+      custom_status = _ref$custom_status === void 0 ? 'draft' : _ref$custom_status,
+      currentPost = _ref.currentPost,
       stati = _ref.stati,
       password = _ref.password;
+  var needsPassword = 'password' === custom_status;
+  var hasPublishAction = get(currentPost, ['_links', 'wp:action-publish'], false);
+
+  if ('future' === currentPost.status && 'future' !== custom_status) {
+    custom_status = 'future';
+    onUpdateStatus(custom_status);
+  }
+
+  if ('future' === custom_status && stati.publish) {
+    return createElement(PluginPostStatusInfo, {
+      className: "wp-statuses-info"
+    }, sprintf(__('Next status will be "%s" once the scheduled date will be reached.', 'wp-statuses'), stati.publish.label));
+  }
+
   var options = [];
-  var needsPassword = 'password' === status;
 
   if (postType && postType.slug) {
     forEach(stati, function (data) {
@@ -3390,9 +3401,9 @@ function WPStatusesPanel(_ref) {
     className: "wp-statuses-info"
   }, createElement(SelectControl, {
     label: __('Status', 'wp-statuses'),
-    value: status,
-    onChange: function onChange(status) {
-      return onUpdateStatus(status);
+    value: custom_status,
+    onChange: function onChange(custom_status) {
+      return onUpdateStatus(custom_status);
     },
     options: options
   }), needsPassword && createElement(TextControl, {
@@ -3400,7 +3411,7 @@ function WPStatusesPanel(_ref) {
     value: password,
     className: "wp-statuses-password",
     onChange: function onChange(password) {
-      return onUpdateStatus(status, password);
+      return onUpdateStatus(custom_status, password);
     }
   }));
 }
@@ -3418,8 +3429,8 @@ var WPStatusesInfo = compose([withSelect(function (select) {
   var stati = select('wp-statuses').getStati();
   return {
     postType: getPostType(postTypeName),
-    status: getEditedPostAttribute('custom_status'),
-    hasPublishAction: get(getCurrentPost(), ['_links', 'wp:action-publish'], false),
+    custom_status: getEditedPostAttribute('custom_status'),
+    currentPost: getCurrentPost(),
     stati: stati,
     password: getEditedPostAttribute('password')
   };
@@ -3465,7 +3476,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49556" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49224" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
