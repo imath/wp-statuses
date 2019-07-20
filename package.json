@@ -45,6 +45,6 @@
   "scripts": {
     "start": "parcel watch src/sidebar/index.js -d js --out-file sidebar.js --no-cache",
     "build": "parcel build src/sidebar/index.js -d js --out-file sidebar.min.js --no-cache",
-    "pot": "po2json languages/js/wp-statuses-sidebar-fr_FR.po languages/js/wp-statuses-fr_FR-wp-statuses-sidebar.json -f jed1.x"
+    "pot": "po2json languages/js/wp-statuses-sidebar-fr_FR.po languages/js/wp-statuses-fr_FR-wp-statuses-sidebar.json -f jed"
   }
 }

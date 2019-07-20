@@ -743,6 +743,8 @@ class WP_Statuses_Admin {
 			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n' ),
 			wp_statuses_version()
 		);
+
+		$test = wp_set_script_translations( 'wp-statuses-sidebar', 'wp-statuses', trailingslashit( wp_statuses()->dir ) . 'languages/js' );
 	}
 
 	public function enqueue_block_editor_asset() {
