@@ -12,4 +12,4 @@
 /icon.png export-ignore
 /CHANGELOG.md export-ignore
 /composer.json export-ignore
-/src
+/src export-ignore

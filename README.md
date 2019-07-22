@@ -1,10 +1,14 @@
 # WP Statuses
 
-Whether you are using the Classic editor or the **Block Editor** of WordPress, WP Statuses brings an API to control the post types your custom Post Status will be applied to.
+Whether you are using the Classic editor or the **Block Editor** of WordPress, WP Statuses brings an API to control the post types your custom Post Status will be applied to. It also adapts the various WordPress Administration UIs to let you manage all the available statuses for you post (including the custom ones of course!).
+
+Below are screenshots of how it looks into WordPress editors.
+
+| ![Built in statuses in the Publishing Metabox](https://cldup.com/7_IigUCAPn.png) | ![Block Editor](https://cldup.com/dzk-bZsmVT.png ) |
+| :---: | :---: |
+| Classic Editor | Block Editor |
 
 This is a safely way to wait until the WordPress trac ticket [#12706](https://core.trac.wordpress.org/ticket/12706) and the Gutenberg GitHub issue [#3144](https://github.com/WordPress/gutenberg/issues/3144) are fixed.
-
-![Built in statuses in the Publishing Metabox](https://cldup.com/7_IigUCAPn.png)
 
 **PS**: The Password protected visibility option is now included into the statuses dropdowns and labels for Private and Published has been renamed respectively to Privately published and Publicly published.
 
