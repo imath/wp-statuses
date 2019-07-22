@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"X-Generator: Poedit 1.7.4\n"
+"Project-Id-Version: \n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr\n"
+
+#: src/sidebar/index.js:103
+msgid "Password"
+msgstr "Mot de passe"
+
+#: src/sidebar/index.js:78
+msgid "Next status will be \"%s\" once the scheduled date will be reached."
+msgstr "Le prochain statut sera « %s » une fois que la date planifiée sera atteinte."
+
+#: src/sidebar/index.js:95
+msgid "Status"
+msgstr "Statut"

@@ -173,6 +173,7 @@ function wp_statuses_register_password_protected() {
 			'inline_dropdown'  => __( 'Password', 'wp-statuses' ),
 		),
 		'dashicon'                  => 'dashicons-lock',
+		'_builtin'                  => true,
 	) );
 }
 
@@ -377,4 +378,220 @@ function wp_statuses_unregister_status_for_post_type( $status = '', $post_type =
 	}
 
 	return true;
+}
+
+/**
+ * Gets all custom stati.
+ *
+ * @since 2.0.0
+ *
+ * @return array The list of custom status objects.
+ */
+function wp_statuses_get_customs() {
+	$stati = get_post_stati( array( 'internal' => false ), 'objects' );
+
+	foreach ( $stati as $s => $status ) {
+		if ( $status->is_builtin() ) {
+			unset( $stati[ $s ] );
+		}
+	}
+
+	return $stati;
+}
+
+/**
+ * Gets all post types concerned by one or more custom status.
+ *
+ * @since 2.0.0
+ *
+ * @return array The list of post types concerned by one or more custom status.
+ */
+function wp_statuses_get_customs_post_types() {
+	$post_types           = array();
+	$post_types_by_status = wp_list_pluck( wp_statuses_get_customs(), 'post_type', 'name' );
+
+	foreach ( $post_types_by_status as $types ) {
+		$post_types = array_merge( $post_types, array_values( $types ) );
+	}
+
+	return array_unique( $post_types );
+}
+
+/**
+ * Gets the registered post types for statuses in REST Requests.
+ *
+ * @since 2.0.0
+ *
+ * @param  array  $data      The status data.
+ * @param  string $attribute The REST field's name attribute.
+ * @return array             The list of supported post types.
+ */
+function wp_statuses_rest_get_post_types( $data, $attribute ) {
+	$value = array();
+
+	if ( 'post_type' !== $attribute || ! isset( $data['slug'] ) ) {
+		return $value;
+	}
+
+	global $wp_post_statuses;
+	$statuses = wp_list_pluck( $wp_post_statuses, 'post_type', 'name' );
+
+	if ( isset( $statuses[ $data['slug'] ] ) ) {
+		$rest_post_types = get_post_types( array( 'show_in_rest' => true ) );
+		$value           = array_intersect( $rest_post_types, $statuses[ $data['slug'] ] );
+	}
+
+	return array_values( $value );
+}
+
+/**
+ * Gets the label for the Block Editor's dropdown in REST Requests.
+ *
+ * @since 2.0.0
+ *
+ * @param  array  $data      The status data.
+ * @param  string $attribute The REST field's name attribute.
+ * @return string            The label to use into the Block editor.
+ */
+function wp_statuses_rest_get_label( $data, $attribute ) {
+	$value = '';
+
+	if ( 'label' !== $attribute || ! isset( $data['slug'] ) ) {
+		return $value;
+	}
+
+	// Defaults to the status name.
+	$value = $data['name'];
+
+	$status = wp_statuses_get( $data['slug'] );
+	if ( isset( $status->labels['metabox_dropdown'] ) ) {
+		$value = esc_html( $status->labels['metabox_dropdown'] );
+	}
+
+	return $value;
+}
+
+/**
+ * Registers a new property for the REST Status controller schema.
+ *
+ * @since 2.0.0
+ */
+function wp_statuses_register_post_types_field() {
+	register_rest_field( 'status', 'post_type', array(
+		'get_callback'    => 'wp_statuses_rest_get_post_types',
+		'schema'          => array(
+			'context'     => array( 'view', 'edit' ),
+			'description' => __( 'The list of post types the status applies to.', 'wp-statuses' ),
+			'type'        => 'array',
+			'readonly'    => true,
+		),
+	) );
+
+	register_rest_field( 'status', 'label', array(
+		'get_callback'    => 'wp_statuses_rest_get_label',
+		'schema'          => array(
+			'context'     => array( 'view', 'edit' ),
+			'description' => __( 'The label to use into the Block editor.', 'wp-statuses' ),
+			'type'        => 'string',
+			'readonly'    => true,
+		),
+	) );
+
+	foreach ( wp_statuses_get_customs_post_types() as $post_type ) {
+		$post_type_object = get_post_type_object( $post_type );
+		if ( ! isset( $post_type_object->show_in_rest ) || true !== $post_type_object->show_in_rest ) {
+			continue;
+		}
+
+		add_filter( "rest_prepare_{$post_type}", 'wp_statuses_rest_prepare_for_response', 10, 3 );
+		add_filter( "rest_pre_insert_{$post_type}", 'wp_statuses_rest_prepare_for_database', 10, 2 );
+	}
+}
+add_action( 'rest_api_init', 'wp_statuses_register_post_types_field', 11 );
+
+/**
+ * Adds a specific custom status property for the WP REST Response.
+ *
+ * @since 2.0.0
+ *
+ * @param  WP_REST_Response $response The response object.
+ * @param  WP_Post          $post     Post object.
+ * @param  WP_REST_Request  $request  Request object.
+ * @return WP_REST_Response           The response object.
+ */
+function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_Post $post, WP_REST_Request $request ) {
+	if ( 'edit' !== $request->get_param( 'context' ) ) {
+		return $response;
+	}
+
+	$post_type = $response->get_data();
+	$post_type['custom_status'] = get_post_status( $post );
+
+	// Use a specific status for password protected posts.
+	if ( isset( $post->post_password ) && $post->post_password ) {
+		$post_type['custom_status'] = 'password';
+	}
+
+	// Always trick the Block Editor so that is uses the "Update" major action button.
+	$post_type['status'] = 'private';
+	$response->set_data( $post_type );
+
+	return $response;
+}
+
+/**
+ * Looks for a valid specific custom status property to use it when creating/updating post types.
+ *
+ * @since 2.0.0
+ *
+ * @param stdClass        $prepared_post An object representing a single post prepared
+ *                                       for inserting or updating the database.
+ * @param WP_REST_Request $request       TheRequest object.
+ * @return stdClass                      The object to save in database.
+ */
+function wp_statuses_rest_prepare_for_database( $prepared_post, WP_REST_Request $request ) {
+	$custom_status = $request->get_param( 'custom_status' );
+	$status        = $request->get_param( 'status' );
+
+	// Makes sure the custom status is preserved when updating the post content.
+	if ( ! $custom_status && $status && 'private' === $status ) {
+		$request_headers = $request->get_headers();
+		$edit_links      = array(
+			'edit' => esc_url( get_edit_post_link( $prepared_post->ID ) ),
+			'new'  => esc_url( add_query_arg( 'post_type', $prepared_post->post_type, admin_url( 'post-new.php' ) ) ),
+		);
+
+		if ( 'post' === $prepared_post->post_type ) {
+			$edit_links['new'] = remove_query_arg( 'post_type', $edit_links['new'] );
+		}
+
+		if ( ! isset( $request_headers['referer'] ) ) {
+			return $prepared_post;
+		}
+
+		$referer = $request_headers['referer'];
+		if ( is_array( $referer ) ) {
+			$referer = esc_url( reset( $referer ) );
+		}
+
+		if ( ! in_array( $referer, $edit_links, true ) ) {
+			return $prepared_post;
+		}
+
+		// Keep the current status, as updating the status is done thanks to the `custom_status`.
+		$custom_status = get_post_status( $prepared_post->ID );
+
+	} elseif ( ! wp_statuses_get( $custom_status ) ) {
+		return $prepared_post;
+	}
+
+	// Use the custom status.
+	$prepared_post->post_status = $custom_status;
+
+	// Use the publish status for password protected posts.
+	if ( 'password' === $custom_status ) {
+		$prepared_post->post_status = 'publish';
+	}
+
+	return $prepared_post;
 }

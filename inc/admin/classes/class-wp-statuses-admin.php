@@ -83,6 +83,13 @@ class WP_Statuses_Admin {
 
 		// Press This
 		add_filter( 'press_this_save_post',  array( $this, 'reset_status' ),    10, 1 );
+
+		// Block editor
+		if ( function_exists( 'register_block_type' ) )  {
+			add_action( 'init',                        array( $this, 'register_block_editor_script' ), 1001 );
+			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_asset' ), 10 );
+			add_filter( 'block_editor_preload_paths',  array( $this, 'preload_path' ), 10 );
+		}
 	}
 
 	/**
@@ -202,10 +209,7 @@ class WP_Statuses_Admin {
 		global $publish_callback_args;
 
 		// Bail if the Post Type is not supported, or if post uses Gutenberg block editor
-		if (
-			! wp_statuses_is_post_type_supported( $post_type )
-			|| ( function_exists( 'use_block_editor_for_post' ) && use_block_editor_for_post( $post ) )
-		) {
+		if ( ! wp_statuses_is_post_type_supported( $post_type ) ) {
 			return;
 		}
 
@@ -220,7 +224,9 @@ class WP_Statuses_Admin {
 			$post_type,
 			'side',
 			'high',
-			$publish_callback_args
+			array_merge( (array) $publish_callback_args, array(
+				'__back_compat_meta_box' => true,
+			) )
 		);
 
 		// Validate the post type.
@@ -727,6 +733,73 @@ class WP_Statuses_Admin {
 
 		return array_merge( $post_data, array(
 			'post_status' => $status->name,
+		) );
+	}
+
+	/**
+	 * Registers the Block Editor's Sidebar script.
+	 *
+	 * @since 2.0.0
+	 */
+	public function register_block_editor_script() {
+		wp_register_script(
+			'wp-statuses-sidebar',
+			sprintf( '%1$ssidebar%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n' ),
+			wp_statuses_version()
+		);
+
+		$test = wp_set_script_translations( 'wp-statuses-sidebar', 'wp-statuses', trailingslashit( wp_statuses()->dir ) . 'languages/js' );
+	}
+
+	/**
+	 * Loads the needed CSS/Script for the Block Editor's Sidebar script.
+	 *
+	 * @since 2.0.0
+	 */
+	public function enqueue_block_editor_asset() {
+		$post_type = get_post_type();
+		if ( ! in_array( $post_type, wp_statuses_get_customs_post_types(), true ) ) {
+			return;
+		}
+
+		$future_control  = '';
+		$required_status = wp_statuses_get( 'publish' );
+
+		if ( ! in_array( $post_type, $required_status->post_type, true ) ) {
+			$future_control = ', .edit-post-post-schedule';
+		}
+
+		wp_enqueue_script( 'wp-statuses-sidebar' );
+		wp_add_inline_style( 'wp-edit-post', "
+			.edit-post-post-visibility{$future_control} { display: none }
+			.components-panel__row.wp-statuses-info { display: block }
+			.components-panel__row.wp-statuses-info .components-base-control__label,
+			.components-panel__row.wp-statuses-info .components-select-control__input,
+			.components-panel__row.wp-statuses-info .components-text-control__input {
+				display: inline-block;
+				max-width: 100%;
+				width: 100%;
+			}
+			.components-base-control.wp-statuses-password { margin-top: 20px }
+		" );
+	}
+
+	/**
+	 * Adds a REST route to preload into the Block Editor.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $paths The list of REST routes to preload.
+	 * @return array        The list of REST routes to preload.
+	 */
+	public function preload_path( $paths = array() ) {
+		if ( ! in_array( get_post_type(), wp_statuses_get_customs_post_types(), true ) ) {
+			return $paths;
+		}
+
+		return array_merge( $paths, array(
+			'/wp/v2/statuses?context=edit'
 		) );
 	}
 }

@@ -1,5 +1,19 @@
 # Change Log
 
+## 2.0.0
+
+_Requires WordPress 5.0_
+
+### Features
+
+- WP Statuses is now ready to manage your custom statuses within the WordPress Block Editor 🙌
+
+### Props
+
+@rowatt
+
+---
+
 ## 1.2.5
 
 _Requires WordPress 4.7_

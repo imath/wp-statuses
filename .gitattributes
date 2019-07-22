@@ -1,3 +1,4 @@
+/.babelrc export-ignore
 /.editorconfig export-ignore
 /.gitattributes export-ignore
 /.gitignore export-ignore
@@ -7,6 +8,8 @@
 /LICENSE export-ignore
 /gruntfile.js export-ignore
 /package.json export-ignore
+/package-lock.json export-ignore
 /icon.png export-ignore
 /CHANGELOG.md export-ignore
 /composer.json export-ignore
+/src export-ignore

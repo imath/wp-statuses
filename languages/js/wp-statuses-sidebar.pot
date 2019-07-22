@@ -1,0 +1,16 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"X-Generator: babel-plugin-makepot\n"
+
+#: src/sidebar/index.js:103
+msgid "Password"
+msgstr ""
+
+#: src/sidebar/index.js:78
+msgid "Next status will be \"%s\" once the scheduled date will be reached."
+msgstr ""
+
+#: src/sidebar/index.js:95
+msgid "Status"
+msgstr ""
