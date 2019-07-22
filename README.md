@@ -1,6 +1,8 @@
 # WP Statuses
 
-As described in [#12706](https://core.trac.wordpress.org/ticket/12706), the WordPress Publish Metabox does not support custom statuses so far. The Core Trac ticket also introduces some questions about the way this Metabox is designed, in particular the visibility's section of it. This plugin is first suggesting a new Publishing Metabox as shown below.
+Whether you are using the Classic editor or the **Block Editor** of WordPress, WP Statuses brings an API to control the post types your custom Post Status will be applied to.
+
+This is a safely way to wait until the WordPress trac ticket [#12706](https://core.trac.wordpress.org/ticket/12706) and the Gutenberg GitHub issue [#3144](https://github.com/WordPress/gutenberg/issues/3144) are fixed.
 
 ![Built in statuses in the Publishing Metabox](https://cldup.com/7_IigUCAPn.png)
 
@@ -9,7 +11,7 @@ As described in [#12706](https://core.trac.wordpress.org/ticket/12706), the Word
 #### Custom statuses for builtin Post Types
 
 ```php
-add_filter( 'wp_statuses_use_custom_status', '__return_true' )
+add_filter( 'wp_statuses_use_custom_status', '__return_true' );
 ```
 
 Using the above filter will demonstrate how it is possible to add custom statuses for WordPress builtin Post Types.
@@ -68,7 +70,7 @@ register_post_status( 'archive', array(
 
 ## Configuration needed
 
-+ WordPress 4.7
++ WordPress 5.0
 
 ## Installation
 

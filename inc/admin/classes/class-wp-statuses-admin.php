@@ -736,6 +736,11 @@ class WP_Statuses_Admin {
 		) );
 	}
 
+	/**
+	 * Registers the Block Editor's Sidebar script.
+	 *
+	 * @since 2.0.0
+	 */
 	public function register_block_editor_script() {
 		wp_register_script(
 			'wp-statuses-sidebar',
@@ -747,6 +752,11 @@ class WP_Statuses_Admin {
 		$test = wp_set_script_translations( 'wp-statuses-sidebar', 'wp-statuses', trailingslashit( wp_statuses()->dir ) . 'languages/js' );
 	}
 
+	/**
+	 * Loads the needed CSS/Script for the Block Editor's Sidebar script.
+	 *
+	 * @since 2.0.0
+	 */
 	public function enqueue_block_editor_asset() {
 		$post_type = get_post_type();
 		if ( ! in_array( $post_type, wp_statuses_get_customs_post_types(), true ) ) {
@@ -775,6 +785,14 @@ class WP_Statuses_Admin {
 		" );
 	}
 
+	/**
+	 * Adds a REST route to preload into the Block Editor.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param  array $paths The list of REST routes to preload.
+	 * @return array        The list of REST routes to preload.
+	 */
 	public function preload_path( $paths = array() ) {
 		if ( ! in_array( get_post_type(), wp_statuses_get_customs_post_types(), true ) ) {
 			return $paths;

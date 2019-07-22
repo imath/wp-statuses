@@ -11,7 +11,7 @@ module.exports = function( grunt ) {
 			grunt: {
 				src: ['gruntfile.js']
 			},
-			all: ['gruntfile.js', 'js/*.js']
+			all: ['gruntfile.js', 'js/*.js', '!js/sidebar*']
 		},
 		checktextdomain: {
 			options: {
@@ -40,7 +40,7 @@ module.exports = function( grunt ) {
 			}
 		},
 		clean: {
-			all: [ 'js/*.min.js', '<%= pkg.name %>.zip' ]
+			all: [ 'js/*.min.js', '<%= pkg.name %>.zip', '!js/sidebar*' ]
 		},
 		makepot: {
 			target: {
@@ -64,16 +64,11 @@ module.exports = function( grunt ) {
 				extDot: 'last',
 				expand: true,
 				ext: '.min.js',
-				src: ['js/*.js', '!*.min.js']
-			},
-			options: {
-				banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-				'<%= grunt.template.today("UTC:yyyy-mm-dd h:MM:ss TT Z") %> - ' +
-				'https://github.com/imath/wp-statuses */\n'
+				src: ['js/*.js', '!*.min.js', '!js/sidebar*']
 			}
 		},
 		jsvalidate:{
-			src: ['js/*.js'],
+			src: ['js/*.js', '!js/sidebar*'],
 			options:{
 				globals: {},
 				esprimaOptions:{},
@@ -88,6 +83,18 @@ module.exports = function( grunt ) {
 					'tree-ish': 'HEAD@{0}'
 				}
 			}
+		},
+		exec: {
+			js_makepot: {
+				command: 'npm run pot',
+				stdout: true,
+				stderr: true
+			},
+			build_parcel: {
+				command: 'npm run build',
+				stdout: true,
+				stderr: true
+			}
 		}
 	} );
 
@@ -99,7 +106,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'compress', ['git-archive'] );
 
-	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify', 'compress'] );
+	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify', 'exec'] );
 
 	// Default task.
 	grunt.registerTask( 'default', ['commit'] );
