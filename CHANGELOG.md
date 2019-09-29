@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.0.1
+
+_Requires WordPress 5.0_
+
+### Features
+
+- Italian translation.
+
+### Props
+
+@leorospo
+
 ## 2.0.0
 
 _Requires WordPress 5.0_
