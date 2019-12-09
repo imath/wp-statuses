@@ -40,7 +40,7 @@
   },
   "version": "2.0.1",
   "dependencies": {
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "scripts": {
     "start": "parcel watch src/sidebar/index.js -d js --out-file sidebar.js --no-cache",
