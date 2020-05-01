@@ -471,6 +471,64 @@ function wp_statuses_rest_get_label( $data, $attribute ) {
 	return $value;
 }
 
+function wp_statuses_get_default_content( $post_content = '', $post ) {
+	$post_type = get_post_type( $post );
+
+	if ( ! in_array( $post_type, wp_statuses_get_customs_post_types(), true ) ) {
+		return $post_content;
+	}
+
+	$post_type_object = get_post_type_object( $post_type );
+
+	if ( isset( $post_type_object->template ) && $post_type_object->template ) {
+		foreach ( $post_type_object->template as $block_template ) {
+			if ( ! isset( $block_template[0] ) ) {
+				continue;
+			}
+
+			if ( ! isset( $block_template[1] ) ) {
+				$block_template[1] = array();
+			}
+
+			$inner_html = '';
+
+			/**
+			 * This part is pretty annoying to deal on the server side.
+			 * It means, we need to know how each block types are rendered.
+			 * @todo Try fixing this in JavaScript.
+			 */
+			switch( $block_template[0] ) {
+				case 'core/image':
+					$class = 'alignnone';
+					if ( isset( $block_template[1]['align'] ) ) {
+						$class = 'align' . esc_attr( $block_template[1]['align'] );
+					}
+
+					$inner_html = sprintf( '<div class="wp-block-image"><figure class="%s"><img alt=""></figure></div>', $class );
+					break;
+
+				case 'core/paragraph':
+				default:
+					$inner_html = '<p></p>';
+					break;
+			}
+
+			$block = new WP_Block_Parser_Block(
+				$block_template[0],  // Block Name.
+				$block_template[1],  // Block Attributes.
+				array(),             // List of inner blocks.
+				$inner_html,         // Resultant HTML from inside block comment delimiters.
+				array( $inner_html ) // List of string fragments and null markers.
+			);
+
+			$post_content .= serialize_block( (array) $block ) . "\n";
+		}
+	}
+
+	return $post_content;
+}
+add_filter( 'default_content', 'wp_statuses_get_default_content', 10, 2 );
+
 /**
  * Registers a new property for the REST Status controller schema.
  *
