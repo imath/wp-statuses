@@ -5,8 +5,8 @@
   },
   "description": "Suggestions to improve the WordPress Post statuses API.",
   "devDependencies": {
-    "@babel/core": "^7.5.4",
-    "@babel/runtime-corejs2": "^7.5.5",
+    "@babel/core": "^7.9.6",
+    "@babel/runtime-corejs2": "^7.9.6",
     "@wordpress/babel-plugin-makepot": "^2.1.2",
     "@wordpress/babel-preset-default": "^2.1.0",
     "grunt": "^1.0.4",
@@ -23,7 +23,7 @@
     "grunt-legacy-util": "^1.1.1",
     "grunt-wp-i18n": "^1.0.3",
     "matchdep": "^2.0.0",
-    "po2json": "^1.0.0-alpha"
+    "po2json": "^1.0.0-beta-2"
   },
   "engines": {
     "node": "10.13.0"
@@ -38,8 +38,11 @@
     "type": "git",
     "url": "https://github.com/imath/wp-statuses.git"
   },
-  "version": "2.0.1",
+  "version": "2.1.0",
   "dependencies": {
+    "browserslist": "^4.12.0",
+    "caniuse-lite": "^1.0.30001048",
+    "gettext-parser": "^2.0.0",
     "parcel-bundler": "^1.12.4"
   },
   "scripts": {

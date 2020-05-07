@@ -745,7 +745,7 @@ class WP_Statuses_Admin {
 		wp_register_script(
 			'wp-statuses-sidebar',
 			sprintf( '%1$ssidebar%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
-			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n' ),
+			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n', 'wp-blocks' ),
 			wp_statuses_version()
 		);
 
@@ -773,6 +773,7 @@ class WP_Statuses_Admin {
 		wp_enqueue_script( 'wp-statuses-sidebar' );
 		wp_add_inline_style( 'wp-edit-post', "
 			.edit-post-post-visibility{$future_control} { display: none }
+			.editor-post-switch-to-draft { display: none }
 			.components-panel__row.wp-statuses-info { display: block }
 			.components-panel__row.wp-statuses-info .components-base-control__label,
 			.components-panel__row.wp-statuses-info .components-select-control__input,

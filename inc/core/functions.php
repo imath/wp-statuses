@@ -524,8 +524,13 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
 		return $response;
 	}
 
+	$post_status = get_post_status( $post );
+	if ( 'trash' === $post_status ) {
+		return $response;
+	}
+
 	$post_type = $response->get_data();
-	$post_type['custom_status'] = get_post_status( $post );
+	$post_type['custom_status'] = $post_status;
 
 	// Use a specific status for password protected posts.
 	if ( isset( $post->post_password ) && $post->post_password ) {
@@ -534,6 +539,7 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
 
 	// Always trick the Block Editor so that is uses the "Update" major action button.
 	$post_type['status'] = 'private';
+
 	$response->set_data( $post_type );
 
 	return $response;
