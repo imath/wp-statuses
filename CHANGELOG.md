@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.1.0
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.4.1_
+
+### Bug Fixes
+
+- Make sure trashing a post from the Block Editor is redirecting the user on the edit screen of the post type.
+- Make sure Post types `template` and `template_lock` properties are taken in account and that the blocks set in the template are inserted into the Block Editor.
+
+### Props
+
+@leorospo
+
+---
+
 ## 2.0.1
 
 _Requires WordPress 5.0_
@@ -11,6 +27,8 @@ _Requires WordPress 5.0_
 ### Props
 
 @leorospo
+
+---
 
 ## 2.0.0
 
