@@ -38,9 +38,9 @@
     "type": "git",
     "url": "https://github.com/imath/wp-statuses.git"
   },
-  "version": "2.0.0",
+  "version": "2.0.1",
   "dependencies": {
-    "parcel-bundler": "^1.12.3"
+    "parcel-bundler": "^1.12.4"
   },
   "scripts": {
     "start": "parcel watch src/sidebar/index.js -d js --out-file sidebar.js --no-cache",
