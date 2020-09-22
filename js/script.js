@@ -22,8 +22,8 @@ window.wp = window.wp || {};
 			update: wp.i18n.__( 'Update' ),
 			dateFormat: wp.i18n.__( '%1$s %2$s, %3$s at %4$s:%5$s' ),
 			savePending: wp.i18n.__( 'Save as Pending' ),
-			saveDraft: wp.i18n.__( 'Save Draft' ),
-		}
+			saveDraft: wp.i18n.__( 'Save Draft' )
+		};
 	} else {
 		return;
 	}

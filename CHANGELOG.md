@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.1.1
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.5.1_
+
+### Bug Fixes
+
+- Make sure the plugin can be used with the Classic Editor plugin when WP is >= 5.5 or WP is < 5.5.
+
+### Props
+
+@andrefredette
+
+---
+
 ## 2.1.0
 
 _Requires WordPress 5.0_
