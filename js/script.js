@@ -6,7 +6,25 @@ window.wp = window.wp || {};
 ( function( $ ) {
 
 	// Bail if not set
-	if ( typeof wpStatuses === 'undefined' || typeof postL10n === 'undefined' ) {
+	if ( typeof wpStatuses === 'undefined' ) {
+		return;
+	}
+
+	if ( typeof postL10n !== 'undefined' && typeof wp.deprecateL10nObject === 'undefined' ) {
+		wpStatuses.L10n = postL10n;
+	} else if ( typeof wp.i18n.__ !== 'undefined' ) {
+		wpStatuses.L10n = {
+			publishOnFuture:  wp.i18n.__( 'Schedule for:' ),
+			schedule:  wp.i18n._x( 'Schedule', 'post action/button label' ),
+			publishOn:  wp.i18n.__( 'Publish on:' ),
+			publish:  wp.i18n.__( 'Publish' ),
+			publishOnPast: wp.i18n.__( 'Published on:' ),
+			update: wp.i18n.__( 'Update' ),
+			dateFormat: wp.i18n.__( '%1$s %2$s, %3$s at %4$s:%5$s' ),
+			savePending: wp.i18n.__( 'Save as Pending' ),
+			saveDraft: wp.i18n.__( 'Save Draft' ),
+		}
+	} else {
 		return;
 	}
 
@@ -122,8 +140,8 @@ window.wp = window.wp || {};
 
 			// Schedule action
 			if ( dateDiff > 0 && -1 !== $.inArray( status, ['draft', 'pending', 'publish'] ) ) {
-				publishOn = postL10n.publishOnFuture;
-				$( '#publish' ).val( postL10n.schedule );
+				publishOn = wpStatuses.L10n.publishOnFuture;
+				$( '#publish' ).val( wpStatuses.L10n.schedule );
 				$( '#publish' ).prop( 'name', 'publish' );
 
 				if ( 'password' === rStatus ) {
@@ -132,8 +150,8 @@ window.wp = window.wp || {};
 
 			// Publish action
 			} else if ( dateDiff <= 0 && -1 !== $.inArray( status, ['draft', 'pending', 'publish', 'future'] ) && ( 'publish' !== originalStatus || ( 'publish' === originalStatus && -1 !== $.inArray( status, ['draft', 'pending'] ) ) ) ) {
-				publishOn = postL10n.publishOn;
-				$( '#publish' ).val( postL10n.publish );
+				publishOn = wpStatuses.L10n.publishOn;
+				$( '#publish' ).val( wpStatuses.L10n.publish );
 				$( '#publish' ).prop( 'name', 'publish' );
 
 				if ( 'password' === rStatus ) {
@@ -142,8 +160,8 @@ window.wp = window.wp || {};
 
 			// Update action
 			} else {
-				publishOn = postL10n.publishOnPast;
-				$( '#publish' ).val( postL10n.update );
+				publishOn = wpStatuses.L10n.publishOnPast;
+				$( '#publish' ).val( wpStatuses.L10n.update );
 
 				// Make sure the name property is
 				if ( -1 === $.inArray( status, ['draft', 'pending', 'publish', 'future'] ) ) {
@@ -184,7 +202,7 @@ window.wp = window.wp || {};
 
 				$( '#timestamp' ).html(
 					'\n' + publishOn + ' <b>' +
-					postL10n.dateFormat
+					wpStatuses.L10n.dateFormat
 						.replace( '%1$s', $( 'option[value="' + month + '"]', '#mm' ).data( 'text' ) )
 						.replace( '%2$s', day )
 						.replace( '%3$s', dateObject.aa )
@@ -196,7 +214,7 @@ window.wp = window.wp || {};
 
 			// Handle The minor publishing action button
 			if ( 'pending' === status || 'draft' === status ) {
-				var text = 'pending' === status ? postL10n.savePending : postL10n.saveDraft;
+				var text = 'pending' === status ? wpStatuses.L10n.savePending : wpStatuses.L10n.saveDraft;
 
 				if ( $( '#save-post' ).length ) {
 					$( '#save-post' ).show().val( text );
