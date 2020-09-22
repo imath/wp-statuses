@@ -10,7 +10,9 @@ window.wp = window.wp || {};
 		return;
 	}
 
-	if ( typeof wp.i18n.__ !== 'undefined' ) {
+	if ( typeof postL10n !== 'undefined' && typeof wp.deprecateL10nObject === 'undefined' ) {
+		wpStatuses.L10n = postL10n;
+	} else if ( typeof wp.i18n.__ !== 'undefined' ) {
 		wpStatuses.L10n = {
 			publishOnFuture:  wp.i18n.__( 'Schedule for:' ),
 			schedule:  wp.i18n._x( 'Schedule', 'post action/button label' ),
@@ -22,8 +24,6 @@ window.wp = window.wp || {};
 			savePending: wp.i18n.__( 'Save as Pending' ),
 			saveDraft: wp.i18n.__( 'Save Draft' ),
 		}
-	} else if ( typeof postL10n !== 'undefined' ) {
-		wpStatuses.L10n = postL10n;
 	} else {
 		return;
 	}
