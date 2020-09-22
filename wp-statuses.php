@@ -93,7 +93,7 @@ final class WP_Statuses {
 	private function inc() {
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		require( $this->inc_dir . 'core/functions.php' );
+		require $this->inc_dir . 'core/functions.php';
 
 		/**
 		 * Filter here to have a preview about how custom statuses
@@ -106,7 +106,7 @@ final class WP_Statuses {
 		 *                     False otherwise.
 		 */
 		if ( apply_filters( 'wp_statuses_use_custom_status', false ) ) {
-			require( $this->inc_dir . 'core/custom.php' );
+			require $this->inc_dir . 'core/custom.php';
 		}
 	}
 
