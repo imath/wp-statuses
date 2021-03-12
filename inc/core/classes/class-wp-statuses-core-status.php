@@ -53,7 +53,7 @@ class WP_Statuses_Core_Status {
 	 *
 	 * @var bool
 	 */
-	private $_builtin = false;
+	public $_builtin = false;
 
 	/**
 	 * Whether posts of this status should be shown
