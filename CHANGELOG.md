@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.1.2
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.7.0_
+
+### Bug Fixes
+
+- Makes the WP_Statuses_Core_Status::_builtin property public, so it is accessible by `is_post_status_viewable()`.
+
+### Props
+
+@andronocean
+
+---
+
 ## 2.1.1
 
 _Requires WordPress 5.0_
