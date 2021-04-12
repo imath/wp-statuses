@@ -2,10 +2,10 @@
 # This file is distributed under the GNU/GPL 2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statuses 2.1.1\n"
+"Project-Id-Version: WP Statuses 2.1.2\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
-"POT-Creation-Date: 2020-09-22 21:42:12+00:00\n"
-"PO-Revision-Date: 2020-09-22 23:58+0100\n"
+"POT-Creation-Date: 2021-04-12 19:35:05+00:00\n"
+"PO-Revision-Date: 2021-04-12 21:37+0100\n"
 "Last-Translator: imath <contact@imathi.eu>\n"
 "Language-Team: FRENCH <contact@imathi.eu>\n"
 "Language: fr\n"
