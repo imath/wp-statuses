@@ -88,7 +88,7 @@ class WP_Statuses_Admin {
 		if ( function_exists( 'register_block_type' ) )  {
 			add_action( 'init',                        array( $this, 'register_block_editor_script' ), 1001 );
 			add_action( 'enqueue_block_editor_assets', array( $this, 'enqueue_block_editor_asset' ), 10 );
-			add_filter( 'block_editor_preload_paths',  array( $this, 'preload_path' ), 10 );
+			add_filter( 'block_editor_rest_api_preload_paths',  array( $this, 'preload_path' ), 10 );
 		}
 	}
 
