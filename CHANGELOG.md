@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.1.3
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.8.0_
+
+### Bug Fixes
+
+- For WordPress >= 5.8, stop using the deprecated filter `block_editor_preload_paths` in favor of `block_editor_rest_api_preload_paths`.
+
+### Props
+
+@rodrigo-arias
+
+---
+
 ## 2.1.2
 
 _Requires WordPress 5.0_

@@ -2,17 +2,17 @@
 # This file is distributed under the GNU/GPL 2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Statuses 2.1.2\n"
+"Project-Id-Version: WP Statuses 2.1.3\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
 "POT-Creation-Date: 2021-04-12 19:35:05+00:00\n"
-"PO-Revision-Date: 2021-04-12 21:37+0100\n"
+"PO-Revision-Date: 2021-07-28 18:27+0200\n"
 "Last-Translator: imath <contact@imathi.eu>\n"
 "Language-Team: FRENCH <contact@imathi.eu>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.7.4\n"
+"X-Generator: Poedit 2.3.1\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: inc/admin/classes/class-wp-statuses-admin.php:166
@@ -61,7 +61,7 @@ msgstr "Mot de passe&nbsp;:"
 #. translators: Publish box date format, see https:secure.php.net/date
 #: inc/admin/classes/class-wp-statuses-admin.php:549
 msgid "M j, Y @ H:i"
-msgstr "j F Y \\à G \\h i \\m\\i\\n "
+msgstr "j F Y \\à G \\h i \\m\\i\\n"
 
 #. translators: Post date information. 1: Date on which the post is to be
 #. published
@@ -287,7 +287,7 @@ msgid ""
 "for one or more post type."
 msgstr ""
 "Vous devez vous accrocher à l‘action wp_statuses_registered pour neutraliser "
-"un statut pour un ou plusieurs types de publication"
+"un statut pour un ou plusieurs types de publication."
 
 #: inc/core/functions.php:484
 msgid "The list of post types the status applies to."
