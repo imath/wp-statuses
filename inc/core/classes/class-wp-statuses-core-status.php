@@ -179,13 +179,13 @@ class WP_Statuses_Core_Status {
 			'metabox_publish'    => __( 'Publish', 'wp-statuses' ),
 			'metabox_submit'     => __( 'Update', 'wp-statuses' ),
 			'metabox_save_on'    => __( 'Publish on:', 'wp-statuses' ),
-			/* translators: Post date information. 1: Date on which the post is to be published */
+			/* translators: 1: the date on which the post is to be published */
 			'metabox_save_date'  => __( 'Publish on: <b>%1$s</b>', 'wp-statuses' ),
 			'metabox_saved_on'   => __( 'Published on:', 'wp-statuses' ),
-			/* translators: Post date information. 1: Date on which the post was published */
+			/* translators: 1: the date on which the post was published */
 			'metabox_saved_date' => __( 'Published on: <b>%1$s</b>', 'wp-statuses' ),
 			'metabox_save_now'   => __( 'Publish <b>immediately</b>', 'wp-statuses' ),
-			/* translators: Post date information. 1: Date on which the post is to be published */
+			/* translators: 1: the scheduled date for the post. */
 			'metabox_save_later' => __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' ),
 			'inline_dropdown'    => $this->label,
 		) );

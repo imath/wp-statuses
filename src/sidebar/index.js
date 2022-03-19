@@ -98,7 +98,7 @@ class WPStatusesPanel extends Component {
 			postTitle,
 			customStatus
 		} = this.props;
-		let { currentStatus } = this.props;
+		let { currentStatus } = this.props;
 
 		const needsPassword = 'password' === currentStatus;
 		const hasPublishAction = get( currentPost, [ '_links', 'wp:action-publish' ], false );
@@ -111,7 +111,13 @@ class WPStatusesPanel extends Component {
 		if ( 'future' === currentStatus && stati.publish ) {
 			return (
 				<PluginPostStatusInfo className="wp-statuses-info">
-					{ sprintf( __( 'Next status will be "%s" once the scheduled date will be reached.', 'wp-statuses' ), stati.publish.label ) }
+					{
+						sprintf(
+							/* translators: %s is the label of the publish status. */
+							__( 'Next status will be "%s" once the scheduled date will be reached.', 'wp-statuses' ),
+							stati.publish.label
+						)
+					}
 				</PluginPostStatusInfo>
 			);
 		}

@@ -162,6 +162,7 @@ function wp_statuses_register_password_protected() {
 	register_post_status( 'password', array(
 		'label'                     => _x( 'Password Protected', 'post status', 'wp-statuses' ),
 		'public'                    => true,
+		/* translators: %s is the number of password protected posts. */
 		'label_count'               => _n_noop( 'Password Protected <span class="count">(%s)</span>', 'Password Protected <span class="count">(%s)</span>', 'wp-statuses' ),
 		'post_type'                 => wp_statuses_get_registered_post_types( 'password' ),
 		'show_in_admin_all_list'    => false,

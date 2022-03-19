@@ -554,9 +554,12 @@ class WP_Statuses_Admin {
 
 		// Default stamps.
 		$stamps = array(
+			/* translators: 1: the scheduled date for the post. */
 			'metabox_save_later' => __( 'Schedule for: <b>%1$s</b>', 'wp-statuses' ),
+			/* translators: 1: the post’s saved date. */
 			'metabox_saved_date' => __( 'Saved on: <b>%1$s</b>', 'wp-statuses' ),
 			'metabox_save_now'   => __( 'Save <b>now</b>', 'wp-statuses' ),
+			/* translators: 1: the date to save the post on. */
 			'metabox_save_date'  => __( 'Save on: <b>%1$s</b>', 'wp-statuses' ),
 		);
 
@@ -753,7 +756,7 @@ class WP_Statuses_Admin {
 			wp_statuses_version()
 		);
 
-		$test = wp_set_script_translations( 'wp-statuses-sidebar', 'wp-statuses', trailingslashit( wp_statuses()->dir ) . 'languages/js' );
+		$test = wp_set_script_translations( 'wp-statuses-sidebar', 'wp-statuses', trailingslashit( wp_statuses()->dir ) . 'languages' );
 	}
 
 	/**

@@ -21,6 +21,7 @@ function wp_statuses_register_members_restricted() {
 	register_post_status( 'restricted', array(
 		'label'                     => _x( 'Restricted to members', 'post status', 'wp-statuses' ),
 		'public'                    => true,
+		/* translators: %s is the number of restricted to members pages. */
 		'label_count'               => _n_noop( 'Restricted to members <span class="count">(%s)</span>', 'Restricted to members <span class="count">(%s)</span>', 'wp-statuses' ),
 		'post_type'                 => array( 'page' ), // Just pages for this example :)
 		'show_in_admin_all_list'    => true,
@@ -54,6 +55,7 @@ function wp_statuses_restrict_content( $content = '' ) {
 		return $content;
 	}
 
+	/* translators: %s is the login link. */
 	return sprintf( __( 'Please %s to view this content.', 'wp-statuses' ), sprintf(
 		'<a href="%1$s">%2$s</a>',
 		esc_url( wp_login_url( get_permalink( $post->ID ) ) ),
@@ -70,6 +72,7 @@ add_filter( 'the_content', 'wp_statuses_restrict_content', 1, 1 );
 function wp_statuses_register_archived_post_status() {
 	register_post_status( 'archive', array(
 		'label'                       => __( 'Archive', 'wp-statuses' ),
+		/* translators: %s is the number of archived posts. */
 		'label_count'                 => _n_noop( 'Archived <span class="count">(%s)</span>', 'Archived <span class="count">(%s)</span>', 'wp-statuses' ),
 		'public'                      => false,
 		'show_in_admin_all_list'      => false,

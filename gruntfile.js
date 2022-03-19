@@ -42,23 +42,6 @@ module.exports = function( grunt ) {
 		clean: {
 			all: [ 'js/*.min.js', '<%= pkg.name %>.zip', '!js/sidebar*' ]
 		},
-		makepot: {
-			target: {
-				options: {
-					domainPath: 'languages',
-					exclude: ['/node_modules'],
-					mainFile: 'wp-statuses.php',
-					potFilename: 'wp-statuses.pot',
-					processPot: function( pot ) {
-						pot.headers['last-translator']      = 'imath <contact@imathi.eu>';
-						pot.headers['language-team']        = 'FRENCH <contact@imathi.eu>';
-						pot.headers['report-msgid-bugs-to'] = 'https://github.com/imath/wp-statuses/issues';
-						return pot;
-					},
-					type: 'wp-plugin'
-				}
-			}
-		},
 		uglify: {
 			minify: {
 				extDot: 'last',
@@ -85,13 +68,13 @@ module.exports = function( grunt ) {
 			}
 		},
 		exec: {
-			js_makepot: {
-				command: 'npm run pot',
+			build_parcel: {
+				command: 'npm run build',
 				stdout: true,
 				stderr: true
 			},
-			build_parcel: {
-				command: 'npm run build',
+			makepot: {
+				command: 'npm run pot',
 				stdout: true,
 				stderr: true
 			}
@@ -106,7 +89,7 @@ module.exports = function( grunt ) {
 
 	grunt.registerTask( 'compress', ['git-archive'] );
 
-	grunt.registerTask( 'release', ['checktextdomain', 'makepot', 'jstest', 'clean', 'uglify', 'exec'] );
+	grunt.registerTask( 'release', ['checktextdomain', 'jstest', 'clean', 'uglify', 'exec'] );
 
 	// Default task.
 	grunt.registerTask( 'default', ['commit'] );
