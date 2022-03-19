@@ -752,7 +752,16 @@ class WP_Statuses_Admin {
 		wp_register_script(
 			'wp-statuses-sidebar',
 			sprintf( '%1$ssidebar%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
-			array( 'wp-edit-post', 'wp-plugins', 'wp-i18n', 'wp-blocks' ),
+			array(
+				'wp-blocks',
+				'wp-components',
+				'wp-compose',
+				'wp-data',
+				'wp-date',
+				'wp-edit-post',
+				'wp-i18n',
+				'wp-plugins',
+			),
 			wp_statuses_version()
 		);
 

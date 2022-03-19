@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Statuses 2.1.3\n"
 "Report-Msgid-Bugs-To: https://github.com/imath/wp-statuses/issues\n"
-"POT-Creation-Date: 2022-03-19T08:02:31+00:00\n"
-"PO-Revision-Date: 2022-03-19 09:14+0100\n"
+"POT-Creation-Date: 2022-03-19T08:26:53+00:00\n"
+"PO-Revision-Date: 2022-03-19 10:57+0100\n"
 "Last-Translator: imath <contact@imathi.eu>\n"
 "Language-Team: FRENCH <contact@imathi.eu>\n"
 "Language: fr\n"
@@ -309,10 +309,10 @@ msgstr[1] "Protégés par mot de passe <span class=\"count\">(%s)</span>"
 msgid "Password Protected"
 msgstr "Protégé par mot de passe"
 
-#: inc/core/functions.php:174 js/sidebar.js:3898 src/sidebar/index.js:150
-#: js/sidebar.js:3529 js/sidebar.min.js:1023
+#: inc/core/functions.php:174 js/sidebar.js:1218 src/sidebar/index.js:150
+#: js/sidebar.js:1023 js/sidebar.min.js:1023
 msgid "Password"
-msgstr "Protégé"
+msgstr "Mot de passe"
 
 #: inc/core/functions.php:237
 msgid "You need to preserve keys to customize the order."
@@ -336,13 +336,13 @@ msgid "The label to use into the Block editor."
 msgstr "Le label à utiliser dans l‘éditeur de blocs."
 
 #. translators: %s is the label of the publish status.
-#: js/sidebar.js:3867 src/sidebar/index.js:117 js/sidebar.js:3499
+#: js/sidebar.js:1187 src/sidebar/index.js:117 js/sidebar.js:990
 #: js/sidebar.min.js:990
 msgid "Next status will be \"%s\" once the scheduled date will be reached."
 msgstr ""
 "Le prochain statut sera « %s » une fois que la date planifiée sera atteinte."
 
-#: js/sidebar.js:3891 src/sidebar/index.js:142 js/sidebar.js:3521
+#: js/sidebar.js:1211 src/sidebar/index.js:142 js/sidebar.js:1015
 #: js/sidebar.min.js:1015
 msgid "Status"
 msgstr "Statut"

@@ -1,13 +1,51 @@
-const { registerPlugin } = wp.plugins;
-const { PluginPostStatusInfo } = wp.editPost;
-const { createElement, Component } = wp.element;
-const { __, sprintf } = wp.i18n;
-const { withSelect, withDispatch, registerStore } = wp.data;
-const { get, indexOf, forEach, map } = lodash;
-const { SelectControl, TextControl } = wp.components;
-const { compose } = wp.compose;
-const { apiFetch } = wp;
-const { synchronizeBlocksWithTemplate } = wp.blocks;
+/**
+ * WordPress dependencies.
+ */
+const {
+	apiFetch,
+	blocks: {
+		synchronizeBlocksWithTemplate,
+	},
+	components: {
+		SelectControl,
+		TextControl,
+	},
+	compose: {
+		compose,
+	},
+	data: {
+		withSelect,
+		withDispatch,
+		registerStore,
+	},
+	date: {
+		isInTheFuture,
+	},
+	editPost: {
+		PluginPostStatusInfo,
+	},
+	element: {
+		createElement,
+		Component,
+	},
+	i18n: {
+		__,
+		sprintf,
+	},
+	plugins: {
+		registerPlugin,
+	},
+} = wp;
+
+/**
+ * External dependencies.
+ */
+const {
+	get,
+	indexOf,
+	forEach,
+	map,
+} = lodash;
 
 const DEFAULT_STATE = {
     stati: {},
@@ -103,7 +141,7 @@ class WPStatusesPanel extends Component {
 		const needsPassword = 'password' === currentStatus;
 		const hasPublishAction = get( currentPost, [ '_links', 'wp:action-publish' ], false );
 
-		if ( 'future' === currentPost.status && 'future' !== currentStatus ) {
+		if ( isInTheFuture( currentPost.date_gmt ) && 'future' !== currentStatus ) {
 			currentStatus = 'future';
 			onUpdateStatus( currentStatus );
 		}

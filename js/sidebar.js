@@ -1028,30 +1028,38 @@ function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (O
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { (0, _defineProperty2.default)(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
-var registerPlugin = wp.plugins.registerPlugin;
-var PluginPostStatusInfo = wp.editPost.PluginPostStatusInfo;
-var _wp$element = wp.element,
-    createElement = _wp$element.createElement,
-    Component = _wp$element.Component;
-var _wp$i18n = wp.i18n,
-    __ = _wp$i18n.__,
-    sprintf = _wp$i18n.sprintf;
-var _wp$data = wp.data,
+/**
+ * WordPress dependencies.
+ */
+var _wp = wp,
+    apiFetch = _wp.apiFetch,
+    synchronizeBlocksWithTemplate = _wp.blocks.synchronizeBlocksWithTemplate,
+    _wp$components = _wp.components,
+    SelectControl = _wp$components.SelectControl,
+    TextControl = _wp$components.TextControl,
+    compose = _wp.compose.compose,
+    _wp$data = _wp.data,
     withSelect = _wp$data.withSelect,
     withDispatch = _wp$data.withDispatch,
-    registerStore = _wp$data.registerStore;
+    registerStore = _wp$data.registerStore,
+    isInTheFuture = _wp.date.isInTheFuture,
+    PluginPostStatusInfo = _wp.editPost.PluginPostStatusInfo,
+    _wp$element = _wp.element,
+    createElement = _wp$element.createElement,
+    Component = _wp$element.Component,
+    _wp$i18n = _wp.i18n,
+    __ = _wp$i18n.__,
+    sprintf = _wp$i18n.sprintf,
+    registerPlugin = _wp.plugins.registerPlugin;
+/**
+ * External dependencies.
+ */
+
 var _lodash = lodash,
     get = _lodash.get,
     indexOf = _lodash.indexOf,
     forEach = _lodash.forEach,
     map = _lodash.map;
-var _wp$components = wp.components,
-    SelectControl = _wp$components.SelectControl,
-    TextControl = _wp$components.TextControl;
-var compose = wp.compose.compose;
-var _wp = wp,
-    apiFetch = _wp.apiFetch;
-var synchronizeBlocksWithTemplate = wp.blocks.synchronizeBlocksWithTemplate;
 var DEFAULT_STATE = {
   stati: {}
 };
@@ -1174,7 +1182,7 @@ var WPStatusesPanel = /*#__PURE__*/function (_Component) {
       var needsPassword = 'password' === currentStatus;
       var hasPublishAction = get(currentPost, ['_links', 'wp:action-publish'], false);
 
-      if ('future' === currentPost.status && 'future' !== currentStatus) {
+      if (isInTheFuture(currentPost.date_gmt) && 'future' !== currentStatus) {
         currentStatus = 'future';
         onUpdateStatus(currentStatus);
       }
@@ -1296,7 +1304,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49961" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50605" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,5 +1,17 @@
 # Change Log
 
+## 2.1.4
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.9_
+
+### Bug Fixes
+
+- Stop using WP i18n Grunt task and @wordpress/babel-plugin-makepot to generate pot/json files.
+- Use `wp.date.isInTheFuture()` to check whether a post type is scheduled or not.
+
+---
+
 ## 2.1.3
 
 _Requires WordPress 5.0_
