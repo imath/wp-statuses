@@ -9,6 +9,11 @@ _Tested up to WordPress 5.9_
 
 - Stop using WP i18n Grunt task and @wordpress/babel-plugin-makepot to generate pot/json files.
 - Use `wp.date.isInTheFuture()` to check whether a post type is scheduled or not.
+- Make sure the link to browse revisions is added into the Classic Editor.
+
+### Props
+
+@pdobrescu
 
 ---
 

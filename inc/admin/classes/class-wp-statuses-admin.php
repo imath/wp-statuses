@@ -210,8 +210,6 @@ class WP_Statuses_Admin {
 	 * @param WP_Post $post      The post object.
 	 */
 	public function add_meta_box( $post_type, $post ) {
-		global $publish_callback_args;
-
 		// Bail if the Post Type is not supported, or if post uses Gutenberg block editor
 		if ( ! wp_statuses_is_post_type_supported( $post_type ) ) {
 			return;
@@ -219,6 +217,21 @@ class WP_Statuses_Admin {
 
 		// Remove the built-in Publish meta box.
 		remove_meta_box( 'submitdiv', get_current_screen(), 'side' );
+
+		$publish_callback_args = array( '__back_compat_meta_box' => true );
+
+		if ( post_type_supports( $post_type, 'revisions' ) && 'auto-draft' !== $post->post_status ) {
+			$revisions = wp_get_post_revisions( $post->ID, array( 'fields' => 'ids' ) );
+
+			// We should aim to show the revisions meta box only when there are revisions.
+			if ( count( $revisions ) > 1 ) {
+				$publish_callback_args = array(
+					'revisions_count'        => count( $revisions ),
+					'revision_id'            => reset( $revisions ),
+					'__back_compat_meta_box' => true,
+				);
+			}
+		}
 
 		// Use plugin's Publishing box instead.
 		add_meta_box(
@@ -228,9 +241,7 @@ class WP_Statuses_Admin {
 			$post_type,
 			'side',
 			'high',
-			array_merge( (array) $publish_callback_args, array(
-				'__back_compat_meta_box' => true,
-			) )
+			$publish_callback_args
 		);
 
 		// Validate the post type.
