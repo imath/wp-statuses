@@ -539,7 +539,9 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
 	}
 
 	// Always trick the Block Editor so that is uses the "Update" major action button.
-	$post_type['status'] = 'private';
+	if ( is_admin() ) {
+		$post_type['status'] = 'private';
+	}
 
 	$response->set_data( $post_type );
 
