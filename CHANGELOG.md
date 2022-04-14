@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.1.5
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 5.9_
+
+### Bug Fixes
+
+- Ensure the REST API status hijack is only applied in the admin.
+- Update ParcelJS to 2.0.
+
+### Props
+
+@BronsonQuick
+
+---
+
 ## 2.1.4
 
 _Requires WordPress 5.0_
