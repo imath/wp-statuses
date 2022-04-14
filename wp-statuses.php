@@ -5,7 +5,7 @@ Plugin URI: https://imathi.eu/tag/wp-statuses/
 Description: Suggestions to improve the WordPress Post statuses API.
 Version: 2.1.5
 Requires at least: 5.0
-Tested up to: 5.7
+Tested up to: 5.9
 License: GNU/GPL 2
 Author: imath
 Author URI: https://imathi.eu/
