@@ -762,7 +762,7 @@ class WP_Statuses_Admin {
 	public function register_block_editor_script() {
 		wp_register_script(
 			'wp-statuses-sidebar',
-			sprintf( '%1$ssidebar%2$s.js', wp_statuses_js_url(), wp_statuses_min_suffix() ),
+			sprintf( '%ssidebar.js', wp_statuses_js_url() ),
 			array(
 				'wp-blocks',
 				'wp-components',

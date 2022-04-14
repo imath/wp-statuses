@@ -9,7 +9,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2022-03-19T08:26:53+00:00\n"
+"POT-Creation-Date: 2022-04-14T21:08:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.5.0\n"
 "X-Domain: wp-statuses\n"
@@ -38,115 +38,115 @@ msgstr ""
 msgid "&mdash; No Change &mdash;"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:226
+#: inc/admin/classes/class-wp-statuses-admin.php:239
 msgid "Publishing"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:289
-#: inc/admin/classes/class-wp-statuses-admin.php:372
+#: inc/admin/classes/class-wp-statuses-admin.php:300
+#: inc/admin/classes/class-wp-statuses-admin.php:383
 msgid "Preview Changes"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:290
-#: inc/admin/classes/class-wp-statuses-admin.php:372
+#: inc/admin/classes/class-wp-statuses-admin.php:301
+#: inc/admin/classes/class-wp-statuses-admin.php:383
 msgid "Preview"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:346
-#: inc/admin/classes/class-wp-statuses-admin.php:677
+#: inc/admin/classes/class-wp-statuses-admin.php:357
+#: inc/admin/classes/class-wp-statuses-admin.php:688
 #: inc/core/custom.php:32
 msgid "Save"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:354
+#: inc/admin/classes/class-wp-statuses-admin.php:365
 msgid "Save Draft"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:358
+#: inc/admin/classes/class-wp-statuses-admin.php:369
 msgid "Save as Pending"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:458
+#: inc/admin/classes/class-wp-statuses-admin.php:469
 msgid "Set status"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:509
+#: inc/admin/classes/class-wp-statuses-admin.php:520
 msgid "Stick this post to the front page"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:516
+#: inc/admin/classes/class-wp-statuses-admin.php:527
 msgid "Password:"
 msgstr ""
 
 #. translators: Publish box date format, see https://secure.php.net/date
-#: inc/admin/classes/class-wp-statuses-admin.php:553
+#: inc/admin/classes/class-wp-statuses-admin.php:564
 msgid "M j, Y @ H:i"
 msgstr ""
 
 #. translators: 1: the scheduled date for the post.
-#: inc/admin/classes/class-wp-statuses-admin.php:558
+#: inc/admin/classes/class-wp-statuses-admin.php:569
 #: inc/core/classes/class-wp-statuses-core-status.php:189
 msgid "Schedule for: <b>%1$s</b>"
 msgstr ""
 
 #. translators: 1: the post’s saved date.
-#: inc/admin/classes/class-wp-statuses-admin.php:560
+#: inc/admin/classes/class-wp-statuses-admin.php:571
 msgid "Saved on: <b>%1$s</b>"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:561
+#: inc/admin/classes/class-wp-statuses-admin.php:572
 msgid "Save <b>now</b>"
 msgstr ""
 
 #. translators: 1: the date to save the post on.
-#: inc/admin/classes/class-wp-statuses-admin.php:563
+#: inc/admin/classes/class-wp-statuses-admin.php:574
 msgid "Save on: <b>%1$s</b>"
 msgstr ""
 
 #. translators: Post revisions heading. 1: The number of available revisions
-#: inc/admin/classes/class-wp-statuses-admin.php:605
+#: inc/admin/classes/class-wp-statuses-admin.php:616
 msgid "Revisions: %s"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:608
+#: inc/admin/classes/class-wp-statuses-admin.php:619
 msgctxt "revisions"
 msgid "Browse"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:609
+#: inc/admin/classes/class-wp-statuses-admin.php:620
 msgid "Browse revisions"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:620
+#: inc/admin/classes/class-wp-statuses-admin.php:631
 msgid "Edit"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:621
+#: inc/admin/classes/class-wp-statuses-admin.php:632
 msgid "Edit date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:625
+#: inc/admin/classes/class-wp-statuses-admin.php:636
 msgid "Date and time"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:686
+#: inc/admin/classes/class-wp-statuses-admin.php:697
 msgid "Submit for Review"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:691
+#: inc/admin/classes/class-wp-statuses-admin.php:702
 #: inc/core/classes/class-wp-statuses-core-status.php:179
 msgid "Publish"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:694
+#: inc/admin/classes/class-wp-statuses-admin.php:705
 msgid "Schedule"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:709
+#: inc/admin/classes/class-wp-statuses-admin.php:720
 msgid "Delete Permanently"
 msgstr ""
 
-#: inc/admin/classes/class-wp-statuses-admin.php:709
+#: inc/admin/classes/class-wp-statuses-admin.php:720
 msgid "Move to Trash"
 msgstr ""
 
@@ -311,10 +311,8 @@ msgid "Password Protected"
 msgstr ""
 
 #: inc/core/functions.php:174
-#: js/sidebar.js:1218
-#: src/sidebar/index.js:150
-#: js/sidebar.js:1023
-#: js/sidebar.min.js:1023
+#: src/sidebar/sidebar.js:188
+#: js/sidebar.js:188
 msgid "Password"
 msgstr ""
 
@@ -335,16 +333,12 @@ msgid "The label to use into the Block editor."
 msgstr ""
 
 #. translators: %s is the label of the publish status.
-#: js/sidebar.js:1187
-#: src/sidebar/index.js:117
-#: js/sidebar.js:990
-#: js/sidebar.min.js:990
+#: src/sidebar/sidebar.js:155
+#: js/sidebar.js:155
 msgid "Next status will be \"%s\" once the scheduled date will be reached."
 msgstr ""
 
-#: js/sidebar.js:1211
-#: src/sidebar/index.js:142
-#: js/sidebar.js:1015
-#: js/sidebar.min.js:1015
+#: src/sidebar/sidebar.js:180
+#: js/sidebar.js:180
 msgid "Status"
 msgstr ""

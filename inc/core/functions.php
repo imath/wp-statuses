@@ -511,6 +511,24 @@ function wp_statuses_register_post_types_field() {
 add_action( 'rest_api_init', 'wp_statuses_register_post_types_field', 11 );
 
 /**
+ * Checks whether a post type is being edited inside the Block Editor.
+ *
+ * @since 2.1.5
+ *
+ * @return bool True if a post type is being edited inside the Block Editor.
+ *              False otherwise.
+ */
+function wp_statuses_is_post_editing() {
+	$retval = is_admin();
+
+	if ( ! $retval && defined( 'REST_REQUEST' ) && REST_REQUEST ) {
+		$retval = false !== strpos( wp_get_referer(), admin_url() );
+	}
+
+	return $retval;
+}
+
+/**
  * Adds a specific custom status property for the WP REST Response.
  *
  * @since 2.0.0
@@ -539,7 +557,7 @@ function wp_statuses_rest_prepare_for_response( WP_REST_Response $response, WP_P
 	}
 
 	// Always trick the Block Editor so that is uses the "Update" major action button.
-	if ( is_admin() ) {
+	if ( wp_statuses_is_post_editing() ) {
 		$post_type['status'] = 'private';
 	}
 

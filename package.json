@@ -1,46 +1,48 @@
 {
-  "author": "imath",
-  "bugs": {
-    "url": "https://github.com/imath/wp-statuses/issues"
-  },
-  "description": "Suggestions to improve the WordPress Post statuses API.",
-  "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@wordpress/babel-plugin-makepot": "^4.3.1",
-    "@wordpress/babel-preset-default": "^6.3.2",
-    "grunt": "^1.4.1",
-    "grunt-check-dependencies": "^1.0.0",
-    "grunt-checktextdomain": "~1.0.1",
-    "grunt-contrib-clean": "~2.0.0",
-    "grunt-contrib-copy": "~1.0.0",
-    "grunt-contrib-jshint": "^3.2.0",
-    "grunt-contrib-uglify": "^5.0.1",
-    "grunt-exec": "^3.0.0",
-    "grunt-git-archive": "~0.0.3",
-    "grunt-jsvalidate": "~0.2.2",
-    "grunt-legacy-util": "^2.0.1",
-    "matchdep": "^2.0.0",
-    "parcel-bundler": "^1.12.5"
-  },
-  "engines": {
-    "node": ">=14.15.0",
-    "npm": ">=6.14.8"
-  },
-  "keywords": [
-    "status"
-  ],
-  "homepage": "https://github.com/imath/wp-statuses",
-  "license": "GPL-2.0+",
-  "name": "wp-statuses",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/imath/wp-statuses.git"
-  },
-  "version": "2.1.4",
-  "scripts": {
-    "start": "parcel watch src/sidebar/index.js -d js --out-file sidebar.js --no-cache",
-    "build": "parcel build src/sidebar/index.js -d js --out-file sidebar.min.js --no-cache",
-    "pot": "wp i18n make-pot . languages/wp-statuses.pot --exclude='.github,vendor,node_modules' --headers='{\"Project-Id-Version\": \"WP Statuses\", \"Report-Msgid-Bugs-To\": \"https://github.com/imath/wp-statuses/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\", \"Language-Team\": \"FRENCH <contact@imathi.eu>\"}'",
-    "po2json": "wp i18n make-json languages/wp-statuses-fr_FR.po --no-purge"
-  }
+	"author": "imath",
+	"bugs": {
+		"url": "https://github.com/imath/wp-statuses/issues"
+	},
+	"description": "Suggestions to improve the WordPress Post statuses API.",
+	"devDependencies": {
+		"@wordpress/babel-preset-default": "^6.3.2",
+    "@wordpress/browserslist-config": "~4.1.0",
+		"grunt": "^1.4.1",
+		"grunt-check-dependencies": "^1.0.0",
+		"grunt-checktextdomain": "~1.0.1",
+		"grunt-contrib-clean": "~2.0.0",
+		"grunt-contrib-copy": "~1.0.0",
+		"grunt-contrib-jshint": "^3.2.0",
+		"grunt-contrib-uglify": "^5.0.1",
+		"grunt-exec": "^3.0.0",
+		"grunt-git-archive": "~0.0.3",
+		"grunt-jsvalidate": "~0.2.2",
+		"grunt-legacy-util": "^2.0.1",
+		"matchdep": "^2.0.0",
+		"parcel": "^2.0.0"
+	},
+	"engines": {
+		"node": ">=14.15.0",
+		"npm": ">=6.14.8"
+	},
+	"keywords": [
+		"status"
+	],
+	"homepage": "https://github.com/imath/wp-statuses",
+	"license": "GPL-2.0+",
+	"name": "wp-statuses",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/imath/wp-statuses.git"
+	},
+	"version": "2.1.5",
+  "browserslist": [
+		"extends @wordpress/browserslist-config"
+	],
+	"scripts": {
+		"start": "parcel watch src/sidebar/sidebar.js --dist-dir js",
+		"build": "parcel build src/sidebar/sidebar.js --dist-dir js",
+		"pot": "wp i18n make-pot . languages/wp-statuses.pot --exclude='.github,vendor,node_modules' --headers='{\"Project-Id-Version\": \"WP Statuses\", \"Report-Msgid-Bugs-To\": \"https://github.com/imath/wp-statuses/issues\", \"Last-Translator\": \"imath <contact@imathi.eu>\", \"Language-Team\": \"FRENCH <contact@imathi.eu>\"}'",
+		"po2json": "wp i18n make-json languages/wp-statuses-fr_FR.po --no-purge"
+	}
 }
