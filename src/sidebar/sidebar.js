@@ -141,7 +141,7 @@ class WPStatusesPanel extends Component {
 		const needsPassword = 'password' === currentStatus;
 		const hasPublishAction = get( currentPost, [ '_links', 'wp:action-publish' ], false );
 
-		if ( isInTheFuture( currentPost.date_gmt ) && 'future' !== currentStatus ) {
+		if ( isInTheFuture( currentPost.date ) && 'future' !== currentStatus ) {
 			currentStatus = 'future';
 			onUpdateStatus( currentStatus );
 		}
