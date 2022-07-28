@@ -707,12 +707,8 @@ class WP_Statuses_Admin {
 			}
 		}
 
-		/**
-		 * Fires at the beginning of the publishing actions section of the Publish meta box.
-		 *
-		 * @since WordPress 2.7.0
-		 */
-		do_action( 'post_submitbox_start' ); ?>
+		/** This action is documented in wp-admin/includes/meta-boxes.php */
+		do_action( 'post_submitbox_start', $post ); ?>
 
 		<div id="delete-action">
 			<?php if ( current_user_can( "delete_post", $post->ID ) ) : ?>
