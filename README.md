@@ -25,7 +25,7 @@ Using the above filter will demonstrate how it is possible to add custom statuse
 
 #### Custom statuses for Custom Post Types
 
-In this [gist](https://gist.github.com/imath/2b6d2ce1ead6aba11c8ad12c6beb4770) a new Post Type named "ticket" is registered along with custom statuses. It's a tiny use case showing how you can __with less than 150 lines__ begin to build an Issue reporting system. The ticket's post type has 5 statuses:
+In this [gist](https://gist.github.com/imath/2b6d2ce1ead6aba11c8ad12c6beb4770) a new Post Type named "ticket" is registered along with custom statuses. It's a tiny use case showing how you can __with less than 150 lines__ begin to build an Issue reporting system. The ticket's post type has five statuses:
 
 + The WordPress builtin Draft and Pending statuses,
 + Three custom statuses: `assigned`, `resolved` & `invalid`, as shown below.
