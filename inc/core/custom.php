@@ -47,7 +47,7 @@ add_action( 'init', 'wp_statuses_register_members_restricted', 11 );
 function wp_statuses_restrict_content( $content = '' ) {
 	$post = get_post();
 
-	if ( 'page' !== $post->post_type ) {
+	if ( ! isset( $post->post_type ) || 'page' !== $post->post_type ) {
 		return $content;
 	}
 
