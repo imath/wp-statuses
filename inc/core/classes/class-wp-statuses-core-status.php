@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since  1.0.0
  */
+#[AllowDynamicProperties]
 class WP_Statuses_Core_Status {
 
 	/**
