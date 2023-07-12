@@ -78,7 +78,7 @@ window.wp = window.wp || {};
 
 		setStatusAttributes: function( status ) {
 			// First reset attributes
-			$.each( $( '#wp-statuses-attibutes input' ), function( i, element ) {
+			$.each( $( '#wp-statuses-attributes input' ), function( i, element ) {
 				if ( 'checkbox' === element.type || 'radio' === element.type ) {
 					$( element ).prop( 'checked', false );
 

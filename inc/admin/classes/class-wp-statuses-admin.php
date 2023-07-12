@@ -511,8 +511,8 @@ class WP_Statuses_Admin {
 		}
 
 		?>
-		<div class="misc-pub-section misc-pub-attributes" id="wp-statuses-attibutes">
-			<div id="post-attibutes-input">
+		<div class="misc-pub-section misc-pub-attributes" id="wp-statuses-attributes">
+			<div id="post-attributes-input">
 				<?php if ( 'post' === $post->post_type && current_user_can( 'edit_others_posts' ) ) : ?>
 					<span id="sticky-span" class="<?php echo sanitize_html_class( $sticky_class ); ?> wp-statuses-attribute-container">
 						<input id="sticky" name="sticky" type="checkbox" value="sticky" <?php checked( is_sticky( $post->ID ) ); ?> />
@@ -531,7 +531,7 @@ class WP_Statuses_Admin {
 
 				<?php
 				/**
-				 * Hook here if you need to add some extra attibutes for your custom status.
+				 * Hook here if you need to add some extra attributes for your custom status.
 				 *
 				 * @since 1.0.0
 				 *
