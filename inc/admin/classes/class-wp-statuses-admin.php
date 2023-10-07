@@ -768,6 +768,7 @@ class WP_Statuses_Admin {
 				'wp-edit-post',
 				'wp-i18n',
 				'wp-plugins',
+				'lodash',
 			),
 			wp_statuses_version()
 		);
