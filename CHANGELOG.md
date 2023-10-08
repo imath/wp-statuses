@@ -1,5 +1,23 @@
 # Change Log
 
+## 2.1.6
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 6.3_
+
+### Bug Fixes
+
+- Avoid the "Auto Draft" initial post title in Block Editor
+- Make sure lodash is loaded into the Block Editor.
+- Prevent a PHP 8.2 deprecated notices.
+- Fixes some typos about the "attributes" word.
+
+### Props
+
+@szepeviktor @claytoncollie @shawfactor
+
+---
+
 ## 2.1.5
 
 _Requires WordPress 5.0_
