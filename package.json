@@ -35,7 +35,7 @@
 		"type": "git",
 		"url": "https://github.com/imath/wp-statuses.git"
 	},
-	"version": "2.1.6-alpha",
+	"version": "2.1.6",
 	"browserslist": [
 		"extends @wordpress/browserslist-config"
 	],
