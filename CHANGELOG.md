@@ -1,5 +1,16 @@
 # Change Log
 
+## 2.1.7
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 6.4_
+
+### Bug Fixes
+
+- Do not use `WP_DEBUG` to check whether testing script needs to be loaded (See [#87](https://github.com/imath/wp-statuses/issues/87))
+
+---
+
 ## 2.1.6
 
 _Requires WordPress 5.0_
