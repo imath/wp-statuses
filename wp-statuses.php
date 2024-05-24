@@ -179,6 +179,7 @@ final class WP_Statuses {
 	private function setup_hooks() {
 		add_action( 'init', 'wp_statuses_register_password_protected',   10 );
 		add_action( 'init', 'wp_statuses_register',                    1000 );
+		add_action( 'change_locale', 'wp_statuses_register',             10 );
 
 		// Boot the Admin
 		if ( is_admin() ) {
