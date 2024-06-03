@@ -797,6 +797,7 @@ class WP_Statuses_Admin {
 		wp_enqueue_script( 'wp-statuses-sidebar' );
 		wp_add_inline_style( 'wp-edit-post', "
 			.edit-post-post-visibility{$future_control} { display: none }
+			.editor-post-panel__row:has(.edit-post-post-visibility__toggle) { display: none	}
 			.editor-post-switch-to-draft { display: none }
 			.components-panel__row.wp-statuses-info { display: block }
 			.components-panel__row.wp-statuses-info .components-base-control__label,
