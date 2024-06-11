@@ -1,5 +1,21 @@
 # Change Log
 
+## 2.1.8
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 6.5_
+
+### Bug Fixes
+
+- Make sure to register statuses after locale has been switched (See [#89](https://github.com/imath/wp-statuses/issues/89))
+- Hide visibility panel in WordPress 6.5 (See [#91](https://github.com/imath/wp-statuses/issues/91))
+
+### Props
+
+@bonny @rodrigo-arias
+
+---
+
 ## 2.1.7
 
 _Requires WordPress 5.0_
