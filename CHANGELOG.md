@@ -1,5 +1,20 @@
 # Change Log
 
+## 2.1.9
+
+_Requires WordPress 5.0_
+_Tested up to WordPress 6.6_
+
+### Bug Fixes
+
+- Hide visibility panel in WordPress 6.6 (See [#94](https://github.com/imath/wp-statuses/issues/94))
+
+### Props
+
+@shawfactor
+
+---
+
 ## 2.1.8
 
 _Requires WordPress 5.0_
